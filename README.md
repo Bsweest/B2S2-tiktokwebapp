@@ -9,8 +9,8 @@ Team members:
 - Nguyễn Huy Đức
 
 ```
-npm install
+yarn install
 npx next dev
 ```
 
-[Dev Notes]()
+[Dev Notes](https://docs.google.com/document/d/1dducYr_DVy797el-HXvUz65-zAvw0gMbip9jaPOhMKc)
