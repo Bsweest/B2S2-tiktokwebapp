@@ -17,6 +17,7 @@ const SideBarHome = () => {
           <HomeIcon sx={{ color: '#FE2C55' }} />
         </ListItemIcon>
         <ListItemText
+          disableTypography
           primary="For You"
           style={{
             color: '#FE2C55',

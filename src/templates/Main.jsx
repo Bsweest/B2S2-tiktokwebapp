@@ -1,29 +1,52 @@
 import Add from '@mui/icons-material/Add';
 import Search from '@mui/icons-material/Search';
-import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import InputBase from '@mui/material/InputBase';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import styled from '@mui/material/styles/styled';
+import Image from 'next/image';
 
 const Main = (props) => {
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-      <Toolbar sx={{ height: 65, justifyContent: 'space-evenly' }}>
-        <Typography
-          variant="h6"
-          noWrap
-          component="div"
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+      }}
+    >
+      <Toolbar
+        sx={{
+          height: 60,
+          justifyContent: 'space-evenly',
+          borderBottom: 0.5,
+          borderColor: 'lightgrey',
+        }}
+      >
+        <Box
           sx={{
-            display: { xs: 'none', sm: 'block' },
-            color: 'black',
-            fontWeight: 'bold',
+            display: { xs: 'none', sm: 'flex' },
+            flexDirection: 'row',
+            alignItems: 'center',
           }}
         >
-          B2S2
-        </Typography>
+          <Image alt="logo" src="/img/logo.svg" width={50} height={50} />
+          <Typography
+            variant="h6"
+            noWrap
+            component="div"
+            sx={{
+              color: 'purple',
+              fontWeight: 'bold',
+              fontSize: '2rem',
+              marginLeft: 2,
+              fontFamily: 'cursive',
+            }}
+          >
+            B2S2
+          </Typography>
+        </Box>
 
         <SearchContainer>
           <SearchIconWrapper>
