@@ -14,11 +14,11 @@ const Main = (props) => {
       sx={{
         display: 'flex',
         flexDirection: 'column',
+        position: 'relative',
       }}
     >
       <Toolbar
         sx={{
-          height: 60,
           justifyContent: 'space-evenly',
           borderBottom: 0.5,
           borderColor: 'lightgrey',
@@ -31,7 +31,7 @@ const Main = (props) => {
             alignItems: 'center',
           }}
         >
-          <Image alt="logo" src="/img/logo.svg" width={50} height={50} />
+          <Image alt="logo" src="/img/logo.svg" width={45} height={45} />
           <Typography
             variant="h6"
             noWrap
@@ -88,7 +88,18 @@ const Main = (props) => {
         </Box>
       </Toolbar>
 
-      <Box sx={{ display: 'flex' }}>{props.children}</Box>
+      <Box
+        sx={{
+          display: 'flex',
+          height: '100vh',
+          width: '100vw',
+          position: 'absolute',
+          top: 0,
+          paddingTop: '64px',
+        }}
+      >
+        {props.children}
+      </Box>
     </Box>
   );
 };

@@ -12,7 +12,6 @@ const ShortVideo = () => {
     <Box
       style={{
         height: 600,
-        width: '90%',
         padding: 10,
         borderBottom: '1px solid lightgray',
         display: 'flex',
