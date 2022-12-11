@@ -61,9 +61,15 @@ const ShortVideo = () => {
             >
               <Avatar
                 vatar
-                style={{ width: 56, height: 56, backgroundColor: 'lightgray', cursor: 'pointer', color: 'black' }}
+                style={{
+                  width: 56,
+                  height: 56,
+                  backgroundColor: 'lightgray',
+                  cursor: 'pointer',
+                  color: 'black',
+                }}
               >
-                <FavoriteIcon/>
+                <FavoriteIcon />
               </Avatar>
             </Box>
             <Typography
@@ -87,9 +93,15 @@ const ShortVideo = () => {
             >
               <Avatar
                 vatar
-                style={{ width: 56, height: 56, backgroundColor: 'lightgray', cursor: 'pointer', color: 'black' }}
+                style={{
+                  width: 56,
+                  height: 56,
+                  backgroundColor: 'lightgray',
+                  cursor: 'pointer',
+                  color: 'black',
+                }}
               >
-                <ChatIcon/>
+                <ChatIcon />
               </Avatar>
             </Box>
             <Typography
@@ -113,9 +125,15 @@ const ShortVideo = () => {
             >
               <Avatar
                 vatar
-                style={{ width: 56, height: 56, backgroundColor: 'lightgray', cursor: 'pointer', color: 'black' }}
+                style={{
+                  width: 56,
+                  height: 56,
+                  backgroundColor: 'lightgray',
+                  cursor: 'pointer',
+                  color: 'black',
+                }}
               >
-                <ShareIcon/>
+                <ShareIcon />
               </Avatar>
             </Box>
             <Typography

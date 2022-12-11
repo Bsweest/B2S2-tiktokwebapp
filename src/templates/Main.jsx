@@ -8,6 +8,8 @@ import Typography from '@mui/material/Typography';
 import styled from '@mui/material/styles/styled';
 import Image from 'next/image';
 
+import OpenDialog from '../components/auth/Login/OpenLoginDialogBtn';
+
 const Main = (props) => {
   return (
     <Box
@@ -73,18 +75,7 @@ const Main = (props) => {
             Upload
           </Button>
 
-          <Button
-            sx={{
-              marginRight: 1,
-              width: 125,
-              color: 'white',
-              backgroundColor: '#FE2C55',
-              fontWeight: 'bold',
-            }}
-            variant="contained"
-          >
-            Log In
-          </Button>
+          <OpenDialog />
         </Box>
       </Toolbar>
 
