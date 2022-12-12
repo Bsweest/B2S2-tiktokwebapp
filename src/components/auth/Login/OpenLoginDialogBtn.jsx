@@ -8,34 +8,17 @@ import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 import { useState } from 'react';
 
-import OpenSignupDialogBtn from '../Signup/OpenSignupDialogBtn';
-
 const OpenDialog = () => {
-  const [isShow, setIsShow] = useState({
-    isLogin: false,
-    isSignup: false,
-  });
+  const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
-    setIsShow({
-      isLogin: true,
-      isSignup: false,
-    });
+    setOpen(true);
   };
 
   const handleClose = () => {
-    setIsShow({
-      isLogin: false,
-      isSignup: false,
-    });
+    setOpen(false);
   };
 
-  const handleSignupClickOpen = () => {
-    setIsShow({
-      isLogin: false,
-      isSignup: true,
-    });
-  };
   return (
     <>
       <Button
@@ -47,11 +30,12 @@ const OpenDialog = () => {
           fontWeight: 'bold',
         }}
         variant="contained"
-        onClick={() => handleClickOpen()}
+        onClick={handleClickOpen}
       >
         Log In
       </Button>
-      <Dialog open={isShow.isLogin} onClose={() => handleClose()}>
+
+      <Dialog open={open} onClose={handleClose}>
         <Box
           sx={{
             height: 600,
@@ -71,7 +55,7 @@ const OpenDialog = () => {
               cursor: 'pointer',
               color: '#444444',
             }}
-            onClick={() => handleClose()}
+            onClick={handleClose}
           >
             <CloseIcon />
           </Avatar>
@@ -264,14 +248,12 @@ const OpenDialog = () => {
                 marginLeft: 1,
                 color: '#f44336',
               }}
-              onClick={() => handleSignupClickOpen()}
             >
               Sign up
             </Link>
           </Box>
         </Box>
       </Dialog>
-      <OpenSignupDialogBtn isShow={isShow} setIsShow={setIsShow} />
     </>
   );
 };
