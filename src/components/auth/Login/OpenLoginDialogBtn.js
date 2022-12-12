@@ -1,7 +1,11 @@
 import CloseIcon from '@mui/icons-material/Close';
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
-import { Avatar, Button, Dialog, Link, Typography } from '@mui/material';
-import { Box } from '@mui/system';
+import Avatar from '@mui/material/Avatar';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import Link from '@mui/material/Link';
+import Typography from '@mui/material/Typography';
 import * as React from 'react';
 
 const OpenDialog = () => {
@@ -30,6 +34,7 @@ const OpenDialog = () => {
       >
         Log In
       </Button>
+
       <Dialog open={open} onClose={handleClose}>
         <Box
           sx={{
