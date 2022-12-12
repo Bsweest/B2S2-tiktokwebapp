@@ -2,27 +2,12 @@ import CloseIcon from '@mui/icons-material/Close';
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 import { useState } from 'react';
 
-import OpenSignupDialogBtn from '../Signup/OpenSignupDialogBtn';
-
-const OpenDialog = () => {
-  const [isShow, setIsShow] = useState({
-    isLogin: false,
-    isSignup: false,
-  });
-
-  const handleClickOpen = () => {
-    setIsShow({
-      isLogin: true,
-      isSignup: false,
-    });
-  };
-
+const OpenSignupDialogBtn = ({ isShow, setIsShow }) => {
   const handleClose = () => {
     setIsShow({
       isLogin: false,
@@ -30,28 +15,16 @@ const OpenDialog = () => {
     });
   };
 
-  const handleSignupClickOpen = () => {
+  const handleClickLogin = () => {
     setIsShow({
-      isLogin: false,
-      isSignup: true,
+      isLogin: true,
+      isSignup: false,
     });
   };
+
   return (
     <>
-      <Button
-        sx={{
-          marginRight: 1,
-          width: 125,
-          color: 'white',
-          backgroundColor: '#FE2C55',
-          fontWeight: 'bold',
-        }}
-        variant="contained"
-        onClick={() => handleClickOpen()}
-      >
-        Log In
-      </Button>
-      <Dialog open={isShow.isLogin} onClose={() => handleClose()}>
+      <Dialog open={isShow.isSignup} onClose={() => handleClose()}>
         <Box
           sx={{
             height: 600,
@@ -71,7 +44,7 @@ const OpenDialog = () => {
               cursor: 'pointer',
               color: '#444444',
             }}
-            onClick={() => handleClose()}
+            onClick={handleClose}
           >
             <CloseIcon />
           </Avatar>
@@ -95,7 +68,7 @@ const OpenDialog = () => {
                 marginBottom: '10px',
               }}
             >
-              Log in to TikTok
+              Sign up to TikTok
             </Typography>
             <Box
               sx={{
@@ -118,29 +91,6 @@ const OpenDialog = () => {
                 }}
               />
               <Typography>User phone/ Email/ username</Typography>
-            </Box>
-
-            <Box
-              sx={{
-                height: 44,
-                width: '100%',
-                border: '1px solid lightgray',
-                padding: '5px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                position: 'relative',
-                cursor: 'pointer',
-                marginBottom: '16px',
-              }}
-            >
-              <PersonOutlineIcon
-                sx={{
-                  left: '12px',
-                  position: 'absolute',
-                }}
-              />
-              <Typography>Continue with Facebook</Typography>
             </Box>
 
             <Box
@@ -264,16 +214,15 @@ const OpenDialog = () => {
                 marginLeft: 1,
                 color: '#f44336',
               }}
-              onClick={() => handleSignupClickOpen()}
+              onClick={() => handleClickLogin()}
             >
-              Sign up
+              Log in
             </Link>
           </Box>
         </Box>
       </Dialog>
-      <OpenSignupDialogBtn isShow={isShow} setIsShow={setIsShow} />
     </>
   );
 };
 
-export default OpenDialog;
+export default OpenSignupDialogBtn;
