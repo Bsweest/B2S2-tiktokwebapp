@@ -1,7 +1,7 @@
 import Box from '@mui/material/Box';
 import { motion } from 'framer-motion';
 import Image from 'next/Image';
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 const Avatar = () => {
   return (

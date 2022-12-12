@@ -1,13 +1,13 @@
 import '@fontsource/dosis';
 import Add from '@mui/icons-material/Add';
 import Search from '@mui/icons-material/Search';
+import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import Toolbar from '@mui/material/Toolbar';
+import InputBase from '@mui/material/InputBase';
 import Typography from '@mui/material/Typography';
 import { ThemeProvider, createTheme, styled } from '@mui/material/styles';
-import Image from 'next/image';
+import Image from 'next/Image';
 
 import OpenDialog from '../components/auth/Login/OpenLoginDialogBtn';
 
@@ -37,11 +37,16 @@ const Main = (props) => {
             position: 'relative',
           }}
         >
-          <Toolbar
+          <AppBar
             sx={{
+              height: '64px',
+              display: 'flex',
+              flexDirection: 'row',
+              alignItems: 'center',
               justifyContent: 'space-evenly',
               borderBottom: 0.5,
               borderColor: 'lightgrey',
+              backgroundColor: 'transparent',
             }}
           >
             <Box
@@ -96,7 +101,7 @@ const Main = (props) => {
 
               <OpenDialog />
             </Box>
-          </Toolbar>
+          </AppBar>
 
           <Box
             sx={{
@@ -140,7 +145,7 @@ const SearchIconWrapper = styled('div')(({ theme }) => ({
   justifyContent: 'center',
 }));
 
-const StyledInputBase = styled(TextField)(({ theme }) => ({
+const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: 'inherit',
   '& .MuiInputBase-input': {
     padding: theme.spacing(1, 1, 1, 0),
