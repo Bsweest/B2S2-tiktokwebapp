@@ -10,9 +10,8 @@ const HotAccount = () => {
         <Avatar src="https://randomuser.me/api/portraits/men/27.jpg" />
       </ListItemIcon>
       <ListItemText
-        disableTypography
-        style={{ fontWeight: 'bold', fontSize: 14 }}
-        primary="datvilla94"
+        primary="NguyễnVan"
+        primaryTypographyProps={{ fontWeight: 'bold' }}
       />
     </ListItemButton>
   );

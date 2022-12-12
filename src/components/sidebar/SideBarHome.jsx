@@ -16,7 +16,7 @@ const SideBarHome = () => {
       sx={{
         display: 'flex',
         flexDirection: 'column',
-        flex: 2,
+        width: '250px',
         height: 'fit-content',
         overflowY: 'auto',
         alignItems: 'center',
@@ -29,10 +29,10 @@ const SideBarHome = () => {
           </ListItemIcon>
           <ListItemText
             primary="For You"
-            style={{
+            primaryTypographyProps={{
               color: '#FE2C55',
+              fontSize: '1.25rem',
               fontWeight: 'bold',
-              fontSize: 20,
             }}
           />
         </ListItemButton>
@@ -43,10 +43,10 @@ const SideBarHome = () => {
           </ListItemIcon>
           <ListItemText
             primary="Following"
-            style={{
+            primaryTypographyProps={{
               color: '#161823',
+              fontSize: '1.25rem',
               fontWeight: 'bold',
-              fontSize: 20,
             }}
           />
         </ListItemButton>
@@ -57,10 +57,10 @@ const SideBarHome = () => {
           </ListItemIcon>
           <ListItemText
             primary="LIVE"
-            style={{
+            primaryTypographyProps={{
               color: '#161823',
+              fontSize: '1.25rem',
               fontWeight: 'bold',
-              fontSize: 20,
             }}
           />
         </ListItemButton>
@@ -68,17 +68,14 @@ const SideBarHome = () => {
         <List
           sx={{ width: '100%', height: '100%' }}
           subheader={
-            <ListSubheader
-              disableTypography
-              style={{ fontWeight: 'bold', fontSize: 13 }}
-            >
+            <ListSubheader style={{ fontWeight: 'bold', fontSize: 13 }}>
               Suggested accounts
             </ListSubheader>
           }
         >
-          <HotAccount />
-          <HotAccount />
-          <HotAccount />
+          {[0, 1, 2].map((item, index) => (
+            <HotAccount key={index} />
+          ))}
         </List>
       </List>
     </Box>
