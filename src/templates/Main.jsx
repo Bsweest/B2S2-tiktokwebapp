@@ -7,7 +7,9 @@ import TextField from '@mui/material/TextField';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { ThemeProvider, createTheme, styled } from '@mui/material/styles';
-import Image from 'next/Image';
+import Image from 'next/image';
+
+import OpenDialog from '../components/auth/Login/OpenLoginDialogBtn';
 
 const theme = createTheme({
   typography: {
@@ -92,18 +94,7 @@ const Main = (props) => {
                 Upload
               </Button>
 
-              <Button
-                sx={{
-                  marginRight: 1,
-                  width: 125,
-                  color: 'white',
-                  backgroundColor: '#FE2C55',
-                  fontWeight: 'bold',
-                }}
-                variant="contained"
-              >
-                Log In
-              </Button>
+              <OpenDialog />
             </Box>
           </Toolbar>
 
