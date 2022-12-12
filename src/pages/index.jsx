@@ -1,12 +1,14 @@
 import Box from '@mui/material/Box';
-import Container from '@mui/material/Container';
 import List from '@mui/material/List';
 
 import ShortVideo from '../components/shortvideo';
+import SideBarComment from '../components/sidebar/SideBarComment';
 import SideBarHome from '../components/sidebar/SideBarHome';
 import Main from '../templates/Main';
 
 export default function Home() {
+  const data = [1, 2, 3, 4];
+
   return (
     <Main>
       <Box
@@ -17,17 +19,22 @@ export default function Home() {
         }}
       >
         <SideBarHome />
-        <Box
+
+        <List
           sx={{
-            overflowY: 'auto',
-            flex: 5,
+            flex: 1,
+            overflowY: 'scroll',
+            height: 'calc(100vh - 64px)',
+            scrollSnapType: 'y mandatory',
+            scrollSnapStop: 'normal',
           }}
         >
-          <List>
-            <ShortVideo />
-            <ShortVideo />
-          </List>
-        </Box>
+          {data.map((item, index) => (
+            <ShortVideo key={index} />
+          ))}
+        </List>
+
+        <SideBarComment />
       </Box>
     </Main>
   );

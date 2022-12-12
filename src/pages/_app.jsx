@@ -1,5 +1,9 @@
+import { enableLegendStateReact } from '@legendapp/state/react';
+
 import Header from '../config';
 import '../styles/globals.css';
+
+enableLegendStateReact();
 
 function MyApp({ Component, pageProps = { title: 'B2S2' } }) {
   return (
