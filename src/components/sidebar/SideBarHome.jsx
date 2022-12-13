@@ -31,8 +31,9 @@ const SideBarHome = () => {
             primary="For You"
             primaryTypographyProps={{
               color: '#FE2C55',
-              fontSize: '1.25rem',
+              fontSize: '1.1rem',
               fontWeight: 'bold',
+              fontFamily: 'cursive',
             }}
           />
         </ListItemButton>
@@ -45,8 +46,9 @@ const SideBarHome = () => {
             primary="Following"
             primaryTypographyProps={{
               color: '#161823',
-              fontSize: '1.25rem',
+              fontSize: '1.1rem',
               fontWeight: 'bold',
+              fontFamily: 'cursive',
             }}
           />
         </ListItemButton>
@@ -59,8 +61,9 @@ const SideBarHome = () => {
             primary="LIVE"
             primaryTypographyProps={{
               color: '#161823',
-              fontSize: '1.25rem',
+              fontSize: '1.1rem',
               fontWeight: 'bold',
+              fontFamily: 'cursive',
             }}
           />
         </ListItemButton>

@@ -465,10 +465,10 @@
     minimatch "^3.1.2"
     strip-json-comments "^3.1.1"
 
-"@fontsource/dosis@^4.5.10":
-  version "4.5.10"
-  resolved "https://registry.yarnpkg.com/@fontsource/dosis/-/dosis-4.5.10.tgz#40a325037832e475afe68593995bb04147f09d35"
-  integrity sha512-Uj2gt3QBJvibKOz6ofSRcyoSFOYkEVD5LSEdJ35eFJ/ZgfbAwvnw53LlyGajD+jE5fs6qv+AzoS0UBbbh+lqCg==
+"@fontsource/varela-round@^4.5.9":
+  version "4.5.9"
+  resolved "https://registry.yarnpkg.com/@fontsource/varela-round/-/varela-round-4.5.9.tgz#ae719b6f00e5041e0a147321eb84fce7619c7e71"
+  integrity sha512-wvxP8Iw3BxEVTErju609diXe55qr87lp+NCv/UX7vcFc+YWzl2piMw0pXbR/HNcJcICrkIs2UD2x2fonyEY01w==
 
 "@humanwhocodes/config-array@^0.11.6":
   version "0.11.7"

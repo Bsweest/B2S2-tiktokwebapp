@@ -14,10 +14,12 @@ const closeCommentSection = () => {
 };
 
 const openCommentSection = (id) => {
-  commentSectionState.set({
-    isOpen: true,
-    fetchID: id,
-  });
+  if (!commentSectionState.isOpen.get()) {
+    commentSectionState.set({
+      isOpen: true,
+      fetchID: id,
+    });
+  } else closeCommentSection();
 };
 
 const useCommentSection = () => {

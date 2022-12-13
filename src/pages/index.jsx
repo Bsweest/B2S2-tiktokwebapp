@@ -24,7 +24,7 @@ export default function Home() {
           sx={{
             flex: 1,
             overflowY: 'scroll',
-            height: 'calc(100vh - 64px)',
+            height: 'calc(100vh - 60px)',
             scrollSnapType: 'y mandatory',
             scrollSnapStop: 'normal',
           }}
