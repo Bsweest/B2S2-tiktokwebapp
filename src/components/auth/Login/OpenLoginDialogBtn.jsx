@@ -52,6 +52,7 @@ const OpenDialog = () => {
       isShow: true,
     });
   };
+
   return (
     <>
       <Button
@@ -63,7 +64,7 @@ const OpenDialog = () => {
           fontWeight: 'bold',
         }}
         variant="contained"
-        onClick={() => handleClickOpen()}
+        onClick={handleClickOpen}
       >
         Log In
       </Button>
