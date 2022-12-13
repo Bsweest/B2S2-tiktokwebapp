@@ -1,4 +1,4 @@
-import '@fontsource/dosis';
+import '@fontsource/varela-round';
 import Add from '@mui/icons-material/Add';
 import Search from '@mui/icons-material/Search';
 import AppBar from '@mui/material/AppBar';
@@ -12,15 +12,15 @@ import Image from 'next/Image';
 import OpenDialog from '../components/auth/Login/OpenLoginDialogBtn';
 
 const theme = createTheme({
-  typography: {
-    htmlFontSize: 16,
+  palette: {
+    contract: { main: '#898989' },
   },
 
   components: {
     MuiTypography: {
       defaultProps: {
         fontSize: '1rem',
-        fontFamily: 'Dosis',
+        fontFamily: 'Varela Round',
       },
     },
   },
@@ -39,7 +39,7 @@ const Main = (props) => {
         >
           <AppBar
             sx={{
-              height: '64px',
+              height: '60px',
               display: 'flex',
               flexDirection: 'row',
               alignItems: 'center',
@@ -110,7 +110,7 @@ const Main = (props) => {
               width: '100vw',
               position: 'absolute',
               top: 0,
-              paddingTop: '64px',
+              paddingTop: '60px',
             }}
           >
             {props.children}

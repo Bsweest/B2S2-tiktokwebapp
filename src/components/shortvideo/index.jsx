@@ -1,4 +1,5 @@
 import Box from '@mui/material/Box';
+import ButtonBase from '@mui/material/ButtonBase';
 import dynamic from 'next/dynamic';
 import { useState } from 'react';
 
@@ -10,11 +11,15 @@ const ReactPlayer = dynamic(() => import('react-player'), { ssr: false });
 const ShortVideo = () => {
   const [status, setStatus] = useState(false);
 
+  const onVideoClick = () => {
+    setStatus((prev) => !prev);
+  };
+
   return (
     <Box
       sx={{
         position: 'relative',
-        height: 'calc(100vh - 64px)',
+        height: 'calc(100vh - 60px)',
         borderBottom: '1px solid lightgray',
         display: 'flex',
         scrollSnapAlign: 'start',
@@ -24,25 +29,31 @@ const ShortVideo = () => {
         sx={{
           display: 'flex',
           flex: 1,
-          zIndex: 10,
+          zIndex: 15,
           alignItems: 'center',
           justifyContent: 'center',
         }}
       >
-        <Box
+        <ButtonBase
           sx={{
             width: 'calc(100vh / 2)',
             height: '98%',
+            backgroundColor: 'black',
+            borderRadius: '14px',
+            overflow: 'hidden',
           }}
+          onClick={onVideoClick}
         >
           <ReactPlayer
-            style={{ borderRadius: '14px', overflow: 'hidden' }}
-            url={'https://www.youtube.com/watch?v=ysz5S6PUM-U'}
+            url={
+              'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4'
+            }
+            loop={true}
             playing={status}
             width="100%"
             height="100%"
           />
-        </Box>
+        </ButtonBase>
       </Box>
 
       <Box
@@ -68,11 +79,11 @@ const ShortVideo = () => {
           flexDirection: 'row',
           top: 0,
           left: 0,
-          zIndex: 15,
-          width: '100%',
           height: '95%',
-          pb: '10px',
-          px: '30px',
+          width: '100%',
+          pointerEvents: 'none',
+          px: '2rem',
+          zIndex: 15,
           alignItems: 'flex-end',
           justifyContent: 'space-between',
         }}

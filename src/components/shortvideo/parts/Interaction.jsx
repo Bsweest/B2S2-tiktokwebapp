@@ -14,6 +14,7 @@ const Interaction = () => {
         flexDirection: 'column',
         color: 'white',
         alignItems: 'center',
+        pointerEvents: 'auto',
       }}
     >
       <Avatar />

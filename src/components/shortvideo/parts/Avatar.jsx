@@ -16,7 +16,8 @@ const Avatar = () => {
       <Image
         alt="avatar"
         fill={true}
-        style={{ borderRadius: '50%' }}
+        sizes="4rem"
+        style={{ borderRadius: '50%', pointerEvents: 'all', cursor: 'pointer' }}
         src="https://i.picsum.photos/id/260/200/200.jpg?hmac=Nu9V4Ixqq3HiFhfkcsL5mNRZAZyEHG2jotmiiMRdxGA"
       />
       <FollowButton />
@@ -46,7 +47,12 @@ const FollowButton = ({}) => {
       width={30}
       height={30}
       xmlns="http://www.w3.org/2000/svg"
-      style={{ position: 'absolute', bottom: '-1rem', left: '1.1rem' }}
+      style={{
+        position: 'absolute',
+        bottom: '-1rem',
+        left: '1.1rem',
+        cursor: 'pointer',
+      }}
       variants={variantSvg}
       animate={isFL ? 'follow' : 'notfollow'}
       transition={{
