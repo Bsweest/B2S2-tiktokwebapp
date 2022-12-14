@@ -56,6 +56,7 @@ const OpenDialog = () => {
       isSignupWithEmail: true,
     });
   };
+
   return (
     <>
       <Button
@@ -67,7 +68,7 @@ const OpenDialog = () => {
           fontWeight: 'bold',
         }}
         variant="contained"
-        onClick={() => handleClickOpen()}
+        onClick={handleClickOpen}
       >
         Log In
       </Button>
