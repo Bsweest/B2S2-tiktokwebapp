@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import Image from 'next/Image';
 import { useEffect, useRef, useState } from 'react';
 
-const Avatar = () => {
+const VideoAvatar = () => {
   return (
     <Box
       sx={{
@@ -99,4 +99,4 @@ const variantPath = {
   },
 };
 
-export default Avatar;
+export default VideoAvatar;

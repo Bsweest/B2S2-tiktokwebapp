@@ -1,10 +1,10 @@
 import Box from '@mui/material/Box';
 import React from 'react';
 
-import Avatar from './Avatar';
 import BookmarkButton from './BookmarkButton';
 import CommentButton from './CommentButton';
 import HeartButton from './HeartButton';
+import VideoAvatar from './VideoAvatar';
 
 const Interaction = () => {
   return (
@@ -17,7 +17,7 @@ const Interaction = () => {
         pointerEvents: 'auto',
       }}
     >
-      <Avatar />
+      <VideoAvatar />
       <HeartButton />
       <CommentButton />
       <BookmarkButton />
