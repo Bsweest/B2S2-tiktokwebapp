@@ -13,9 +13,7 @@ import OpenDialog from '../components/auth/Login/OpenLoginDialogBtn';
 
 const theme = createTheme({
   palette: {
-    secondary: {
-      main: '#BFBFBF',
-    },
+    error: { main: '#EA4359' },
   },
   components: {
     MuiTypography: {
@@ -36,7 +34,6 @@ const Main = (props) => {
             display: 'flex',
             flexDirection: 'column',
             position: 'relative',
-            backgroundColor: '#F8F8F8',
           }}
         >
           <AppBar
@@ -48,7 +45,7 @@ const Main = (props) => {
               justifyContent: 'space-evenly',
               borderBottom: 0.5,
               borderColor: 'lightgrey',
-              backgroundColor: 'transparent',
+              backgroundColor: 'white',
               boxShadow: 'none',
             }}
           >
@@ -114,6 +111,7 @@ const Main = (props) => {
               position: 'absolute',
               top: 0,
               paddingTop: '60px',
+              backgroundColor: '#F8F8F8',
             }}
           >
             {props.children}
@@ -127,8 +125,8 @@ const Main = (props) => {
 const SearchContainer = styled('div')(({ theme }) => ({
   position: 'relative',
   border: '1px solid darkgray',
-  borderRadius: 5,
-  backgroundColor: 'whitesmoke',
+  borderRadius: '2rem',
+  backgroundColor: '#F8F8F8',
   marginRight: theme.spacing(2),
   marginLeft: 0,
   width: '100%',
