@@ -5,7 +5,6 @@ import Typography from '@mui/material/Typography';
 import { motion } from 'framer-motion';
 
 import useCommentSection from '../../templates/global/CommentSection';
-import Comment from '../comments';
 import ParentComment from '../comments/ParentComment';
 
 const variants = {
@@ -41,7 +40,7 @@ const SideBarComment = () => {
           sx={{
             display: 'flex',
             flexWrap: 'nowrap',
-            height: '50px',
+            height: '45px',
             borderBottom: '1px solid lightgrey',
             alignItems: 'center',
             justifyContent: 'center',
