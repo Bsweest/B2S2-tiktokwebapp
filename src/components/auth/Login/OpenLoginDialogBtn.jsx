@@ -4,6 +4,7 @@ import Dialog from '@mui/material/Dialog';
 import { useState } from 'react';
 
 import SignupMethod from '../Signup/components/SignupMethod';
+import SignupWithEmail from '../Signup/components/SignupWithEmail';
 import LoginMethod from './components/LoginMethod';
 
 const OpenDialog = () => {
@@ -13,19 +14,12 @@ const OpenDialog = () => {
     isShow: false,
   });
 
-  const CloseModal = () => {
-    setIsShow({
-      isLogin: false,
-      isSignup: false,
-      isShow: false,
-    });
-  };
-
   const handleClickOpen = () => {
     setIsShow({
       isLogin: true,
       isSignup: false,
       isShow: true,
+      isSignupWithEmail: false,
     });
   };
 
@@ -37,7 +31,7 @@ const OpenDialog = () => {
     });
   };
 
-  const handleSignupClickOpen = () => {
+  const handleClickSignup = () => {
     setIsShow({
       isLogin: false,
       isSignup: true,
@@ -50,6 +44,16 @@ const OpenDialog = () => {
       isLogin: true,
       isSignup: false,
       isShow: true,
+      isSignupWithEmail: false,
+    });
+  };
+
+  const handleClickSignupWithEmail = () => {
+    setIsShow({
+      isLogin: false,
+      isSignup: false,
+      isShow: true,
+      isSignupWithEmail: true,
     });
   };
   return (
@@ -79,13 +83,21 @@ const OpenDialog = () => {
           {isShow.isLogin && (
             <LoginMethod
               handleClose={handleClose}
-              handleSignupClickOpen={handleSignupClickOpen}
+              handleClickSignup={handleClickSignup}
             />
           )}
           {isShow.isSignup && (
             <SignupMethod
               handleClickLogin={handleClickLogin}
               handleClose={handleClose}
+              handleClickSignupWithEmail={handleClickSignupWithEmail}
+            />
+          )}
+          {isShow.isSignupWithEmail && (
+            <SignupWithEmail
+              handleClickLogin={handleClickLogin}
+              handleClose={handleClose}
+              handleClickSignup={handleClickSignup}
             />
           )}
         </Box>

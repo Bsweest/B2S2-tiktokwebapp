@@ -1,14 +1,14 @@
 import CloseIcon from '@mui/icons-material/Close';
-import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
+import FacebookIcon from '@mui/icons-material/Facebook';
+import GoogleIcon from '@mui/icons-material/Google';
+import PersonIcon from '@mui/icons-material/Person';
+import TwitterIcon from '@mui/icons-material/Twitter';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
-import { useState } from 'react';
 
-const LoginMethod = ({ handleClose, handleSignupClickOpen }) => {
+const LoginMethod = ({ handleClose, handleClickSignup }) => {
   return (
     <>
       <Avatar
@@ -61,7 +61,8 @@ const LoginMethod = ({ handleClose, handleSignupClickOpen }) => {
             marginBottom: '16px',
           }}
         >
-          <PersonOutlineIcon
+          <PersonIcon
+            color="action"
             sx={{
               left: '12px',
               position: 'absolute',
@@ -84,7 +85,8 @@ const LoginMethod = ({ handleClose, handleSignupClickOpen }) => {
             marginBottom: '16px',
           }}
         >
-          <PersonOutlineIcon
+          <FacebookIcon
+            color="primary"
             sx={{
               left: '12px',
               position: 'absolute',
@@ -107,13 +109,14 @@ const LoginMethod = ({ handleClose, handleSignupClickOpen }) => {
             marginBottom: '16px',
           }}
         >
-          <PersonOutlineIcon
+          <TwitterIcon
+            color="info"
             sx={{
               left: '12px',
               position: 'absolute',
             }}
           />
-          <Typography>Continue with Facebook</Typography>
+          <Typography>Continue with Twitter</Typography>
         </Box>
 
         <Box
@@ -130,59 +133,14 @@ const LoginMethod = ({ handleClose, handleSignupClickOpen }) => {
             marginBottom: '16px',
           }}
         >
-          <PersonOutlineIcon
+          <GoogleIcon
+            color="success"
             sx={{
               left: '12px',
               position: 'absolute',
             }}
           />
-          <Typography>Continue with Facebook</Typography>
-        </Box>
-
-        <Box
-          sx={{
-            height: 44,
-            width: '100%',
-            border: '1px solid lightgray',
-            padding: '5px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            position: 'relative',
-            cursor: 'pointer',
-            marginBottom: '16px',
-          }}
-        >
-          <PersonOutlineIcon
-            sx={{
-              left: '12px',
-              position: 'absolute',
-            }}
-          />
-          <Typography>Continue with Facebook</Typography>
-        </Box>
-
-        <Box
-          sx={{
-            height: 44,
-            width: '100%',
-            border: '1px solid lightgray',
-            padding: '5px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            position: 'relative',
-            cursor: 'pointer',
-            marginBottom: '16px',
-          }}
-        >
-          <PersonOutlineIcon
-            sx={{
-              left: '12px',
-              position: 'absolute',
-            }}
-          />
-          <Typography>Continue with Facebook</Typography>
+          <Typography>Continue with Google</Typography>
         </Box>
       </Box>
       <Box
@@ -195,6 +153,7 @@ const LoginMethod = ({ handleClose, handleSignupClickOpen }) => {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
+          backgroundColor: 'white',
         }}
       >
         <Typography
@@ -213,7 +172,7 @@ const LoginMethod = ({ handleClose, handleSignupClickOpen }) => {
             marginLeft: 1,
             color: '#f44336',
           }}
-          onClick={() => handleSignupClickOpen()}
+          onClick={() => handleClickSignup()}
         >
           Sign up
         </Link>
