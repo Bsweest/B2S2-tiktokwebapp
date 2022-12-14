@@ -13,9 +13,10 @@ import OpenDialog from '../components/auth/Login/OpenLoginDialogBtn';
 
 const theme = createTheme({
   palette: {
-    contract: { main: '#898989' },
+    secondary: {
+      main: '#BFBFBF',
+    },
   },
-
   components: {
     MuiTypography: {
       defaultProps: {
@@ -35,6 +36,7 @@ const Main = (props) => {
             display: 'flex',
             flexDirection: 'column',
             position: 'relative',
+            backgroundColor: '#F8F8F8',
           }}
         >
           <AppBar
@@ -47,6 +49,7 @@ const Main = (props) => {
               borderBottom: 0.5,
               borderColor: 'lightgrey',
               backgroundColor: 'transparent',
+              boxShadow: 'none',
             }}
           >
             <Box

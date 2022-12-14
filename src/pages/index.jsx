@@ -4,38 +4,35 @@ import List from '@mui/material/List';
 import ShortVideo from '../components/shortvideo';
 import SideBarComment from '../components/sidebar/SideBarComment';
 import SideBarHome from '../components/sidebar/SideBarHome';
-import Main from '../templates/Main';
 
 export default function Home() {
   const data = [1, 2, 3, 4];
 
   return (
-    <Main>
-      <Box
+   <Box
+      sx={{
+        display: 'flex',
+        flex: 1,
+        flexDirection: 'row',
+      }}
+    >
+      <SideBarHome />
+
+      <List
         sx={{
-          display: 'flex',
           flex: 1,
-          flexDirection: 'row',
+          overflowY: 'scroll',
+          height: 'calc(100vh - 60px)',
+          scrollSnapType: 'y mandatory',
+          scrollSnapStop: 'normal',
         }}
       >
-        <SideBarHome />
+        {data.map((item, index) => (
+          <ShortVideo key={index} />
+        ))}
+      </List>
 
-        <List
-          sx={{
-            flex: 1,
-            overflowY: 'scroll',
-            height: 'calc(100vh - 60px)',
-            scrollSnapType: 'y mandatory',
-            scrollSnapStop: 'normal',
-          }}
-        >
-          {data.map((item, index) => (
-            <ShortVideo key={index} />
-          ))}
-        </List>
-
-        <SideBarComment />
-      </Box>
-    </Main>
+      <SideBarComment />
+    </Box>
   );
 }

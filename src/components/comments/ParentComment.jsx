@@ -26,7 +26,7 @@ const ParentComment = () => {
 
       <ButtonBase variant="text" onClick={onClick}>
         <Typography variant="string" color="#898989" fontWeight="bold">
-          View more replies(1) <span>&or;</span>
+          {open ? 'Hide replies' : `View more replies(1)`}
         </Typography>
       </ButtonBase>
     </Box>

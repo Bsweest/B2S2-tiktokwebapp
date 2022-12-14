@@ -2,10 +2,8 @@ import CloseIcon from '@mui/icons-material/Close';
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
-import Dialog from '@mui/material/Dialog';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
-import { useState } from 'react';
 
 const SignupMethod = ({ handleClose, handleClickLogin }) => {
   return (
