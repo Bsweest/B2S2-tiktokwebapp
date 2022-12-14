@@ -9,7 +9,7 @@ export default function Home() {
   const data = [1, 2, 3, 4];
 
   return (
-    <Box
+   <Box
       sx={{
         display: 'flex',
         flex: 1,

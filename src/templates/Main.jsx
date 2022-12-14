@@ -17,7 +17,6 @@ const theme = createTheme({
       main: '#BFBFBF',
     },
   },
-
   components: {
     MuiTypography: {
       defaultProps: {
