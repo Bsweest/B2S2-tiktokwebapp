@@ -14,25 +14,18 @@ import InputLabel from '@mui/material/InputLabel';
 import Link from '@mui/material/Link';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import dayjs from 'dayjs';
 import { useState } from 'react';
 
-const SignupWithEmail = ({
+const ResetPassword = ({
   handleClose,
-  handleClickLogin,
   handleClickSignup,
-  handleClickSignupWithEmailSuccess,
+  handleClickLoginWithEmail,
+  //   handleClickLoginWithEmailSuccess,
 }) => {
-  const [value, setValue] = useState(dayjs('2014-08-18T21:11:54'));
-  const handleChange = (newValue) => {
-    setValue(newValue);
-  };
-
   const [showPassword, setShowPassword] = useState(false);
+
   const handleClickShowPassword = () => setShowPassword((show) => !show);
+
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
@@ -53,7 +46,7 @@ const SignupWithEmail = ({
             cursor: 'pointer',
             color: '#444444',
           }}
-          onClick={() => handleClickSignup()}
+          onClick={() => handleClickLoginWithEmail()}
         />
         <Avatar
           vatar
@@ -91,9 +84,8 @@ const SignupWithEmail = ({
             textAlign: 'center',
           }}
         >
-          Sign up
+          Reset password
         </Typography>
-
         <Typography
           sx={{
             color: '#161823',
@@ -102,47 +94,9 @@ const SignupWithEmail = ({
             marginBottom: '4px',
           }}
         >
-          When is your birthday?
-        </Typography>
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DesktopDatePicker
-            value={value}
-            inputFormat="MM/DD/YYYY"
-            onChange={handleChange}
-            renderInput={(params) => <TextField {...params} />}
-          />
-        </LocalizationProvider>
-        <Typography
-          sx={{
-            color: '#161823',
-            fontWeight: 600,
-            fontSize: 16,
-            marginBottom: '4px',
-            marginTop: '4px',
-          }}
-        >
-          Email
+          Enter email address
         </Typography>
         <TextField sx={{ marginBottom: '12px' }} label="Email Address" />
-        <TextField sx={{ marginBottom: '12px' }} label="User name" />
-        <FormControl sx={{ marginBottom: '12px' }} variant="outlined">
-          <InputLabel>Password</InputLabel>
-          <OutlinedInput
-            type={showPassword ? 'text' : 'password'}
-            endAdornment={
-              <InputAdornment position="end">
-                <IconButton
-                  onClick={handleClickShowPassword}
-                  onMouseDown={handleMouseDownPassword}
-                  edge="end"
-                >
-                  {showPassword ? <VisibilityOff /> : <Visibility />}
-                </IconButton>
-              </InputAdornment>
-            }
-            label="Password"
-          />
-        </FormControl>
         <FormControl sx={{ marginBottom: '12px' }} variant="outlined">
           <InputLabel>Enter 6 digit code</InputLabel>
           <OutlinedInput
@@ -164,7 +118,24 @@ const SignupWithEmail = ({
             label="Enter 6 digit code"
           />
         </FormControl>
-
+        <FormControl sx={{ marginBottom: '12px' }} variant="outlined">
+          <InputLabel>Password</InputLabel>
+          <OutlinedInput
+            type={showPassword ? 'text' : 'password'}
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton
+                  onClick={handleClickShowPassword}
+                  onMouseDown={handleMouseDownPassword}
+                  edge="end"
+                >
+                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            }
+            label="Password"
+          />
+        </FormControl>
         <Button
           sx={{
             marginBottom: '4px',
@@ -173,9 +144,8 @@ const SignupWithEmail = ({
             backgroundColor: '#FE2C55',
           }}
           variant="contained"
-          onClick={() => handleClickSignupWithEmailSuccess()}
         >
-          Next
+          Log in
         </Button>
       </Box>
 
@@ -198,7 +168,7 @@ const SignupWithEmail = ({
             color: '#444444',
           }}
         >
-          Already have an account?
+          Do not have an account?
         </Typography>
         <Link
           sx={{
@@ -208,13 +178,13 @@ const SignupWithEmail = ({
             marginLeft: 1,
             color: '#f44336',
           }}
-          onClick={() => handleClickLogin()}
+          onClick={() => handleClickSignup()}
         >
-          Log in
+          Sign up
         </Link>
       </Box>
     </>
   );
 };
 
-export default SignupWithEmail;
+export default ResetPassword;

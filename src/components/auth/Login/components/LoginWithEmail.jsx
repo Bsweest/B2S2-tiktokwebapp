@@ -14,25 +14,18 @@ import InputLabel from '@mui/material/InputLabel';
 import Link from '@mui/material/Link';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import dayjs from 'dayjs';
 import { useState } from 'react';
 
-const SignupWithEmail = ({
+const LoginWithEmail = ({
   handleClose,
-  handleClickLogin,
   handleClickSignup,
-  handleClickSignupWithEmailSuccess,
+  handleClickLogin,
+  handleClickResetPassword,
 }) => {
-  const [value, setValue] = useState(dayjs('2014-08-18T21:11:54'));
-  const handleChange = (newValue) => {
-    setValue(newValue);
-  };
-
   const [showPassword, setShowPassword] = useState(false);
+
   const handleClickShowPassword = () => setShowPassword((show) => !show);
+
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
@@ -53,7 +46,7 @@ const SignupWithEmail = ({
             cursor: 'pointer',
             color: '#444444',
           }}
-          onClick={() => handleClickSignup()}
+          onClick={() => handleClickLogin()}
         />
         <Avatar
           vatar
@@ -91,41 +84,11 @@ const SignupWithEmail = ({
             textAlign: 'center',
           }}
         >
-          Sign up
+          Log in
         </Typography>
 
-        <Typography
-          sx={{
-            color: '#161823',
-            fontWeight: 600,
-            fontSize: 16,
-            marginBottom: '4px',
-          }}
-        >
-          When is your birthday?
-        </Typography>
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DesktopDatePicker
-            value={value}
-            inputFormat="MM/DD/YYYY"
-            onChange={handleChange}
-            renderInput={(params) => <TextField {...params} />}
-          />
-        </LocalizationProvider>
-        <Typography
-          sx={{
-            color: '#161823',
-            fontWeight: 600,
-            fontSize: 16,
-            marginBottom: '4px',
-            marginTop: '4px',
-          }}
-        >
-          Email
-        </Typography>
         <TextField sx={{ marginBottom: '12px' }} label="Email Address" />
-        <TextField sx={{ marginBottom: '12px' }} label="User name" />
-        <FormControl sx={{ marginBottom: '12px' }} variant="outlined">
+        <FormControl sx={{ marginBottom: '4px' }} variant="outlined">
           <InputLabel>Password</InputLabel>
           <OutlinedInput
             type={showPassword ? 'text' : 'password'}
@@ -143,27 +106,18 @@ const SignupWithEmail = ({
             label="Password"
           />
         </FormControl>
-        <FormControl sx={{ marginBottom: '12px' }} variant="outlined">
-          <InputLabel>Enter 6 digit code</InputLabel>
-          <OutlinedInput
-            endAdornment={
-              <Button
-                sx={{
-                  width: 200,
-                  height: '100%',
-                  textTransform: 'none',
-                  color: '#161823',
-                  fontWeight: 'bold',
-                  margin: '-13px',
-                }}
-                variant="text"
-              >
-                Send code
-              </Button>
-            }
-            label="Enter 6 digit code"
-          />
-        </FormControl>
+        <Link
+          sx={{
+            marginBottom: '14px',
+            fontWeight: 600,
+            fontSize: 15,
+            cursor: 'pointer',
+            color: '#f44336',
+          }}
+          onClick={() => handleClickResetPassword()}
+        >
+          Forgot passsword
+        </Link>
 
         <Button
           sx={{
@@ -173,9 +127,8 @@ const SignupWithEmail = ({
             backgroundColor: '#FE2C55',
           }}
           variant="contained"
-          onClick={() => handleClickSignupWithEmailSuccess()}
         >
-          Next
+          Log in
         </Button>
       </Box>
 
@@ -198,7 +151,7 @@ const SignupWithEmail = ({
             color: '#444444',
           }}
         >
-          Already have an account?
+          Do not have an account?
         </Typography>
         <Link
           sx={{
@@ -208,13 +161,13 @@ const SignupWithEmail = ({
             marginLeft: 1,
             color: '#f44336',
           }}
-          onClick={() => handleClickLogin()}
+          onClick={() => handleClickSignup()}
         >
-          Log in
+          Sign up
         </Link>
       </Box>
     </>
   );
 };
 
-export default SignupWithEmail;
+export default LoginWithEmail;
