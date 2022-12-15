@@ -1,11 +1,10 @@
 import Box from '@mui/material/Box';
-import List from '@mui/material/List';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import { motion } from 'framer-motion';
 
 import useCommentSection from '../../templates/global/CommentSection';
-import ParentComment from '../comments/ParentComment';
+import ListComment from '../comments/ListComment';
 
 const variants = {
   open: {
@@ -51,11 +50,7 @@ const SideBarComment = () => {
           </Tooltip>
         </Box>
 
-        <List sx={{ display: 'flex', flexDirection: 'column', px: '5px' }}>
-          {[1, 2].map((item, index) => (
-            <ParentComment key={index} />
-          ))}
-        </List>
+        <ListComment />
       </div>
     </motion.div>
   );

@@ -22,6 +22,11 @@ const theme = createTheme({
         fontFamily: 'Varela Round',
       },
     },
+    MuiTooltip: {
+      defaultProps: {
+        fontFamily: 'Varela Round',
+      },
+    },
   },
 });
 
