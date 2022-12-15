@@ -4,6 +4,8 @@ import Dialog from '@mui/material/Dialog';
 import { useState } from 'react';
 
 import SignupMethod from '../Signup/components/SignupMethod';
+import SignupWithEmail from '../Signup/components/SignupWithEmail';
+import SignupWithEmailSuccess from '../Signup/components/SignupWithEmailSuccess';
 import LoginMethod from './components/LoginMethod';
 
 const OpenDialog = () => {
@@ -11,15 +13,9 @@ const OpenDialog = () => {
     isLogin: false,
     isSignup: false,
     isShow: false,
+    isSignupWithEmail: false,
+    isSignupWithEmailSuccess: false,
   });
-
-  const CloseModal = () => {
-    setIsShow({
-      isLogin: false,
-      isSignup: false,
-      isShow: false,
-    });
-  };
 
   const handleClickOpen = () => {
     setIsShow({
@@ -34,10 +30,12 @@ const OpenDialog = () => {
       isLogin: false,
       isSignup: false,
       isShow: false,
+      isSignupWithEmail: false,
+      isSignupWithEmailSuccess: false,
     });
   };
 
-  const handleSignupClickOpen = () => {
+  const handleClickSignup = () => {
     setIsShow({
       isLogin: false,
       isSignup: true,
@@ -50,6 +48,27 @@ const OpenDialog = () => {
       isLogin: true,
       isSignup: false,
       isShow: true,
+      isSignupWithEmail: false,
+      isSignupWithEmailSuccess: false,
+    });
+  };
+
+  const handleClickSignupWithEmail = () => {
+    setIsShow({
+      isLogin: false,
+      isSignup: false,
+      isShow: true,
+      isSignupWithEmail: true,
+    });
+  };
+
+  const handleClickSignupWithEmailSuccess = () => {
+    setIsShow({
+      isLogin: false,
+      isSignup: false,
+      isShow: true,
+      isSignupWithEmail: false,
+      isSignupWithEmailSuccess: true,
     });
   };
 
@@ -79,11 +98,28 @@ const OpenDialog = () => {
           {isShow.isLogin && (
             <LoginMethod
               handleClose={handleClose}
-              handleSignupClickOpen={handleSignupClickOpen}
+              handleClickSignup={handleClickSignup}
             />
           )}
           {isShow.isSignup && (
             <SignupMethod
+              handleClickLogin={handleClickLogin}
+              handleClose={handleClose}
+              handleClickSignupWithEmail={handleClickSignupWithEmail}
+            />
+          )}
+          {isShow.isSignupWithEmail && (
+            <SignupWithEmail
+              handleClickLogin={handleClickLogin}
+              handleClose={handleClose}
+              handleClickSignup={handleClickSignup}
+              handleClickSignupWithEmailSuccess={
+                handleClickSignupWithEmailSuccess
+              }
+            />
+          )}
+          {isShow.isSignupWithEmailSuccess && (
+            <SignupWithEmailSuccess
               handleClickLogin={handleClickLogin}
               handleClose={handleClose}
             />
