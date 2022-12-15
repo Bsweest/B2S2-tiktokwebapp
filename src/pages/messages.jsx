@@ -1,7 +1,7 @@
 import Container from '@mui/material/Container';
 
 import ChatScene from '../components/chat/ChatScene';
-import ListChat from '../components/chat/ListChat';
+import SideBarMessages from '../components/sidebar/SideBarMessages';
 
 const Messages = () => {
   return (
@@ -9,7 +9,7 @@ const Messages = () => {
       sx={{ display: 'flex', height: '100%', py: '20px', gap: '1rem' }}
       maxWidth="lg"
     >
-      <ListChat />
+      <SideBarMessages />
       <ChatScene />
     </Container>
   );

@@ -1,4 +1,5 @@
 import ButtonBase from '@mui/material/ButtonBase';
+import Tooltip from '@mui/material/Tooltip';
 import { useEffect, useRef, useState } from 'react';
 import Lottie from 'react-lottie-player';
 
@@ -50,12 +51,14 @@ const BookmarkButton = () => {
         />
       </div>
 
-      <ButtonBase
-        className={styles.pressable}
-        onClick={updateBM}
-        disableRipple
-        disableTouchRipple
-      />
+      <Tooltip title="(B) bookmark">
+        <ButtonBase
+          className={styles.pressable}
+          onClick={updateBM}
+          disableRipple
+          disableTouchRipple
+        />
+      </Tooltip>
     </div>
   );
 };

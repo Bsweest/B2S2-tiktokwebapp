@@ -17,9 +17,10 @@ const SideBarHome = () => {
         display: 'flex',
         flexDirection: 'column',
         width: '250px',
-        height: 'fit-content',
+        height: '100%',
         overflowY: 'auto',
         alignItems: 'center',
+        backgroundColor: 'white',
       }}
     >
       <List>
