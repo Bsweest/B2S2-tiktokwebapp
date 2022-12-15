@@ -1,5 +1,6 @@
 import Box from '@mui/material/Box';
 import ButtonBase from '@mui/material/ButtonBase';
+import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import { useEffect, useRef, useState } from 'react';
 import Lottie from 'react-lottie-player';
@@ -53,12 +54,14 @@ const HeartButton = ({ count_heart = 0 }) => {
         />
       </Box>
 
-      <ButtonBase
-        className={styles.pressable}
-        onClick={updateLike}
-        disableRipple
-        disableTouchRipple
-      />
+      <Tooltip title="(H) heart">
+        <ButtonBase
+          className={styles.pressable}
+          onClick={updateLike}
+          disableRipple
+          disableTouchRipple
+        />
+      </Tooltip>
 
       <Typography className={styles.count} sx={{ mt: '-5px' }}>
         {count_heart}

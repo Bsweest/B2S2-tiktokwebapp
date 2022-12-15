@@ -1,4 +1,4 @@
-import '@fontsource/dosis';
+import '@fontsource/varela-round';
 import Add from '@mui/icons-material/Add';
 import Search from '@mui/icons-material/Search';
 import AppBar from '@mui/material/AppBar';
@@ -12,15 +12,19 @@ import Image from 'next/Image';
 import OpenDialog from '../components/auth/Login/OpenLoginDialogBtn';
 
 const theme = createTheme({
-  typography: {
-    htmlFontSize: 16,
+  palette: {
+    error: { main: '#EA4359' },
   },
-
   components: {
     MuiTypography: {
       defaultProps: {
         fontSize: '1rem',
-        fontFamily: 'Dosis',
+        fontFamily: 'Varela Round',
+      },
+    },
+    MuiTooltip: {
+      defaultProps: {
+        fontFamily: 'Varela Round',
       },
     },
   },
@@ -39,14 +43,15 @@ const Main = (props) => {
         >
           <AppBar
             sx={{
-              height: '64px',
+              height: '60px',
               display: 'flex',
               flexDirection: 'row',
               alignItems: 'center',
               justifyContent: 'space-evenly',
               borderBottom: 0.5,
               borderColor: 'lightgrey',
-              backgroundColor: 'transparent',
+              backgroundColor: 'white',
+              boxShadow: 'none',
             }}
           >
             <Box
@@ -110,7 +115,8 @@ const Main = (props) => {
               width: '100vw',
               position: 'absolute',
               top: 0,
-              paddingTop: '64px',
+              paddingTop: '60px',
+              backgroundColor: '#F8F8F8',
             }}
           >
             {props.children}
@@ -124,8 +130,8 @@ const Main = (props) => {
 const SearchContainer = styled('div')(({ theme }) => ({
   position: 'relative',
   border: '1px solid darkgray',
-  borderRadius: 5,
-  backgroundColor: 'whitesmoke',
+  borderRadius: '2rem',
+  backgroundColor: '#F8F8F8',
   marginRight: theme.spacing(2),
   marginLeft: 0,
   width: '100%',

@@ -1,9 +1,10 @@
-import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
+import Tooltip from '@mui/material/Tooltip';
+import Typography from '@mui/material/Typography';
 import { motion } from 'framer-motion';
 
-import useCommentSection, {
-  closeCommentSection,
-} from '../../templates/global/CommentSection';
+import useCommentSection from '../../templates/global/CommentSection';
+import ListComment from '../comments/ListComment';
 
 const variants = {
   open: {
@@ -21,16 +22,35 @@ const SideBarComment = () => {
     <motion.div
       variants={variants}
       initial="close"
+      style={{ overflow: 'hidden' }}
       animate={isOpen ? 'open' : 'close'}
       transition={{
-        duration: 0.8,
+        duration: 0.6,
       }}
     >
-      <div>
-        <Button
-          onClick={() => closeCommentSection()}
-          sx={{ width: 20, height: 20, backgroundColor: 'red' }}
-        />
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          width: '350px',
+        }}
+      >
+        <Box
+          sx={{
+            display: 'flex',
+            flexWrap: 'nowrap',
+            height: '45px',
+            borderBottom: '1px solid lightgrey',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <Tooltip title="(C) to open/close" placement="bottom">
+            <Typography>Comment section (0)</Typography>
+          </Tooltip>
+        </Box>
+
+        <ListComment />
       </div>
     </motion.div>
   );
