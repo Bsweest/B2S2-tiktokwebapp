@@ -1,9 +1,20 @@
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import CloseIcon from '@mui/icons-material/Close';
-import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+import {
+  Button,
+  IconButton,
+  InputAdornment,
+  OutlinedInput,
+} from '@mui/material';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
 import Link from '@mui/material/Link';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
+import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { useState } from 'react';
 
@@ -11,6 +22,7 @@ const SignupWithEmail = ({
   handleClose,
   handleClickLogin,
   handleClickSignup,
+  handleClickSignupWithEmailSuccess,
 }) => {
   const [day, setDay] = useState('');
 
@@ -39,6 +51,14 @@ const SignupWithEmail = ({
   for (let index = 1900; index < 2022; index++) {
     allYear.push(index);
   }
+
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
   return (
     <>
       <Box
@@ -177,6 +197,61 @@ const SignupWithEmail = ({
         >
           Email
         </Typography>
+        <TextField sx={{ marginBottom: '12px' }} label="Email Address" />
+        <TextField sx={{ marginBottom: '12px' }} label="User name" />
+        <FormControl sx={{ marginBottom: '12px' }} variant="outlined">
+          <InputLabel>Password</InputLabel>
+          <OutlinedInput
+            type={showPassword ? 'text' : 'password'}
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton
+                  onClick={handleClickShowPassword}
+                  onMouseDown={handleMouseDownPassword}
+                  edge="end"
+                >
+                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            }
+            label="Password"
+          />
+        </FormControl>
+        <FormControl sx={{ marginBottom: '12px' }} variant="outlined">
+          <InputLabel>Enter 6 digit code</InputLabel>
+          <OutlinedInput
+            type={showPassword ? 'text' : 'password'}
+            endAdornment={
+              <Button
+                sx={{
+                  width: 200,
+                  height: '100%',
+                  textTransform: 'none',
+                  color: '#161823',
+                  fontWeight: 'bold',
+                  margin: '-13px',
+                }}
+                variant="text"
+              >
+                Send code
+              </Button>
+            }
+            label="Enter 6 digit code"
+          />
+        </FormControl>
+
+        <Button
+          sx={{
+            marginBottom: '4px',
+            textTransform: 'none',
+            p: '12px',
+            backgroundColor: '#FE2C55',
+          }}
+          variant="contained"
+          onClick={() => handleClickSignupWithEmailSuccess()}
+        >
+          Next
+        </Button>
       </Box>
 
       <Box

@@ -5,6 +5,7 @@ import { useState } from 'react';
 
 import SignupMethod from '../Signup/components/SignupMethod';
 import SignupWithEmail from '../Signup/components/SignupWithEmail';
+import SignupWithEmailSuccess from '../Signup/components/SignupWithEmailSuccess';
 import LoginMethod from './components/LoginMethod';
 
 const OpenDialog = () => {
@@ -12,6 +13,8 @@ const OpenDialog = () => {
     isLogin: false,
     isSignup: false,
     isShow: false,
+    isSignupWithEmail: false,
+    isSignupWithEmailSuccess: false,
   });
 
   const handleClickOpen = () => {
@@ -19,7 +22,6 @@ const OpenDialog = () => {
       isLogin: true,
       isSignup: false,
       isShow: true,
-      isSignupWithEmail: false,
     });
   };
 
@@ -28,6 +30,8 @@ const OpenDialog = () => {
       isLogin: false,
       isSignup: false,
       isShow: false,
+      isSignupWithEmail: false,
+      isSignupWithEmailSuccess: false,
     });
   };
 
@@ -45,6 +49,7 @@ const OpenDialog = () => {
       isSignup: false,
       isShow: true,
       isSignupWithEmail: false,
+      isSignupWithEmailSuccess: false,
     });
   };
 
@@ -54,6 +59,16 @@ const OpenDialog = () => {
       isSignup: false,
       isShow: true,
       isSignupWithEmail: true,
+    });
+  };
+
+  const handleClickSignupWithEmailSuccess = () => {
+    setIsShow({
+      isLogin: false,
+      isSignup: false,
+      isShow: true,
+      isSignupWithEmail: false,
+      isSignupWithEmailSuccess: true,
     });
   };
 
@@ -99,6 +114,15 @@ const OpenDialog = () => {
               handleClickLogin={handleClickLogin}
               handleClose={handleClose}
               handleClickSignup={handleClickSignup}
+              handleClickSignupWithEmailSuccess={
+                handleClickSignupWithEmailSuccess
+              }
+            />
+          )}
+          {isShow.isSignupWithEmailSuccess && (
+            <SignupWithEmailSuccess
+              handleClickLogin={handleClickLogin}
+              handleClose={handleClose}
             />
           )}
         </Box>
