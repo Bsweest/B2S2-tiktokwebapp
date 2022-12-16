@@ -32,8 +32,8 @@ const SignupWithEmail = ({
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setLoading] = useState(false);
   const [birthday, setBirthday] = useState(new Date('2000-01-01T00:00:00Z'));
-  const [validEmail, setValidEmail] = useState(false);
-  const [validPassword, setValidPassword] = useState(false);
+  const [validEmail, setValidEmail] = useState(true);
+  const [validPassword, setValidPassword] = useState(true);
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
   const handleClickShowPassword = () => setShowPassword((show) => !show);
