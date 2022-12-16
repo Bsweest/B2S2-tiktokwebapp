@@ -1,41 +1,35 @@
+import { useObservable } from '@legendapp/state/react';
 import Box from '@mui/material/Box';
-import List from '@mui/material/List';
+import { useEffect } from 'react';
 
-import ShortVideo from '../components/shortvideo';
+import ListVideo from '../components/shortvideo/ListVideo';
 import SideBarComment from '../components/sidebar/SideBarComment';
 import SideBarHome from '../components/sidebar/SideBarHome';
-import Main from '../templates/Main';
+import { openCommentSection } from '../templates/global/CommentSection';
+import { useKeyboardControl } from '../templates/hooks/useKeyBoardControl';
 
 export default function Home() {
-  const data = [1, 2, 3, 4];
+  const { heart, comment, bookmark } = useKeyboardControl();
+
+  const currentElement = useObservable(null);
+
+  useEffect(() => {
+    if (comment) openCommentSection();
+  }, [comment]);
 
   return (
-    <Main>
-      <Box
-        sx={{
-          display: 'flex',
-          flex: 1,
-          flexDirection: 'row',
-        }}
-      >
-        <SideBarHome />
+    <Box
+      sx={{
+        display: 'flex',
+        flex: 1,
+        flexDirection: 'row',
+      }}
+    >
+      <SideBarHome />
 
-        <List
-          sx={{
-            flex: 1,
-            overflowY: 'scroll',
-            height: 'calc(100vh - 64px)',
-            scrollSnapType: 'y mandatory',
-            scrollSnapStop: 'normal',
-          }}
-        >
-          {data.map((item, index) => (
-            <ShortVideo key={index} />
-          ))}
-        </List>
+      <ListVideo currentElement={currentElement} />
 
-        <SideBarComment />
-      </Box>
-    </Main>
+      <SideBarComment />
+    </Box>
   );
 }

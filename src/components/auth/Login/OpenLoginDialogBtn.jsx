@@ -105,10 +105,9 @@ const OpenDialog = () => {
         sx={{
           marginRight: 1,
           width: 125,
-          color: 'white',
-          backgroundColor: '#FE2C55',
           fontWeight: 'bold',
         }}
+        color="error"
         variant="contained"
         onClick={handleClickOpen}
       >
