@@ -1,6 +1,8 @@
+/* eslint-disable no-console */
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import CloseIcon from '@mui/icons-material/Close';
+import { LoadingButton } from '@mui/lab';
 import {
   Button,
   IconButton,
@@ -17,8 +19,9 @@ import Typography from '@mui/material/Typography';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import dayjs from 'dayjs';
 import { useState } from 'react';
+
+import { supabase } from '../../../../../backend/supabaseClient';
 
 const SignupWithEmail = ({
   handleClose,
@@ -26,16 +29,61 @@ const SignupWithEmail = ({
   handleClickSignup,
   handleClickSignupWithEmailSuccess,
 }) => {
-  const [value, setValue] = useState(dayjs('2014-08-18T21:11:54'));
-  const handleChange = (newValue) => {
-    setValue(newValue);
-  };
-
   const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setLoading] = useState(false);
+  const [birthday, setBirthday] = useState(new Date('2000-01-01T00:00:00Z'));
+  const [validEmail, setValidEmail] = useState(true);
+  const [validPassword, setValidPassword] = useState(true);
+  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('');
   const handleClickShowPassword = () => setShowPassword((show) => !show);
+
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
+
+  const handleChangeEmail = (event) => {
+    setEmail(event.target.value);
+  };
+
+  const handleChangePassword = (event) => {
+    setPassword(event.target.value);
+  };
+
+  const handleChangeBirthday = (event) => {
+    setBirthday(event);
+  };
+
+  const handleClickSignupBtn = () => {
+    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
+      setValidEmail(true);
+      if (password.length > 5) {
+        setValidPassword(true);
+        signUp();
+      } else {
+        setValidPassword(false);
+      }
+    } else {
+      setValidEmail(false);
+    }
+  };
+
+  async function signUp() {
+    try {
+      setLoading(true);
+      const result = await supabase.auth.signUp({
+        email: email,
+        password: password,
+      });
+      setLoading(false);
+      if (result.data.user) {
+        handleClickSignupWithEmailSuccess();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
     <>
       <Box
@@ -106,9 +154,9 @@ const SignupWithEmail = ({
         </Typography>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DesktopDatePicker
-            value={value}
+            value={birthday}
             inputFormat="MM/DD/YYYY"
-            onChange={handleChange}
+            onChange={handleChangeBirthday}
             renderInput={(params) => <TextField {...params} />}
           />
         </LocalizationProvider>
@@ -123,7 +171,12 @@ const SignupWithEmail = ({
         >
           Email
         </Typography>
-        <TextField sx={{ marginBottom: '12px' }} label="Email Address" />
+        <TextField
+          sx={{ marginBottom: '12px' }}
+          label="Email Address"
+          value={email}
+          onChange={handleChangeEmail}
+        />
         <TextField sx={{ marginBottom: '12px' }} label="User name" />
         <FormControl sx={{ marginBottom: '12px' }} variant="outlined">
           <InputLabel>Password</InputLabel>
@@ -141,42 +194,49 @@ const SignupWithEmail = ({
               </InputAdornment>
             }
             label="Password"
+            value={password}
+            onChange={handleChangePassword}
           />
         </FormControl>
-        <FormControl sx={{ marginBottom: '12px' }} variant="outlined">
-          <InputLabel>Enter 6 digit code</InputLabel>
-          <OutlinedInput
-            endAdornment={
-              <Button
-                sx={{
-                  width: 200,
-                  height: '100%',
-                  textTransform: 'none',
-                  color: '#161823',
-                  fontWeight: 'bold',
-                  margin: '-13px',
-                }}
-                variant="text"
-              >
-                Send code
-              </Button>
-            }
-            label="Enter 6 digit code"
-          />
-        </FormControl>
-
-        <Button
-          sx={{
-            marginBottom: '4px',
-            textTransform: 'none',
-            p: '12px',
-            backgroundColor: '#FE2C55',
-          }}
-          variant="contained"
-          onClick={() => handleClickSignupWithEmailSuccess()}
-        >
-          Next
-        </Button>
+        {validEmail && validPassword ? (
+          <Box />
+        ) : (
+          <Typography
+            sx={{
+              marginTop: '-12px',
+              marginBottom: '12px',
+              color: '#FE2C55',
+            }}
+          >
+            Invalid information ❌
+          </Typography>
+        )}
+        {isLoading ? (
+          <LoadingButton
+            sx={{
+              marginBottom: '4px',
+              textTransform: 'none',
+              p: '12px',
+              color: '#161823',
+            }}
+            loading
+          >
+            Submit
+          </LoadingButton>
+        ) : (
+          <Button
+            sx={{
+              marginBottom: '4px',
+              textTransform: 'none',
+              p: '12px',
+              backgroundColor: '#FE2C55',
+            }}
+            variant="contained"
+            onClick={() => handleClickSignupBtn()}
+          >
+            Next
+          </Button>
+        )}
       </Box>
 
       <Box
