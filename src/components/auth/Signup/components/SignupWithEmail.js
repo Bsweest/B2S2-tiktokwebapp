@@ -21,7 +21,7 @@ import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { useState } from 'react';
 
-import { supabase } from '../../../../../supabaseClient';
+import { supabase } from '../../../../../backend/supabaseClient';
 
 const SignupWithEmail = ({
   handleClose,

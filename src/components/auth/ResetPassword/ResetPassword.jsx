@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import CloseIcon from '@mui/icons-material/Close';
@@ -16,6 +17,8 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { useState } from 'react';
 
+import { supabase } from '../../../../backend/supabaseClient';
+
 const ResetPassword = ({
   handleClose,
   handleClickSignup,
@@ -23,12 +26,30 @@ const ResetPassword = ({
   //   handleClickLoginWithEmailSuccess,
 }) => {
   const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setLoading] = useState(false);
+  const [email, setEmail] = useState('');
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
+
+  const handleChangeEmail = (event) => {
+    setEmail(event.target.value);
+  };
+  async function resetPassword() {
+    try {
+      setLoading(true);
+      const result = await supabase.auth.resetPasswordForEmail(
+        'laophan74@gmail.com',
+      );
+      setLoading(false);
+      console.log(result);
+    } catch (error) {
+      console.log(error);
+    }
+  }
   return (
     <>
       <Box
@@ -96,28 +117,13 @@ const ResetPassword = ({
         >
           Enter email address
         </Typography>
-        <TextField sx={{ marginBottom: '12px' }} label="Email Address" />
-        <FormControl sx={{ marginBottom: '12px' }} variant="outlined">
-          <InputLabel>Enter 6 digit code</InputLabel>
-          <OutlinedInput
-            endAdornment={
-              <Button
-                sx={{
-                  width: 200,
-                  height: '100%',
-                  textTransform: 'none',
-                  color: '#161823',
-                  fontWeight: 'bold',
-                  margin: '-13px',
-                }}
-                variant="text"
-              >
-                Send code
-              </Button>
-            }
-            label="Enter 6 digit code"
-          />
-        </FormControl>
+
+        <TextField
+          sx={{ marginBottom: '12px' }}
+          label="Email Address"
+          value={email}
+          onChange={handleChangeEmail}
+        />
         <FormControl sx={{ marginBottom: '12px' }} variant="outlined">
           <InputLabel>Password</InputLabel>
           <OutlinedInput
@@ -144,6 +150,7 @@ const ResetPassword = ({
             backgroundColor: '#FE2C55',
           }}
           variant="contained"
+          onClick={() => resetPassword()}
         >
           Log in
         </Button>

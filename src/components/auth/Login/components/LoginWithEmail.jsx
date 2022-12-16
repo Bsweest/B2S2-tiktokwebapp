@@ -1,6 +1,8 @@
+/* eslint-disable no-console */
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import CloseIcon from '@mui/icons-material/Close';
+import { LoadingButton } from '@mui/lab';
 import {
   Button,
   IconButton,
@@ -16,6 +18,8 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { useState } from 'react';
 
+import { supabase } from '../../../../../backend/supabaseClient';
+
 const LoginWithEmail = ({
   handleClose,
   handleClickSignup,
@@ -23,12 +27,43 @@ const LoginWithEmail = ({
   handleClickResetPassword,
 }) => {
   const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setLoading] = useState(false);
+  const [valid, setValid] = useState(true);
+  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('');
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
+
+  const handleChangeEmail = (event) => {
+    setEmail(event.target.value);
+  };
+
+  const handleChangePassword = (event) => {
+    setPassword(event.target.value);
+  };
+
+  async function logIn() {
+    try {
+      setLoading(true);
+      const result = await supabase.auth.signInWithPassword({
+        email: email,
+        password: password,
+      });
+      setLoading(false);
+      if (result.error) {
+        setValid(false);
+      } else {
+        setValid(true);
+        //render Main Screen
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
   return (
     <>
       <Box
@@ -87,7 +122,12 @@ const LoginWithEmail = ({
           Log in
         </Typography>
 
-        <TextField sx={{ marginBottom: '12px' }} label="Email Address" />
+        <TextField
+          sx={{ marginBottom: '12px' }}
+          label="Email Address"
+          value={email}
+          onChange={handleChangeEmail}
+        />
         <FormControl sx={{ marginBottom: '4px' }} variant="outlined">
           <InputLabel>Password</InputLabel>
           <OutlinedInput
@@ -104,8 +144,22 @@ const LoginWithEmail = ({
               </InputAdornment>
             }
             label="Password"
+            value={password}
+            onChange={handleChangePassword}
           />
         </FormControl>
+        {valid ? (
+          <Box />
+        ) : (
+          <Typography
+            sx={{
+              marginBottom: '12px',
+              color: '#FE2C55',
+            }}
+          >
+            Invalid information ❌
+          </Typography>
+        )}
         <Link
           sx={{
             marginBottom: '14px',
@@ -119,17 +173,32 @@ const LoginWithEmail = ({
           Forgot passsword
         </Link>
 
-        <Button
-          sx={{
-            marginBottom: '4px',
-            textTransform: 'none',
-            p: '12px',
-            backgroundColor: '#FE2C55',
-          }}
-          variant="contained"
-        >
-          Log in
-        </Button>
+        {isLoading ? (
+          <LoadingButton
+            sx={{
+              marginBottom: '4px',
+              textTransform: 'none',
+              p: '12px',
+              color: '#161823',
+            }}
+            loading
+          >
+            Submit
+          </LoadingButton>
+        ) : (
+          <Button
+            sx={{
+              marginBottom: '4px',
+              textTransform: 'none',
+              p: '12px',
+              backgroundColor: '#FE2C55',
+            }}
+            variant="contained"
+            onClick={() => logIn()}
+          >
+            Next
+          </Button>
+        )}
       </Box>
 
       <Box
