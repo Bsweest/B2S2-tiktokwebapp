@@ -15,6 +15,14 @@ a {
   box-sizing: border-box;
 }
 
+.link {
+  font-weight: bold;
+  padding: 5px 0;
+}
+.link:hover {
+  text-decoration: underline;
+}
+
 @media (prefers-color-scheme: light) {
   html {
     color-scheme: light;

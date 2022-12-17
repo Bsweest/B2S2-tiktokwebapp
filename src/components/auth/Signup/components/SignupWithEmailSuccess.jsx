@@ -1,14 +1,8 @@
 import CloseIcon from '@mui/icons-material/Close';
-import FacebookIcon from '@mui/icons-material/Facebook';
-import GoogleIcon from '@mui/icons-material/Google';
-import PersonIcon from '@mui/icons-material/Person';
-import TwitterIcon from '@mui/icons-material/Twitter';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
-
-import SignupWithEmail from './SignupWithEmail';
 
 const SignupWithEmailSuccess = ({ handleClose, handleClickLogin }) => {
   return (

@@ -1,14 +1,19 @@
 import List from '@mui/material/List';
 import FlatList from 'flatlist-react';
 
-import ShortVideo from '.';
+import ShortVideo from './';
 
 const ListVideo = ({ currentElement }) => {
   const data = [0, 2, 3];
 
   const renderItem = (item, index) => {
     return (
-      <ShortVideo item={item} key={index} currentElement={currentElement} />
+      <ShortVideo
+        item={item}
+        key={index}
+        currentElement={currentElement}
+        isHome={true}
+      />
     );
   };
 

@@ -8,7 +8,7 @@ import ListComment from '../comments/ListComment';
 
 const variants = {
   open: {
-    width: '350px',
+    width: '400px',
   },
   close: {
     width: '0px',
@@ -32,7 +32,7 @@ const SideBarComment = () => {
         style={{
           display: 'flex',
           flexDirection: 'column',
-          width: '350px',
+          width: '400px',
         }}
       >
         <Box
