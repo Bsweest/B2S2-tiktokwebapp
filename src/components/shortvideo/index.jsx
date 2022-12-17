@@ -10,7 +10,7 @@ import Interaction from './parts/Interaction';
 
 const ReactPlayer = dynamic(() => import('react-player'), { ssr: false });
 
-const ShortVideo = ({ currentElement, item }) => {
+const ShortVideo = ({ currentElement, item, isHome }) => {
   const [status, setStatus] = useState(false);
   const { ref, inView } = useInView({ threshold: 1 });
 
@@ -20,7 +20,7 @@ const ShortVideo = ({ currentElement, item }) => {
 
   useEffect(() => {
     if (inView) {
-      currentElement.set(item);
+      if (currentElement) currentElement.set(item);
       setStatus(true);
     } else {
       setStatus(false);
@@ -29,11 +29,10 @@ const ShortVideo = ({ currentElement, item }) => {
 
   return (
     <Box
-      ref={ref}
       sx={{
         position: 'relative',
-        height: 'calc(100vh - 60px)',
-        borderBottom: '1px solid lightgray',
+        height: isHome ? 'calc(100vh - 60px)' : '100vh',
+        borderBottom: isHome ? '1px solid lightgray' : '',
         display: 'flex',
         scrollSnapAlign: 'start',
       }}
@@ -48,6 +47,7 @@ const ShortVideo = ({ currentElement, item }) => {
         }}
       >
         <ButtonBase
+          ref={ref}
           sx={{
             width: 'calc(100vh / 2)',
             height: '98%',
@@ -59,7 +59,7 @@ const ShortVideo = ({ currentElement, item }) => {
         >
           <ReactPlayer
             url={
-              'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4'
+              'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4'
             }
             loop={true}
             playing={status}
@@ -77,11 +77,11 @@ const ShortVideo = ({ currentElement, item }) => {
           zIndex: 5,
           width: '100%',
           height: '100%',
-          filter: 'blur(10px)',
+          filter: 'brightness(30%)',
           backgroundRepeat: 'no-repeat',
-          backgroundSize: 'cover',
+          backgroundSize: '100% 100%',
           backgroundImage:
-            "url('https://i.picsum.photos/id/825/200/300.jpg?hmac=02AaqBOvx8gwrGt7a3HWzJHnZXrMzYoXbAYwjJWH40E')",
+            "url('https://i.picsum.photos/id/43/600/600.jpg?hmac=HTh9geN5CxVyIKRwno4I4OxtBpnNOuOJgvUdlYXQLcA')",
         }}
       />
 
@@ -101,8 +101,8 @@ const ShortVideo = ({ currentElement, item }) => {
           justifyContent: 'space-between',
         }}
       >
-        <Description />
-        <Interaction />
+        {isHome ? <Description /> : <Box></Box>}
+        <Interaction isHome={isHome} />
       </Box>
     </Box>
   );

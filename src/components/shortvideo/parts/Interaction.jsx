@@ -6,7 +6,7 @@ import CommentButton from './CommentButton';
 import HeartButton from './HeartButton';
 import VideoAvatar from './VideoAvatar';
 
-const Interaction = () => {
+const Interaction = ({ isHome }) => {
   return (
     <Box
       sx={{
@@ -15,11 +15,12 @@ const Interaction = () => {
         color: 'white',
         alignItems: 'center',
         pointerEvents: 'auto',
+        pb: isHome ? '' : '25vh',
       }}
     >
-      <VideoAvatar />
+      {isHome && <VideoAvatar />}
       <HeartButton />
-      <CommentButton />
+      <CommentButton isHome={isHome} />
       <BookmarkButton />
     </Box>
   );

@@ -8,7 +8,14 @@ const ListComment = () => {
     return <ParentComment key={index} />;
   };
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', padding: '7px' }}>
+    <div
+      style={{
+        display: 'flex',
+        overflowY: 'scroll',
+        flexDirection: 'column',
+        padding: '7px 7px 0px 7px',
+      }}
+    >
       <FlatList list={data} renderItem={renderItem} />
     </div>
   );

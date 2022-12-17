@@ -15,6 +15,11 @@ const theme = createTheme({
   palette: {
     error: { main: '#EA4359' },
   },
+  typography: {
+    subtitle1: {
+      color: '#71767B',
+    },
+  },
   components: {
     MuiTypography: {
       defaultProps: {
@@ -30,21 +35,23 @@ const theme = createTheme({
   },
 });
 
-const Main = (props) => {
+const Main = ({ children }) => {
   return (
     <>
       <ThemeProvider theme={theme}>
         <Box
           sx={{
             display: 'flex',
+            flex: 1,
             flexDirection: 'column',
             position: 'relative',
           }}
         >
           <AppBar
+            position="relative"
             sx={{
-              height: '60px',
               display: 'flex',
+              height: '60px',
               flexDirection: 'row',
               alignItems: 'center',
               justifyContent: 'space-evenly',
@@ -52,6 +59,7 @@ const Main = (props) => {
               borderColor: 'lightgrey',
               backgroundColor: 'white',
               boxShadow: 'none',
+              zIndex: 0,
             }}
           >
             <Box
@@ -111,15 +119,13 @@ const Main = (props) => {
           <Box
             sx={{
               display: 'flex',
-              height: '100vh',
+              height: 'calc(100vh - 60px)',
               width: '100vw',
-              position: 'absolute',
-              top: 0,
-              paddingTop: '60px',
               backgroundColor: '#F8F8F8',
+              zIndex: 10,
             }}
           >
-            {props.children}
+            {children}
           </Box>
         </Box>
       </ThemeProvider>
