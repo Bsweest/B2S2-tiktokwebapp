@@ -3,10 +3,12 @@ import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import { useState } from 'react';
 
+import ResetPassword from '../ResetPassword/ResetPassword';
 import SignupMethod from '../Signup/components/SignupMethod';
 import SignupWithEmail from '../Signup/components/SignupWithEmail';
 import SignupWithEmailSuccess from '../Signup/components/SignupWithEmailSuccess';
 import LoginMethod from './components/LoginMethod';
+import LoginWithEmail from './components/LoginWithEmail';
 
 const OpenDialog = () => {
   const [isShow, setIsShow] = useState({
@@ -15,6 +17,8 @@ const OpenDialog = () => {
     isShow: false,
     isSignupWithEmail: false,
     isSignupWithEmailSuccess: false,
+    isLoginWithEmail: false,
+    isResetPassword: false,
   });
 
   const handleClickOpen = () => {
@@ -32,6 +36,8 @@ const OpenDialog = () => {
       isShow: false,
       isSignupWithEmail: false,
       isSignupWithEmailSuccess: false,
+      isLoginWithEmail: false,
+      isResetPassword: false,
     });
   };
 
@@ -40,6 +46,7 @@ const OpenDialog = () => {
       isLogin: false,
       isSignup: true,
       isShow: true,
+      isLoginWithEmail: false,
     });
   };
 
@@ -50,6 +57,7 @@ const OpenDialog = () => {
       isShow: true,
       isSignupWithEmail: false,
       isSignupWithEmailSuccess: false,
+      isResetPassword: false,
     });
   };
 
@@ -72,6 +80,25 @@ const OpenDialog = () => {
     });
   };
 
+  const handleClickLoginWithEmail = () => {
+    setIsShow({
+      isLogin: false,
+      isSignup: false,
+      isShow: true,
+      isLoginWithEmail: true,
+      isResetPassword: false,
+    });
+  };
+
+  const handleClickResetPassword = () => {
+    setIsShow({
+      isLogin: false,
+      isSignup: false,
+      isShow: true,
+      isLoginWithEmail: false,
+      isResetPassword: true,
+    });
+  };
   return (
     <>
       <Button
@@ -99,6 +126,7 @@ const OpenDialog = () => {
             <LoginMethod
               handleClose={handleClose}
               handleClickSignup={handleClickSignup}
+              handleClickLoginWithEmail={handleClickLoginWithEmail}
             />
           )}
           {isShow.isSignup && (
@@ -122,6 +150,22 @@ const OpenDialog = () => {
             <SignupWithEmailSuccess
               handleClickLogin={handleClickLogin}
               handleClose={handleClose}
+            />
+          )}
+          {isShow.isLoginWithEmail && (
+            <LoginWithEmail
+              handleClose={handleClose}
+              handleClickSignup={handleClickSignup}
+              handleClickLogin={handleClickLogin}
+              handleClickResetPassword={handleClickResetPassword}
+            />
+          )}
+          {isShow.isResetPassword && (
+            <ResetPassword
+              handleClose={handleClose}
+              handleClickSignup={handleClickSignup}
+              handleClickLoginWithEmail={handleClickLoginWithEmail}
+              // handleClickResetPassword={handleClickResetPassword}
             />
           )}
         </Box>

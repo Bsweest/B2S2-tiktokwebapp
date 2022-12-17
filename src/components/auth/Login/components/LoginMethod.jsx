@@ -8,7 +8,11 @@ import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 
-const LoginMethod = ({ handleClose, handleClickSignup }) => {
+const LoginMethod = ({
+  handleClose,
+  handleClickSignup,
+  handleClickLoginWithEmail,
+}) => {
   return (
     <>
       <Avatar
@@ -60,6 +64,7 @@ const LoginMethod = ({ handleClose, handleClickSignup }) => {
             cursor: 'pointer',
             marginBottom: '16px',
           }}
+          onClick={() => handleClickLoginWithEmail()}
         >
           <PersonIcon
             color="action"
@@ -68,7 +73,7 @@ const LoginMethod = ({ handleClose, handleClickSignup }) => {
               position: 'absolute',
             }}
           />
-          <Typography>User phone/ Email/ username</Typography>
+          <Typography>Email/ username</Typography>
         </Box>
 
         <Box

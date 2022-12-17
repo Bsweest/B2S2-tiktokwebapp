@@ -1,4 +1,5 @@
 import CloseIcon from '@mui/icons-material/Close';
+import TaskAltIcon from '@mui/icons-material/TaskAlt';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
@@ -42,22 +43,42 @@ const SignupWithEmailSuccess = ({ handleClose, handleClickLogin }) => {
             marginBottom: '10px',
           }}
         >
-          Sign up success!
+          Sign up
         </Typography>
         <Typography
           sx={{
             fontSize: 24,
             color: '#161823',
             marginBottom: '10px',
+            textAlign: 'center',
           }}
         >
-          You have successfully created an account
+          The confirmation has been sent to your email!
         </Typography>
-
+        <Typography
+          sx={{
+            fontSize: 18,
+            color: '#161823',
+            marginBottom: '10px',
+          }}
+        >
+          Please check your email and follow the link to confirm
+        </Typography>
+        <TaskAltIcon
+          sx={{
+            marginTop: '70px',
+            width: '150px',
+            height: '150px',
+            color: 'green',
+          }}
+        />
         <Box
           sx={{
             height: 65,
-            marginTop: '50px',
+            width: '100%',
+            borderTop: '1px solid lightgray',
+            position: 'absolute',
+            bottom: 0,
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -66,16 +87,16 @@ const SignupWithEmailSuccess = ({ handleClose, handleClickLogin }) => {
         >
           <Typography
             sx={{
-              fontSize: 25,
+              fontSize: 15,
               color: '#444444',
             }}
           >
-            Log in now?
+            Already have an account?
           </Typography>
           <Link
             sx={{
               fontWeight: 600,
-              fontSize: 25,
+              fontSize: 15,
               cursor: 'pointer',
               marginLeft: 1,
               color: '#f44336',
