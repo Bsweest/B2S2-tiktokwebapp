@@ -5,9 +5,8 @@ import Typography from '@mui/material/Typography';
 const Description = () => {
   return (
     <Box
+      className="flex col"
       sx={{
-        display: 'flex',
-        flexDirection: 'column',
         color: 'white',
         pointerEvents: 'auto',
       }}
@@ -20,7 +19,7 @@ const Description = () => {
         content
       </Typography>
 
-      <Box sx={{ flexDirection: 'row', display: 'flex', alignItems: 'center' }}>
+      <Box className="flex row" sx={{ alignItems: 'center' }}>
         <HeadphonesIcon sx={{ width: 30, height: 30, marginRight: '7px' }} />
         <Typography sx={{ fontSize: '1.15rem' }} variant="string">
           music 1 2 3 4

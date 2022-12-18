@@ -40,19 +40,17 @@ const Main = ({ children }) => {
     <>
       <ThemeProvider theme={theme}>
         <Box
+          className="flex col"
           sx={{
-            display: 'flex',
             flex: 1,
-            flexDirection: 'column',
             position: 'relative',
           }}
         >
           <AppBar
             position="relative"
+            className="flex row"
             sx={{
-              display: 'flex',
               height: '60px',
-              flexDirection: 'row',
               alignItems: 'center',
               justifyContent: 'space-evenly',
               borderBottom: 0.5,

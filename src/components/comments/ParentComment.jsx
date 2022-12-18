@@ -19,7 +19,7 @@ const ParentComment = () => {
   };
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', mb: '2px' }}>
+    <Box className="flex col" sx={{ mb: '2px' }}>
       <Comment isParent={true} />
 
       {open && (

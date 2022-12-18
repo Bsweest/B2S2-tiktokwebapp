@@ -29,9 +29,8 @@ const SideBarComment = () => {
       }}
     >
       <div
+        className="flex col"
         style={{
-          display: 'flex',
-          flexDirection: 'column',
           width: '400px',
         }}
       >
