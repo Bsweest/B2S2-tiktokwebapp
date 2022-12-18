@@ -1,18 +1,17 @@
-import { Visibility, VisibilityOff } from '@mui/icons-material';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import CloseIcon from '@mui/icons-material/Close';
-import { LoadingButton } from '@mui/lab';
-import {
-  Button,
-  IconButton,
-  InputAdornment,
-  OutlinedInput,
-} from '@mui/material';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import LoadingButton from '@mui/lab/LoadingButton';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
 import FormControl from '@mui/material/FormControl';
+import IconButton from '@mui/material/IconButton';
+import InputAdornment from '@mui/material/InputAdornment';
 import InputLabel from '@mui/material/InputLabel';
 import Link from '@mui/material/Link';
+import OutlinedInput from '@mui/material/OutlinedInput';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -117,6 +116,7 @@ const SignupWithEmail = ({
           <CloseIcon />
         </Avatar>
       </Box>
+
       <Box
         sx={{
           height: '100%',
@@ -139,6 +139,7 @@ const SignupWithEmail = ({
         >
           Sign up
         </Typography>
+
         <Typography
           sx={{
             color: '#161823',
@@ -149,7 +150,6 @@ const SignupWithEmail = ({
         >
           When is your birthday?
         </Typography>
-
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DesktopDatePicker
             value={birthday}
@@ -158,7 +158,6 @@ const SignupWithEmail = ({
             renderInput={(params) => <TextField {...params} />}
           />
         </LocalizationProvider>
-
         <Typography
           sx={{
             color: '#161823',
