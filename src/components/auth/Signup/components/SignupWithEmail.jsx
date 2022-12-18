@@ -1,21 +1,26 @@
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import CloseIcon from '@mui/icons-material/Close';
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import { LoadingButton } from '@mui/lab';
+import {
+  Button,
+  IconButton,
+  InputAdornment,
+  OutlinedInput,
+} from '@mui/material';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import FormControl from '@mui/material/FormControl';
-import IconButton from '@mui/material/IconButton';
-import InputAdornment from '@mui/material/InputAdornment';
 import InputLabel from '@mui/material/InputLabel';
 import Link from '@mui/material/Link';
-import MenuItem from '@mui/material/MenuItem';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import Select from '@mui/material/Select';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { useState } from 'react';
+
+import { supabase } from '../../../../../supabaseClient';
 
 const SignupWithEmail = ({
   handleClose,
@@ -23,41 +28,60 @@ const SignupWithEmail = ({
   handleClickSignup,
   handleClickSignupWithEmailSuccess,
 }) => {
-  const [day, setDay] = useState('');
-
-  const [month, setMonth] = useState('');
-
-  const [year, setYear] = useState('');
-
-  const handleChangeDay = (event) => {
-    setDay(event.target.value);
-  };
-
-  const handleChangeMonth = (event) => {
-    setMonth(event.target.value);
-  };
-
-  const handleChangeYear = (event) => {
-    setYear(event.target.value);
-  };
-
-  const dayOfMonth = [];
-  for (let index = 1; index < 32; index++) {
-    dayOfMonth.push(index);
-  }
-
-  const allYear = [];
-  for (let index = 1900; index < 2022; index++) {
-    allYear.push(index);
-  }
-
   const [showPassword, setShowPassword] = useState(false);
-
+  const [isLoading, setLoading] = useState(false);
+  const [birthday, setBirthday] = useState(new Date('2000-01-01T00:00:00Z'));
+  const [validEmail, setValidEmail] = useState(true);
+  const [validPassword, setValidPassword] = useState(true);
+  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('');
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
+
+  const handleChangeEmail = (event) => {
+    setEmail(event.target.value);
+  };
+
+  const handleChangePassword = (event) => {
+    setPassword(event.target.value);
+  };
+
+  const handleChangeBirthday = (event) => {
+    setBirthday(event);
+  };
+
+  const handleClickSignupBtn = () => {
+    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
+      setValidEmail(true);
+      if (password.length > 5) {
+        setValidPassword(true);
+        signUp();
+      } else {
+        setValidPassword(false);
+      }
+    } else {
+      setValidEmail(false);
+    }
+  };
+
+  async function signUp() {
+    try {
+      setLoading(true);
+      const result = await supabase.auth.signUp({
+        email: email,
+        password: password,
+      });
+      setLoading(false);
+      if (result.data.user) {
+        handleClickSignupWithEmailSuccess();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   return (
     <>
@@ -93,7 +117,6 @@ const SignupWithEmail = ({
           <CloseIcon />
         </Avatar>
       </Box>
-
       <Box
         sx={{
           height: '100%',
@@ -116,7 +139,6 @@ const SignupWithEmail = ({
         >
           Sign up
         </Typography>
-
         <Typography
           sx={{
             color: '#161823',
@@ -127,67 +149,15 @@ const SignupWithEmail = ({
         >
           When is your birthday?
         </Typography>
-        <Box
-          sx={{
-            display: 'flex',
-            marginBottom: '4px',
-            justifyContent: 'space-between',
-            marginBottom: '35px',
-          }}
-        >
-          <FormControl
-            sx={{
-              width: 120,
-              height: 44,
-            }}
-          >
-            <InputLabel>Day</InputLabel>
-            <Select value={day} label="Day" onChange={handleChangeDay}>
-              {dayOfMonth.map((day) => (
-                <MenuItem key={day} value={day}>
-                  {day}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-          <FormControl
-            sx={{
-              width: 120,
-              height: 44,
-            }}
-          >
-            <InputLabel>Month</InputLabel>
-            <Select value={month} label="Month" onChange={handleChangeMonth}>
-              <MenuItem value={1}>January</MenuItem>
-              <MenuItem value={2}>Febuary</MenuItem>
-              <MenuItem value={3}>March</MenuItem>
-              <MenuItem value={4}>April</MenuItem>
-              <MenuItem value={5}>May</MenuItem>
-              <MenuItem value={6}>Jun</MenuItem>
-              <MenuItem value={7}>July</MenuItem>
-              <MenuItem value={8}>August</MenuItem>
-              <MenuItem value={9}>September</MenuItem>
-              <MenuItem value={10}>October</MenuItem>
-              <MenuItem value={11}>November</MenuItem>
-              <MenuItem value={12}>December</MenuItem>
-            </Select>
-          </FormControl>
-          <FormControl
-            sx={{
-              width: 120,
-              height: 44,
-            }}
-          >
-            <InputLabel>Year</InputLabel>
-            <Select value={year} label="year" onChange={handleChangeYear}>
-              {allYear.map((year) => (
-                <MenuItem key={year} value={year}>
-                  {year}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        </Box>
+
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <DesktopDatePicker
+            value={birthday}
+            inputFormat="MM/DD/YYYY"
+            onChange={handleChangeBirthday}
+            renderInput={(params) => <TextField {...params} />}
+          />
+        </LocalizationProvider>
 
         <Typography
           sx={{
@@ -195,11 +165,17 @@ const SignupWithEmail = ({
             fontWeight: 600,
             fontSize: 16,
             marginBottom: '4px',
+            marginTop: '4px',
           }}
         >
           Email
         </Typography>
-        <TextField sx={{ marginBottom: '12px' }} label="Email Address" />
+        <TextField
+          sx={{ marginBottom: '12px' }}
+          label="Email Address"
+          value={email}
+          onChange={handleChangeEmail}
+        />
         <TextField sx={{ marginBottom: '12px' }} label="User name" />
         <FormControl sx={{ marginBottom: '12px' }} variant="outlined">
           <InputLabel>Password</InputLabel>
@@ -217,43 +193,49 @@ const SignupWithEmail = ({
               </InputAdornment>
             }
             label="Password"
+            value={password}
+            onChange={handleChangePassword}
           />
         </FormControl>
-        <FormControl sx={{ marginBottom: '12px' }} variant="outlined">
-          <InputLabel>Enter 6 digit code</InputLabel>
-          <OutlinedInput
-            type={showPassword ? 'text' : 'password'}
-            endAdornment={
-              <Button
-                sx={{
-                  width: 200,
-                  height: '100%',
-                  textTransform: 'none',
-                  color: '#161823',
-                  fontWeight: 'bold',
-                  margin: '-13px',
-                }}
-                variant="text"
-              >
-                Send code
-              </Button>
-            }
-            label="Enter 6 digit code"
-          />
-        </FormControl>
-
-        <Button
-          sx={{
-            marginBottom: '4px',
-            textTransform: 'none',
-            p: '12px',
-            backgroundColor: '#FE2C55',
-          }}
-          variant="contained"
-          onClick={() => handleClickSignupWithEmailSuccess()}
-        >
-          Next
-        </Button>
+        {validEmail && validPassword ? (
+          <Box />
+        ) : (
+          <Typography
+            sx={{
+              marginTop: '-12px',
+              marginBottom: '12px',
+              color: '#FE2C55',
+            }}
+          >
+            Invalid information ❌
+          </Typography>
+        )}
+        {isLoading ? (
+          <LoadingButton
+            sx={{
+              marginBottom: '4px',
+              textTransform: 'none',
+              p: '12px',
+              color: '#161823',
+            }}
+            loading
+          >
+            Submit
+          </LoadingButton>
+        ) : (
+          <Button
+            sx={{
+              marginBottom: '4px',
+              textTransform: 'none',
+              p: '12px',
+              backgroundColor: '#FE2C55',
+            }}
+            variant="contained"
+            onClick={() => handleClickSignupBtn()}
+          >
+            Next
+          </Button>
+        )}
       </Box>
 
       <Box
@@ -293,5 +275,4 @@ const SignupWithEmail = ({
     </>
   );
 };
-
 export default SignupWithEmail;
