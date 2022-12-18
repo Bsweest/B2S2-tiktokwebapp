@@ -58,6 +58,7 @@ const SignupWithEmail = ({
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
+
   return (
     <>
       <Box
@@ -143,8 +144,9 @@ const SignupWithEmail = ({
             <InputLabel>Day</InputLabel>
             <Select value={day} label="Day" onChange={handleChangeDay}>
               {dayOfMonth.map((day) => (
-                // eslint-disable-next-line react/jsx-key
-                <MenuItem value={day}>{day}</MenuItem>
+                <MenuItem key={day} value={day}>
+                  {day}
+                </MenuItem>
               ))}
             </Select>
           </FormControl>
@@ -179,8 +181,9 @@ const SignupWithEmail = ({
             <InputLabel>Year</InputLabel>
             <Select value={year} label="year" onChange={handleChangeYear}>
               {allYear.map((year) => (
-                // eslint-disable-next-line react/jsx-key
-                <MenuItem value={year}>{year}</MenuItem>
+                <MenuItem key={year} value={year}>
+                  {year}
+                </MenuItem>
               ))}
             </Select>
           </FormControl>
