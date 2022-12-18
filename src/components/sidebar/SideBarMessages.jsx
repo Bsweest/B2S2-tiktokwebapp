@@ -12,8 +12,7 @@ const SideBarMessages = ({}) => {
       sx={{
         width: '350px',
         borderRadius: '12px',
-        backgroundColor: 'white',
-        boxShadow: 'rgba(0, 0, 0, 0.1) 0px 4px 12px',
+        boxShadow: 'rgba(255, 255, 255, 0.1) 0px 0px 0px 2px',
         py: '5px',
         px: '1rem',
       }}
@@ -29,7 +28,6 @@ const SideBarMessages = ({}) => {
       >
         <Typography
           variant="caption"
-          color="initial"
           fontWeight="700"
           fontSize="1.5rem"
           fontFamily="Arial"

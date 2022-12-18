@@ -32,6 +32,8 @@ const SideBarComment = () => {
         className="flex col"
         style={{
           width: '400px',
+          height: '100vh',
+          borderLeft: '0.5px solid lightgrey',
         }}
       >
         <Box

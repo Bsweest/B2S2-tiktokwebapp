@@ -29,7 +29,7 @@ const ParentComment = () => {
       )}
 
       <ButtonBase onClick={onClick}>
-        <Typography variant="string" color="#898989" component="h6">
+        <Typography variant="subtitle2" fontWeight="bold" component="h6">
           {open ? 'Hide replies' : `View more replies(1)`}
         </Typography>
       </ButtonBase>

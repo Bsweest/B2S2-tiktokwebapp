@@ -14,7 +14,8 @@ const Interaction = ({ isHome }) => {
         color: 'white',
         alignItems: 'center',
         pointerEvents: 'auto',
-        pb: isHome ? '' : '25vh',
+        mb: isHome ? '15vh' : '30vh',
+        transform: isHome ? '' : 'translateX(-20px)',
       }}
     >
       {isHome && <VideoAvatar />}
