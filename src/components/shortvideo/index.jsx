@@ -86,10 +86,9 @@ const ShortVideo = ({ currentElement, item, isHome }) => {
       />
 
       <Box
+        className="flex row"
         sx={{
           position: 'absolute',
-          display: 'flex',
-          flexDirection: 'row',
           top: 0,
           left: 0,
           height: '95%',

@@ -6,9 +6,8 @@ import Typography from '@mui/material/Typography';
 const ChatAccount = () => {
   return (
     <ButtonBase
+      className="flex row"
       sx={{
-        display: 'flex',
-        flexDirection: 'row',
         width: '100%',
         alignItems: 'center',
         borderRadius: '1.5rem',

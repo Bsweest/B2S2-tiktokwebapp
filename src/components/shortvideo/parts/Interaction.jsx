@@ -9,9 +9,8 @@ import VideoAvatar from './VideoAvatar';
 const Interaction = ({ isHome }) => {
   return (
     <Box
+      className="flex col"
       sx={{
-        display: 'flex',
-        flexDirection: 'column',
         color: 'white',
         alignItems: 'center',
         pointerEvents: 'auto',

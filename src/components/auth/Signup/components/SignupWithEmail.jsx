@@ -149,6 +149,7 @@ const SignupWithEmail = ({
         >
           When is your birthday?
         </Typography>
+
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DesktopDatePicker
             value={birthday}
@@ -157,6 +158,7 @@ const SignupWithEmail = ({
             renderInput={(params) => <TextField {...params} />}
           />
         </LocalizationProvider>
+
         <Typography
           sx={{
             color: '#161823',

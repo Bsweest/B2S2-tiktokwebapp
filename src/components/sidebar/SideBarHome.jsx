@@ -13,9 +13,8 @@ import HotAccount from '../account/HotAccount';
 const SideBarHome = () => {
   return (
     <Box
+      className="flex col"
       sx={{
-        display: 'flex',
-        flexDirection: 'column',
         width: '250px',
         height: '100%',
         overflowY: 'auto',
