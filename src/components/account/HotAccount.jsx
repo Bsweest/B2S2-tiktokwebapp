@@ -7,11 +7,14 @@ const HotAccount = () => {
   return (
     <ListItemButton>
       <ListItemIcon>
-        <Avatar src="https://randomuser.me/api/portraits/men/27.jpg" />
+        <Avatar
+          src="https://randomuser.me/api/portraits/men/27.jpg"
+          sx={{ width: '35px', height: '35px' }}
+        />
       </ListItemIcon>
       <ListItemText
         primary="NguyễnVan"
-        primaryTypographyProps={{ fontWeight: 'bold' }}
+        primaryTypographyProps={{ fontWeight: 'bold', fontSize: '0.9rem' }}
       />
     </ListItemButton>
   );

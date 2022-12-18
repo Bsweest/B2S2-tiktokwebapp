@@ -9,6 +9,7 @@ const Description = () => {
       sx={{
         color: 'white',
         pointerEvents: 'auto',
+        mb: '3rem',
       }}
     >
       <Typography sx={{ fontSize: '1.25rem' }} variant="string">

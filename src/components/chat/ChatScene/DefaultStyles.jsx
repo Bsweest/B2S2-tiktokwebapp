@@ -24,13 +24,12 @@ const useMsgStyles = () => {
     left: {
       borderTopRightRadius: radiusPlus,
       borderBottomRightRadius: radiusPlus,
-      backgroundColor: '#E4E6EB',
+      backgroundColor: '#2C2C2C',
     },
     right: {
       borderTopLeftRadius: radiusPlus,
       borderBottomLeftRadius: radiusPlus,
       backgroundColor: '#5B24D1',
-      color: 'white',
     },
     leftFirst: {
       borderTopLeftRadius: radiusPlus,
