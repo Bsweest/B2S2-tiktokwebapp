@@ -15,7 +15,7 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { useState } from 'react';
 
-import { supabase } from '../../../../backend/supabaseClient';
+import { supabase } from '../../../../supabaseClient';
 
 const ResetPassword = ({
   handleClose,

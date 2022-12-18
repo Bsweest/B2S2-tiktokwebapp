@@ -10,12 +10,11 @@ import ListComment from '../comments/ListComment';
 
 const SideBarShortDetail = () => {
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+    <div className="flex col">
       <Box
+        className="flex col"
         sx={{
           width: '500px',
-          display: 'flex',
-          flexDirection: 'column',
           borderBottom: '1px solid lightgrey',
           px: '2rem',
           mt: '2rem',
@@ -33,10 +32,9 @@ const SideBarShortDetail = () => {
           <Grid
             xs={9}
             item
+            className="flex row"
             sx={{
-              display: 'flex',
               flex: 1,
-              flexDirection: 'row',
               alignItems: 'center',
               flexWrap: 'wrap',
               gap: '5px',
@@ -104,7 +102,7 @@ const SideBarShortDetail = () => {
       >
         <ListComment />
       </Box>
-    </Box>
+    </div>
   );
 };
 

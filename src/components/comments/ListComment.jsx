@@ -9,10 +9,9 @@ const ListComment = () => {
   };
   return (
     <div
+      className="flex col"
       style={{
-        display: 'flex',
         overflowY: 'scroll',
-        flexDirection: 'column',
         padding: '7px 7px 0px 7px',
       }}
     >

@@ -8,11 +8,10 @@ import ListChat from '../chat/ListChat';
 const SideBarMessages = ({}) => {
   return (
     <Box
+      className="flex col"
       sx={{
         width: '350px',
         borderRadius: '12px',
-        display: 'flex',
-        flexDirection: 'column',
         backgroundColor: 'white',
         boxShadow: 'rgba(0, 0, 0, 0.1) 0px 4px 12px',
         py: '5px',
