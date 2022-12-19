@@ -1,8 +1,7 @@
 import Box from '@mui/material/Box';
 import ButtonBase from '@mui/material/ButtonBase';
 import dynamic from 'next/dynamic';
-import { useEffect } from 'react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 
 import Description from './parts/Description';
@@ -38,19 +37,23 @@ const ShortVideo = ({ currentElement, item, isHome }) => {
       }}
     >
       <Box
+        className="flex row"
         sx={{
-          display: 'flex',
-          flex: 1,
+          height: '100%',
+          width: '100%',
           zIndex: 15,
-          alignItems: 'center',
-          justifyContent: 'center',
+          alignItems: 'flex-end',
+          justifyContent: isHome ? 'center' : 'space-between',
+          gap: '2rem',
         }}
       >
+        {isHome ? <Description /> : <Box></Box>}
         <ButtonBase
           ref={ref}
           sx={{
             width: 'calc(100vh / 2)',
             height: '98%',
+            mb: '1%',
             backgroundColor: 'black',
             borderRadius: '14px',
             overflow: 'hidden',
@@ -65,8 +68,12 @@ const ShortVideo = ({ currentElement, item, isHome }) => {
             playing={status}
             width="100%"
             height="100%"
+            onPlay={() => setStatus(true)}
+            onPause={() => setStatus(false)}
+            controls
           />
         </ButtonBase>
+        <Interaction isHome={isHome} />
       </Box>
 
       <Box
@@ -80,29 +87,11 @@ const ShortVideo = ({ currentElement, item, isHome }) => {
           filter: 'brightness(30%)',
           backgroundRepeat: 'no-repeat',
           backgroundSize: '100% 100%',
-          backgroundImage:
-            "url('https://i.picsum.photos/id/43/600/600.jpg?hmac=HTh9geN5CxVyIKRwno4I4OxtBpnNOuOJgvUdlYXQLcA')",
+          backgroundImage: isHome
+            ? ''
+            : "url('https://i.picsum.photos/id/43/600/600.jpg?hmac=HTh9geN5CxVyIKRwno4I4OxtBpnNOuOJgvUdlYXQLcA')",
         }}
       />
-
-      <Box
-        className="flex row"
-        sx={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          height: '95%',
-          width: '100%',
-          pointerEvents: 'none',
-          px: '2rem',
-          zIndex: 15,
-          alignItems: 'flex-end',
-          justifyContent: 'space-between',
-        }}
-      >
-        {isHome ? <Description /> : <Box></Box>}
-        <Interaction isHome={isHome} />
-      </Box>
     </Box>
   );
 };

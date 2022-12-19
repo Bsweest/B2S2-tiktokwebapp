@@ -40,10 +40,10 @@ const Comment = ({ isParent }) => {
         sx={{ width: isParent ? 38 : 30, height: isParent ? 38 : 30 }}
       />
       <Box className="flex col" sx={{ flex: 1, ml: '7px' }}>
-        <Typography variant="string" color="initial" component="h6">
+        <Typography variant="string" color="white" component="h6">
           User
         </Typography>
-        <Typography variant="string" color="initial">
+        <Typography variant="string" color="white">
           content
         </Typography>
 
@@ -55,13 +55,9 @@ const Comment = ({ isParent }) => {
             mt: '2px',
           }}
         >
-          <Typography variant="string" color="#898989">
-            3d ago
-          </Typography>
+          <Typography variant="subtitle2">3d ago</Typography>
           <ButtonBase>
-            <Typography variant="string" color="#898989">
-              Reply
-            </Typography>
+            <Typography variant="subtitle2">Reply</Typography>
           </ButtonBase>
         </Box>
       </Box>
@@ -93,9 +89,7 @@ const Comment = ({ isParent }) => {
           />
         </Box>
 
-        <Typography variant="string" color="initial">
-          0
-        </Typography>
+        <Typography variant="string">0</Typography>
 
         <ButtonBase
           sx={{

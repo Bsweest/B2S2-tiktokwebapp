@@ -4,41 +4,20 @@ import Search from '@mui/icons-material/Search';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import CssBaseline from '@mui/material/CssBaseline';
 import InputBase from '@mui/material/InputBase';
 import Typography from '@mui/material/Typography';
-import { ThemeProvider, createTheme, styled } from '@mui/material/styles';
+import { ThemeProvider, styled } from '@mui/material/styles';
 import Image from 'next/Image';
 
 import OpenDialog from '../components/auth/Login/OpenLoginDialogBtn';
-
-const theme = createTheme({
-  palette: {
-    error: { main: '#EA4359' },
-  },
-  typography: {
-    subtitle1: {
-      color: '#71767B',
-    },
-  },
-  components: {
-    MuiTypography: {
-      defaultProps: {
-        fontSize: '1rem',
-        fontFamily: 'Varela Round',
-      },
-    },
-    MuiTooltip: {
-      defaultProps: {
-        fontFamily: 'Varela Round',
-      },
-    },
-  },
-});
+import { muiTheme } from '../styles/muiStyles';
 
 const Main = ({ children }) => {
   return (
     <>
-      <ThemeProvider theme={theme}>
+      <ThemeProvider theme={muiTheme}>
+        <CssBaseline />
         <Box
           className="flex col"
           sx={{
@@ -53,11 +32,8 @@ const Main = ({ children }) => {
               height: '60px',
               alignItems: 'center',
               justifyContent: 'space-evenly',
-              borderBottom: 0.5,
-              borderColor: 'lightgrey',
-              backgroundColor: 'white',
-              boxShadow: 'none',
               zIndex: 0,
+              backgroundColor: 'black',
             }}
           >
             <Box
@@ -73,11 +49,17 @@ const Main = ({ children }) => {
                 noWrap
                 component="div"
                 sx={{
-                  color: 'purple',
                   fontWeight: 'bold',
                   fontSize: '2rem',
                   marginLeft: 2,
                   fontFamily: 'cursive',
+                  backgroundcolor: 'primary',
+                  backgroundImage: `linear-gradient(180deg, #CA2D73, #411D9E)`,
+                  backgroundSize: '100%',
+                  backgroundRepeat: 'repeat',
+                  backgroundClip: 'text',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
                 }}
               >
                 B2S2
@@ -119,7 +101,6 @@ const Main = ({ children }) => {
               display: 'flex',
               height: 'calc(100vh - 60px)',
               width: '100vw',
-              backgroundColor: '#F8F8F8',
               zIndex: 10,
             }}
           >

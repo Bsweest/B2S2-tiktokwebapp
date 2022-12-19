@@ -40,12 +40,7 @@ const SideBarShortDetail = () => {
               gap: '5px',
             }}
           >
-            <Typography
-              textOverflow="ellipsis"
-              variant="string"
-              component="h6"
-              color="initial"
-            >
+            <Typography textOverflow="ellipsis" variant="string" component="h6">
               Displayname
             </Typography>
             <Typography textOverflow="ellipsis" variant="subtitle1">
@@ -62,7 +57,7 @@ const SideBarShortDetail = () => {
           </Button>
         </Grid>
 
-        <Typography variant="string" color="initial" sx={{ my: '1rem' }}>
+        <Typography variant="string" sx={{ my: '1rem' }}>
           content
         </Typography>
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
@@ -76,7 +71,6 @@ const SideBarShortDetail = () => {
           sx={{
             display: 'flex',
             alignItems: 'center',
-            backgroundColor: '#F8F8F8',
             px: '5px',
             my: '1rem',
             borderRadius: '12px',
@@ -98,7 +92,7 @@ const SideBarShortDetail = () => {
       </Box>
 
       <Box
-        sx={{ backgroundColor: '#F8F8F8', pt: '0.5rem', px: '0.5rem', flex: 1 }}
+        sx={{ backgroundColor: '#121212', pt: '0.5rem', px: '0.5rem', flex: 1 }}
       >
         <ListComment />
       </Box>

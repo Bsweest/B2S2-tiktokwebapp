@@ -19,7 +19,7 @@ const SideBarHome = () => {
         height: '100%',
         overflowY: 'auto',
         alignItems: 'center',
-        backgroundColor: 'white',
+        borderRight: '0.2px solid lightgrey',
       }}
     >
       <List>
@@ -40,12 +40,11 @@ const SideBarHome = () => {
 
         <ListItemButton>
           <ListItemIcon>
-            <PeopleIcon sx={{ color: '#161823' }} />
+            <PeopleIcon />
           </ListItemIcon>
           <ListItemText
             primary="Following"
             primaryTypographyProps={{
-              color: '#161823',
               fontSize: '1.1rem',
               fontWeight: 'bold',
               fontFamily: 'cursive',
@@ -55,12 +54,11 @@ const SideBarHome = () => {
 
         <ListItemButton>
           <ListItemIcon>
-            <VideocamIcon sx={{ color: '#161823' }} />
+            <VideocamIcon />
           </ListItemIcon>
           <ListItemText
             primary="LIVE"
             primaryTypographyProps={{
-              color: '#161823',
               fontSize: '1.1rem',
               fontWeight: 'bold',
               fontFamily: 'cursive',

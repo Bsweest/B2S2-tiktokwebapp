@@ -24,13 +24,14 @@ const ShortDetail = () => {
           left: 0,
           width: '100vw',
           height: '100vh',
-          backgroundColor: 'white',
+          backgroundColor: 'black',
           zIndex: 0,
         }}
       >
         <Box sx={{ flex: 1 }}>
           <ShortVideo item={{}} isHome={false} />
         </Box>
+
         <SideBarShortDetail />
       </Box>
       <IconButton
@@ -47,7 +48,6 @@ const ShortDetail = () => {
           sx={{
             width: '45px',
             height: '45px',
-            opacity: 1,
             color: 'lightgrey',
             '&:hover': {
               color: '#414242',

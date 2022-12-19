@@ -1,20 +1,24 @@
+import { useSelector } from '@legendapp/state/react';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import ButtonBase from '@mui/material/ButtonBase';
 import Typography from '@mui/material/Typography';
 
-const ChatAccount = () => {
+const ChatAccount = ({ item, currentChat }) => {
+  const isChat = useSelector(() => currentChat.get() === null);
+
   return (
     <ButtonBase
       className="flex row"
       sx={{
         width: '100%',
         alignItems: 'center',
-        borderRadius: '1.5rem',
+        borderRadius: '12px',
         my: '0.7rem',
-        p: '2px',
+        p: '5px',
         gap: '0.5rem',
         justifyContent: 'flex-start',
+        backgroundColor: isChat ? '#141E2A' : '',
       }}
     >
       <Avatar alt="chat" sx={{ width: '3rem', height: '3rem', px: '5px' }}>
