@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery } from 'react-query';
 
 import { supabase } from '../supabase';
 
@@ -8,8 +8,8 @@ const getExplore = async () => {
 
   return data;
 };
-const queryExploreFeed = () => {
+const useQueryFeedExplore = () => {
   return useQuery(['explore_feed'], getExplore);
 };
 
-export { queryExploreFeed };
+export { useQueryFeedExplore };

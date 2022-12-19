@@ -6,7 +6,9 @@ import CommentButton from './CommentButton';
 import HeartButton from './HeartButton';
 import VideoAvatar from './VideoAvatar';
 
-const Interaction = ({ isHome }) => {
+const Interaction = ({ isHome, data, ssid }) => {
+  const { bm, hs, count_heart, count_comment } = data;
+
   return (
     <Box
       className="flex col"
@@ -16,12 +18,13 @@ const Interaction = ({ isHome }) => {
         pointerEvents: 'auto',
         mb: isHome ? '15vh' : '30vh',
         transform: isHome ? '' : 'translateX(-20px)',
+        zIndex: 15,
       }}
     >
       {isHome && <VideoAvatar />}
-      <HeartButton />
-      <CommentButton isHome={isHome} />
-      <BookmarkButton />
+      <HeartButton isHeart={hs} count={count_heart} />
+      <CommentButton isHome={isHome} count={count_comment} ssid={ssid} />
+      <BookmarkButton isBM={bm} />
     </Box>
   );
 };

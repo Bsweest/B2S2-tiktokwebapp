@@ -2,8 +2,10 @@ import Box from '@mui/material/Box';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import { motion } from 'framer-motion';
+import { useEffect } from 'react';
 
-import useCommentSection from '../../templates/global/CommentSection';
+import { useQueryCommentSection } from '../../../backend/services/GetComments';
+import { useListVideoStates } from '../../templates/global/ListVideoStates';
 import ListComment from '../comments/ListComment';
 
 const variants = {
@@ -16,7 +18,22 @@ const variants = {
 };
 
 const SideBarComment = () => {
-  const { isOpen, fetchID } = useCommentSection();
+  const { isOpenComment: isOpen, currentElement: fetchID } =
+    useListVideoStates();
+
+  const ac = new AbortController();
+
+  const { data, isSuccess, isFetching } = useQueryCommentSection(
+    fetchID,
+    null,
+    ac,
+    isOpen,
+  );
+
+  useEffect(() => {
+    ac.abort();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <motion.div
@@ -51,7 +68,7 @@ const SideBarComment = () => {
           </Tooltip>
         </Box>
 
-        <ListComment />
+        <ListComment data={data} />
       </div>
     </motion.div>
   );

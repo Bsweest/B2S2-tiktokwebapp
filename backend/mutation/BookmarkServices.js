@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { clientID } from '../../src/global/ClientProfile';
+import { clientID } from '../../src/templates/global/ClientData';
 import { supabase } from '../supabase';
 
 const updateBookmark = async (props) => {
