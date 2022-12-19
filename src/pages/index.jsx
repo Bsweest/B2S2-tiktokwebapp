@@ -19,10 +19,9 @@ export default function Home() {
 
   return (
     <Box
+      className="flex row"
       sx={{
-        display: 'flex',
         flex: 1,
-        flexDirection: 'row',
       }}
     >
       <SideBarHome />

@@ -34,14 +34,12 @@ const Comment = ({ isParent }) => {
   }, [heart]);
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'row', mb: '5px' }}>
+    <Box className="flex row" sx={{ mb: '5px' }}>
       <Avatar
         alt="avatar"
         sx={{ width: isParent ? 38 : 30, height: isParent ? 38 : 30 }}
       />
-      <Box
-        sx={{ display: 'flex', flex: 1, flexDirection: 'column', ml: '7px' }}
-      >
+      <Box className="flex col" sx={{ flex: 1, ml: '7px' }}>
         <Typography variant="string" color="initial" component="h6">
           User
         </Typography>
@@ -69,11 +67,10 @@ const Comment = ({ isParent }) => {
       </Box>
 
       <Box
+        className="flex col"
         sx={{
           width: '50px',
           position: 'relative',
-          display: 'flex',
-          flexDirection: 'column',
           alignItems: 'center',
           pt: '10px',
         }}
