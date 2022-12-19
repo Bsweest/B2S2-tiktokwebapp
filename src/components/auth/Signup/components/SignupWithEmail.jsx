@@ -18,9 +18,10 @@ import Typography from '@mui/material/Typography';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import dayjs from 'dayjs';
 import { useState } from 'react';
 
-import { supabase } from '../../../../../supabaseClient';
+import { supabase } from '../../../../../backend/supabaseClient';
 
 const SignupWithEmail = ({
   handleClose,
@@ -30,11 +31,13 @@ const SignupWithEmail = ({
 }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setLoading] = useState(false);
-  const [birthday, setBirthday] = useState(new Date('2000-01-01T00:00:00Z'));
+  const [birthday, setBirthday] = useState(dayjs('2000-01-01T07:00:01'));
   const [validEmail, setValidEmail] = useState(true);
   const [validPassword, setValidPassword] = useState(true);
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
+
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
   const handleMouseDownPassword = (event) => {
@@ -47,6 +50,10 @@ const SignupWithEmail = ({
 
   const handleChangePassword = (event) => {
     setPassword(event.target.value);
+  };
+
+  const handleChangeUsername = (event) => {
+    setUsername(event.target.value);
   };
 
   const handleChangeBirthday = (event) => {
@@ -76,6 +83,16 @@ const SignupWithEmail = ({
       });
       setLoading(false);
       if (result.data.user) {
+        setLoading(true);
+        const userData = result.data.user;
+        await supabase.from('profiles').insert({
+          id: userData.id,
+          created_at: userData.created_at,
+          username: username,
+          displayname: email,
+          birth: birthday,
+        });
+        setLoading(false);
         handleClickSignupWithEmailSuccess();
       }
     } catch (error) {
@@ -174,7 +191,12 @@ const SignupWithEmail = ({
           value={email}
           onChange={handleChangeEmail}
         />
-        <TextField sx={{ marginBottom: '12px' }} label="User name" />
+        <TextField
+          sx={{ marginBottom: '12px' }}
+          label="User name"
+          value={username}
+          onChange={handleChangeUsername}
+        />
         <FormControl sx={{ marginBottom: '12px' }} variant="outlined">
           <InputLabel>Password</InputLabel>
           <OutlinedInput
@@ -205,7 +227,7 @@ const SignupWithEmail = ({
               color: '#FE2C55',
             }}
           >
-            Invalid information ❌
+            {validEmail ? 'Invalid password ❌' : 'Invalid email ❌'}
           </Typography>
         )}
         {isLoading ? (
