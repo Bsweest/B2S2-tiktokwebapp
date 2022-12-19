@@ -91,12 +91,11 @@ const SignupWithEmail = ({
           displayname: email,
           birth: birthday,
         });
+        window.localStorage.setItem('userId', userData.id);
         setLoading(false);
         handleClickSignupWithEmailSuccess();
       }
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   }
 
   return (
@@ -114,7 +113,7 @@ const SignupWithEmail = ({
             height: 20,
             margin: 2,
             cursor: 'pointer',
-            color: '#444444',
+            color: '#cfcfcf',
           }}
           onClick={() => handleClickSignup()}
         />
@@ -124,7 +123,7 @@ const SignupWithEmail = ({
             width: 30,
             height: 30,
             margin: 2,
-            backgroundColor: '#eeeeee',
+            backgroundColor: '#636363',
             cursor: 'pointer',
             color: '#444444',
           }}
@@ -149,7 +148,7 @@ const SignupWithEmail = ({
           sx={{
             fontSize: 32,
             fontWeight: 'bold',
-            color: '#161823',
+            color: '#cfcfcf',
             marginBottom: '10px',
             textAlign: 'center',
           }}
@@ -159,7 +158,7 @@ const SignupWithEmail = ({
 
         <Typography
           sx={{
-            color: '#161823',
+            color: '#9f9f9f',
             fontWeight: 600,
             fontSize: 16,
             marginBottom: '4px',
@@ -177,7 +176,7 @@ const SignupWithEmail = ({
         </LocalizationProvider>
         <Typography
           sx={{
-            color: '#161823',
+            color: '#9f9f9f',
             fontWeight: 600,
             fontSize: 16,
             marginBottom: '4px',
@@ -263,19 +262,18 @@ const SignupWithEmail = ({
         sx={{
           height: 65,
           width: '100%',
-          borderTop: '1px solid lightgray',
+          borderTop: '1px solid #a4a4a4',
           position: 'absolute',
           bottom: 0,
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          backgroundColor: 'white',
         }}
       >
         <Typography
           sx={{
             fontSize: 15,
-            color: '#444444',
+            color: '#a4a4a4',
           }}
         >
           Already have an account?

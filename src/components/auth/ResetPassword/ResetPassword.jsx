@@ -43,10 +43,7 @@ const ResetPassword = ({
         'laophan74@gmail.com',
       );
       setLoading(false);
-      console.log(result);
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   }
   return (
     <>
@@ -63,7 +60,7 @@ const ResetPassword = ({
             height: 20,
             margin: 2,
             cursor: 'pointer',
-            color: '#444444',
+            color: '#cfcfcf',
           }}
           onClick={() => handleClickLoginWithEmail()}
         />
@@ -73,7 +70,7 @@ const ResetPassword = ({
             width: 30,
             height: 30,
             margin: 2,
-            backgroundColor: '#eeeeee',
+            backgroundColor: '#636363',
             cursor: 'pointer',
             color: '#444444',
           }}
@@ -98,7 +95,7 @@ const ResetPassword = ({
           sx={{
             fontSize: 32,
             fontWeight: 'bold',
-            color: '#161823',
+            color: '#cfcfcf',
             marginBottom: '10px',
             textAlign: 'center',
           }}
@@ -107,7 +104,7 @@ const ResetPassword = ({
         </Typography>
         <Typography
           sx={{
-            color: '#161823',
+            color: '#9f9f9f',
             fontWeight: 600,
             fontSize: 16,
             marginBottom: '4px',
@@ -158,19 +155,18 @@ const ResetPassword = ({
         sx={{
           height: 65,
           width: '100%',
-          borderTop: '1px solid lightgray',
+          borderTop: '1px solid #a4a4a4',
           position: 'absolute',
           bottom: 0,
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          backgroundColor: 'white',
         }}
       >
         <Typography
           sx={{
             fontSize: 15,
-            color: '#444444',
+            color: '#a4a4a4',
           }}
         >
           Do not have an account?
