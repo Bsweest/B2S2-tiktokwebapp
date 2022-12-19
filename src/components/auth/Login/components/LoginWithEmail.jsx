@@ -16,7 +16,7 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { useState } from 'react';
 
-import { supabase } from '../../../../../supabaseClient';
+import { supabase } from '../../../../../backend/supabase';
 
 const LoginWithEmail = ({
   handleClose,
