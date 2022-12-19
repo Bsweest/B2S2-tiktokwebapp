@@ -2,20 +2,21 @@ import { useObservable } from '@legendapp/state/react';
 import Box from '@mui/material/Box';
 import { useEffect } from 'react';
 
+import { useQueryFeedExplore } from '../../backend/services/GetNewFeed';
 import ListVideo from '../components/shortvideo/ListVideo';
 import SideBarComment from '../components/sidebar/SideBarComment';
 import SideBarHome from '../components/sidebar/SideBarHome';
-import { openCommentSection } from '../templates/global/CommentSection';
+import { toggleCommentSection } from '../templates/global/ListVideoStates';
 import { useKeyboardControl } from '../templates/hooks/useKeyBoardControl';
 
 export default function Home() {
   const { heart, comment, bookmark } = useKeyboardControl();
-
   const currentElement = useObservable(null);
+  const { data: feedExplore } = useQueryFeedExplore();
 
   useEffect(() => {
-    if (comment) openCommentSection();
-  }, [comment]);
+    if (comment) toggleCommentSection(currentElement.get());
+  }, [comment, currentElement]);
 
   return (
     <Box
@@ -26,7 +27,7 @@ export default function Home() {
     >
       <SideBarHome />
 
-      <ListVideo currentElement={currentElement} />
+      <ListVideo feed={feedExplore} currentElement={currentElement} />
 
       <SideBarComment />
     </Box>

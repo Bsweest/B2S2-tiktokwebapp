@@ -3,9 +3,7 @@ import FlatList from 'flatlist-react';
 
 import ShortVideo from './';
 
-const ListVideo = ({ currentElement }) => {
-  const data = [0, 2, 3];
-
+const ListVideo = ({ feed, currentElement }) => {
   const renderItem = (item, index) => {
     return (
       <ShortVideo
@@ -27,7 +25,7 @@ const ListVideo = ({ currentElement }) => {
         scrollSnapStop: 'normal',
       }}
     >
-      <FlatList list={data} renderItem={renderItem} />
+      <FlatList list={feed} renderItem={renderItem} />
     </List>
   );
 };

@@ -1,4 +1,4 @@
-import { useQueryClient } from '@tanstack/react-query';
+import { useQueryClient } from 'react-query';
 
 import ChatRoomInFocused from '../../src/global/ChatRoomInFocused';
 import { supabase } from '../supabase';

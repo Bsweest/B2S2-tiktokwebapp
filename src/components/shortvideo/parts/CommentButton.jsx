@@ -3,12 +3,12 @@ import ButtonBase from '@mui/material/ButtonBase';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 
-import { openCommentSection } from '../../../templates/global/CommentSection';
+import { toggleCommentSection } from '../../../templates/global/ListVideoStates';
 import styles from './Parts.module.css';
 
-const CommentButton = ({ numCM = 0 }) => {
+const CommentButton = ({ ssid, count }) => {
   const onClick = () => {
-    openCommentSection();
+    toggleCommentSection(ssid);
   };
 
   return (
@@ -19,7 +19,7 @@ const CommentButton = ({ numCM = 0 }) => {
         </ButtonBase>
       </Tooltip>
       <Typography className={styles.count} sx={{ mt: '-7px' }}>
-        {numCM}
+        {count}
       </Typography>
     </div>
   );

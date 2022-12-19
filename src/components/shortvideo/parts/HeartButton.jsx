@@ -8,7 +8,7 @@ import Lottie from 'react-lottie-player';
 import animationData from '../../../assets/lotties/heart_animation.json';
 import styles from './Parts.module.css';
 
-const HeartButton = ({ count_heart = 0 }) => {
+const HeartButton = ({ isHeart, count }) => {
   const lottie = useRef(null);
   const [heart, setHeart] = useState(false);
   const [segments, setSegments] = useState([0, 0]);
@@ -64,7 +64,7 @@ const HeartButton = ({ count_heart = 0 }) => {
       </Tooltip>
 
       <Typography className={styles.count} sx={{ mt: '-5px' }}>
-        {count_heart}
+        {count}
       </Typography>
     </Box>
   );
