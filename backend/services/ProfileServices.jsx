@@ -1,4 +1,4 @@
-import { useQuery } from 'react-query';
+import { useQuery } from '@tanstack/react-query';
 
 import { clientID } from '../../src/templates/global/ClientData';
 import { supabase } from '../supabase';
@@ -22,10 +22,10 @@ const useQueryUserData = (uid) => {
     },
   });
 };
-const ClientData = () => {
+const useClientData = () => {
   const uid = clientID.get();
 
-  return useQuery(['get_user_data', op_id], () => getUserData(op_id), {
+  return useQuery(['get_user_data', uid], () => getUserData(uid), {
     placeholderData: {
       avatar_url: '',
     },
@@ -122,7 +122,7 @@ export {
   useQueryCheckFollowBack,
   useQueryLikedShorts,
   useQueryMarkedShorts,
-  ClientData,
+  useClientData,
 };
 
 export default useQueryUserData;

@@ -11,12 +11,11 @@ import { useKeyboardControl } from '../templates/hooks/useKeyBoardControl';
 
 export default function Home() {
   const { heart, comment, bookmark } = useKeyboardControl();
-  const currentElement = useObservable(null);
   const { data: feedExplore } = useQueryFeedExplore();
 
   useEffect(() => {
-    if (comment) toggleCommentSection(currentElement.get());
-  }, [comment, currentElement]);
+    if (comment) toggleCommentSection();
+  }, [comment]);
 
   return (
     <Box
@@ -27,7 +26,7 @@ export default function Home() {
     >
       <SideBarHome />
 
-      <ListVideo feed={feedExplore} currentElement={currentElement} />
+      <ListVideo feed={feedExplore} />
 
       <SideBarComment />
     </Box>

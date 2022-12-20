@@ -1,40 +1,49 @@
-import { useQuery } from 'react-query';
+import { useQuery } from '@tanstack/react-query';
 
 import { clientID } from '../../src/templates/global/ClientData';
 import { supabase } from '../supabase';
 
 //* Get All comment
 const GetComments = async (fetchID, pid, ac) => {
-  const { data, error } = await supabase
-    .rpc('get_comments', {
-      ss_id: fetchID,
-      p_id: pid,
-    })
-    .abortSignal(ac.signal);
+  const { data, error } = pid
+    ? await supabase
+        .rpc('get_children_comments', {
+          p_id: pid,
+        })
+        .abortSignal(ac.signal)
+    : await supabase
+        .rpc('get_parent_comments', {
+          ss_id: fetchID,
+        })
+        .abortSignal(ac.signal);
+
+  if (error) throw new Error(error);
 
   return data;
 };
 const useQueryCommentSection = (fetchID, pid, ac, isOpen) => {
   return useQuery(
-    ['comment_section', fetchID, pid],
+    ['get_comments', fetchID, pid],
     () => GetComments(fetchID, pid, ac),
     { enabled: isOpen },
   );
 };
 
 //* Check Heart Comment
-const IsHeartComment = async (cmid) => {
+const CommentServices = async (cmid) => {
   const client = clientID.get();
 
-  const { data, error } = await supabase.rpc('is_heart_comment', {
-    client: client,
-    comment_id: cmid,
+  const { data, error } = await supabase.rpc('comment_services', {
+    cm_id: cmid,
+    client_id: client,
   });
+
+  if (error) throw new Error(error);
 
   return data;
 };
-const useQueryCheckHeartComment = (cmid) => {
-  return useQuery(['comment_services', cmid], () => IsHeartComment(cmid));
+const useQueryCommentServices = (cmid) => {
+  return useQuery(['comment_services', cmid], () => CommentServices(cmid));
 };
 
 //* Get number of Child comment
@@ -44,15 +53,19 @@ const GetCountChildComment = async (pid) => {
     .select('*', { count: 'exact' })
     .eq('parent_id', pid);
 
+  if (error) throw new Error(error);
+
   return count;
 };
 const useQueryCountChildComment = (pid) => {
-  return useQuery(['cnt_childcomment', pid], () => GetCountChildComment(pid));
+  return useQuery(['cnt_childcomment', pid], () => GetCountChildComment(pid), {
+    placeholderData: 0,
+  });
 };
 
 export {
   GetComments,
   useQueryCommentSection,
-  useQueryCheckHeartComment,
+  useQueryCommentServices,
   useQueryCountChildComment,
 };

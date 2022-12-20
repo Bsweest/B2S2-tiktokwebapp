@@ -2,9 +2,9 @@ import FlatList from 'flatlist-react';
 
 import ParentComment from './ParentComment';
 
-const ListComment = ({ data }) => {
+const ListComment = ({ list }) => {
   const renderItem = (item, index) => {
-    return <ParentComment key={index} />;
+    return <ParentComment key={index} data={item} />;
   };
 
   return (
@@ -15,7 +15,7 @@ const ListComment = ({ data }) => {
         padding: '7px 7px 0px 7px',
       }}
     >
-      <FlatList list={data} renderItem={renderItem} />
+      <FlatList list={list} renderItem={renderItem} />
     </div>
   );
 };

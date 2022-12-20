@@ -1,4 +1,4 @@
-import { useQuery } from 'react-query';
+import { useQuery } from '@tanstack/react-query';
 
 import { clientID } from '../../src/templates/global/ClientData';
 import { supabase } from '../supabase';

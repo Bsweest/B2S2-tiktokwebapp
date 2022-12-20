@@ -18,22 +18,22 @@ const variants = {
 };
 
 const SideBarComment = () => {
-  const { isOpenComment: isOpen, currentElement: fetchID } =
-    useListVideoStates();
-
+  const {
+    isOpenComment: isOpen,
+    currentElement: { id: fetchID, numComment },
+  } = useListVideoStates();
   const ac = new AbortController();
 
-  const { data, isSuccess, isFetching } = useQueryCommentSection(
-    fetchID,
-    null,
-    ac,
-    isOpen,
-  );
+  const {
+    data: listComment,
+    isSuccess,
+    isFetching,
+  } = useQueryCommentSection(fetchID, null, ac, isOpen);
 
   useEffect(() => {
-    ac.abort();
+    if (!isOpen) ac.abort();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [isOpen]);
 
   return (
     <motion.div
@@ -64,11 +64,11 @@ const SideBarComment = () => {
           }}
         >
           <Tooltip title="(C) to open/close" placement="bottom">
-            <Typography>Comment section (0)</Typography>
+            <Typography>Comment section ({numComment})</Typography>
           </Tooltip>
         </Box>
 
-        <ListComment data={data} />
+        <ListComment list={listComment} />
       </div>
     </motion.div>
   );
