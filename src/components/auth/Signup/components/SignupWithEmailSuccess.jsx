@@ -15,7 +15,7 @@ const SignupWithEmailSuccess = ({ handleClose, handleClickLogin }) => {
           height: 30,
           alignSelf: 'end',
           margin: 2,
-          backgroundColor: '#eeeeee',
+          backgroundColor: '#636363',
           cursor: 'pointer',
           color: '#444444',
         }}
@@ -39,7 +39,7 @@ const SignupWithEmailSuccess = ({ handleClose, handleClickLogin }) => {
           sx={{
             fontSize: 32,
             fontWeight: 'bold',
-            color: '#161823',
+            color: '#cfcfcf',
             marginBottom: '10px',
           }}
         >
@@ -48,7 +48,7 @@ const SignupWithEmailSuccess = ({ handleClose, handleClickLogin }) => {
         <Typography
           sx={{
             fontSize: 24,
-            color: '#161823',
+            color: '#9f9f9f',
             marginBottom: '10px',
             textAlign: 'center',
           }}
@@ -58,8 +58,9 @@ const SignupWithEmailSuccess = ({ handleClose, handleClickLogin }) => {
         <Typography
           sx={{
             fontSize: 18,
-            color: '#161823',
+            color: '#9f9f9f',
             marginBottom: '10px',
+            textAlign: 'center',
           }}
         >
           Please check your email and follow the link to confirm
@@ -76,19 +77,18 @@ const SignupWithEmailSuccess = ({ handleClose, handleClickLogin }) => {
           sx={{
             height: 65,
             width: '100%',
-            borderTop: '1px solid lightgray',
+            borderTop: '1px solid #a4a4a4',
             position: 'absolute',
             bottom: 0,
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            backgroundColor: 'white',
           }}
         >
           <Typography
             sx={{
               fontSize: 15,
-              color: '#444444',
+              color: '#a4a4a4',
             }}
           >
             Already have an account?

@@ -9,11 +9,20 @@ import InputBase from '@mui/material/InputBase';
 import Typography from '@mui/material/Typography';
 import { ThemeProvider, styled } from '@mui/material/styles';
 import Image from 'next/Image';
+import { useEffect, useState } from 'react';
 
 import OpenDialog from '../components/auth/Login/OpenLoginDialogBtn';
 import { muiTheme } from '../styles/muiStyles';
 
 const Main = ({ children }) => {
+  const [isUserId, setIsUserId] = useState(false);
+  useEffect(() => {
+    handleGetSession();
+  }, []);
+  const handleGetSession = () => {
+    if (window.localStorage.getItem('userId') != null) setIsUserId(true);
+    else setIsUserId(false);
+  };
   return (
     <>
       <ThemeProvider theme={muiTheme}>
@@ -31,9 +40,11 @@ const Main = ({ children }) => {
             sx={{
               height: '60px',
               alignItems: 'center',
-              justifyContent: 'space-evenly',
+              justifyContent: 'space-between',
               zIndex: 0,
-              backgroundColor: 'black',
+              backgroundColor: '#030303',
+              paddingLeft: '50px',
+              paddingRight: '50px',
             }}
           >
             <Box
@@ -73,24 +84,29 @@ const Main = ({ children }) => {
               <StyledInputBase
                 placeholder="Search…"
                 inputProps={{ 'aria-label': 'search' }}
-                style={{ color: 'black' }}
+                style={{ color: 'gray' }}
                 fullWidth
               />
             </SearchContainer>
 
             <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-              <Button
-                sx={{
-                  marginRight: 1,
-                  width: 125,
-                  color: 'gray',
-                  borderColor: 'lightgray',
-                }}
-                variant="outlined"
-                startIcon={<Add />}
-              >
-                Upload
-              </Button>
+              {isUserId ? (
+                <Button
+                  sx={{
+                    marginRight: 1,
+                    width: 100,
+                    borderRadius: '15px',
+                    color: 'gray',
+                    borderColor: '#333',
+                  }}
+                  variant="outlined"
+                  startIcon={<Add />}
+                >
+                  Upload
+                </Button>
+              ) : (
+                <Box />
+              )}
 
               <OpenDialog />
             </Box>
@@ -114,9 +130,9 @@ const Main = ({ children }) => {
 
 const SearchContainer = styled('div')(({ theme }) => ({
   position: 'relative',
-  border: '1px solid darkgray',
+  border: '1px solid #333',
   borderRadius: '2rem',
-  backgroundColor: '#F8F8F8',
+  backgroundColor: '#0f0f0f',
   marginRight: theme.spacing(2),
   marginLeft: 0,
   width: '100%',

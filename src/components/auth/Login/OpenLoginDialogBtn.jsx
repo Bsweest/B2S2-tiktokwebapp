@@ -104,8 +104,8 @@ const OpenDialog = () => {
       <Button
         sx={{
           marginRight: 1,
-          width: 125,
-          fontWeight: 'bold',
+          width: 100,
+          borderRadius: '15px',
         }}
         color="error"
         variant="contained"
