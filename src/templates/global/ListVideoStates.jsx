@@ -2,7 +2,10 @@ import { observable } from '@legendapp/state';
 import { useSelector } from '@legendapp/state/react';
 
 const listVideoStates = observable({
-  currentElement: null,
+  currentElement: {
+    id: null,
+    numComment: 0,
+  },
   isOpenComment: false,
 });
 
@@ -18,8 +21,8 @@ const toggleCommentSection = (id) => {
   }
 };
 
-const changeCurrentElement = (ssid) => {
-  listVideoStates.currentElement.set(ssid);
+const changeCurrentElement = (ssid, num) => {
+  listVideoStates.currentElement.set({ id: ssid, numComment: num });
 };
 
 export { useListVideoStates, toggleCommentSection, changeCurrentElement };

@@ -1,9 +1,13 @@
 import Box from '@mui/material/Box';
 import { motion } from 'framer-motion';
 import Image from 'next/Image';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 
-const VideoAvatar = () => {
+import { useQueryCheckFollow } from '../../../../backend/services/ProfileServices';
+
+const VideoAvatar = ({ opData }) => {
+  const { id, avatar_url } = opData;
+
   return (
     <Box
       sx={{
@@ -18,17 +22,18 @@ const VideoAvatar = () => {
         fill={true}
         sizes="4rem"
         style={{ borderRadius: '50%', pointerEvents: 'all', cursor: 'pointer' }}
-        src="https://i.picsum.photos/id/260/200/200.jpg?hmac=Nu9V4Ixqq3HiFhfkcsL5mNRZAZyEHG2jotmiiMRdxGA"
+        src={avatar_url}
       />
-      <FollowButton />
+      <FollowButton uid={id} />
     </Box>
   );
 };
 
-const FollowButton = ({}) => {
+const FollowButton = ({ uid }) => {
   const [isFL, setIsFL] = useState(false);
-
   const isDone = useRef(true);
+
+  const { data, isSuccess } = useQueryCheckFollow(uid);
 
   const onAnimationComplete = () => (isDone.current = true);
 
@@ -37,8 +42,6 @@ const FollowButton = ({}) => {
     isDone.current = false;
     setIsFL((prev) => !prev);
   };
-
-  useEffect(() => {}, []);
 
   return (
     <motion.svg

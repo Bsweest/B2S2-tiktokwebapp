@@ -2,108 +2,61 @@ import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import ButtonBase from '@mui/material/ButtonBase';
 import Typography from '@mui/material/Typography';
-import { useEffect, useRef, useState } from 'react';
-import Lottie from 'react-lottie-player';
 
-import animationData from '../../assets/lotties/comment_heart.json';
+import { useQueryCommentServices } from '../../../backend/services/GetComments';
+import useQueryUserData from '../../../backend/services/ProfileServices';
+import getFirstLetter from '../../templates/hooks/getFirstLetter';
+import getRelativeTime from '../../templates/hooks/getRelativeTime';
+import CommentHeartButton from './CommentHeartButton';
 
-const Comment = ({ isParent }) => {
-  const lottie = useRef();
-  const [heart, setHeart] = useState(false);
-  const [segments, setSegments] = useState();
-  const isDone = useRef(true);
+const Comment = ({ isParent, data }) => {
+  const { id: cmid, created_at, uid, content, parent_id } = data;
 
-  const onComplete = () => {
-    isDone.current = true;
-  };
-
-  const updateLike = () => {
-    if (!isDone.current) return;
-    isDone.current = false;
-    setHeart((prev) => !prev);
-  };
-
-  useEffect(() => {
-    if (heart) {
-      isDone.current = false;
-      setSegments([40, 80]);
-    } else {
-      isDone.current = false;
-      setSegments([5, 0]);
-    }
-  }, [heart]);
+  const { data: commenter, isSuccess: cd1 } = useQueryUserData(uid);
+  const { data: services, isSuccess: cd2 } = useQueryCommentServices(cmid);
 
   return (
-    <Box className="flex row" sx={{ mb: '5px' }}>
-      <Avatar
-        alt="avatar"
-        sx={{ width: isParent ? 38 : 30, height: isParent ? 38 : 30 }}
-      />
-      <Box className="flex col" sx={{ flex: 1, ml: '7px' }}>
-        <Typography variant="string" color="white" component="h6">
-          User
-        </Typography>
-        <Typography variant="string" color="white">
-          content
-        </Typography>
+    <>
+      {cd1 && cd2 ? (
+        <Box className="flex row" sx={{ mb: '5px' }}>
+          <Avatar
+            alt="avatar"
+            src={commenter.avatar_url}
+            sx={{ width: isParent ? 38 : 30, height: isParent ? 38 : 30 }}
+          >
+            {}
+          </Avatar>
+          <Box className="flex col" sx={{ flex: 1, ml: '7px' }}>
+            <Typography variant="string" color="white" component="h6">
+              {commenter.displayname}
+            </Typography>
+            <Typography variant="string" color="white">
+              {content}
+            </Typography>
 
-        <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '50px',
-            mt: '2px',
-          }}
-        >
-          <Typography variant="subtitle2">3d ago</Typography>
-          <ButtonBase>
-            <Typography variant="subtitle2">Reply</Typography>
-          </ButtonBase>
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '50px',
+                mt: '2px',
+              }}
+            >
+              <Typography variant="subtitle2">
+                {getRelativeTime(created_at)}
+              </Typography>
+              <ButtonBase>
+                <Typography variant="subtitle2">Reply</Typography>
+              </ButtonBase>
+            </Box>
+          </Box>
+
+          <CommentHeartButton services={services} />
         </Box>
-      </Box>
-
-      <Box
-        className="flex col"
-        sx={{
-          width: '50px',
-          position: 'relative',
-          alignItems: 'center',
-          pt: '10px',
-        }}
-      >
-        <Box sx={{ width: '32px', height: '32px', mb: '2px' }}>
-          <Lottie
-            ref={lottie}
-            style={{
-              width: '64px',
-              height: '64px',
-              overflow: 'visible',
-              transform: 'translate(-25%, -25%)',
-            }}
-            play
-            animationData={animationData}
-            loop={false}
-            segments={segments}
-            onComplete={onComplete}
-            rendererSettings={{ preserveAspectRatio: 'xMidYMid slice' }}
-          />
-        </Box>
-
-        <Typography variant="string">0</Typography>
-
-        <ButtonBase
-          sx={{
-            position: 'absolute',
-            top: 10,
-            width: '32px',
-            height: '32px',
-          }}
-          onClick={updateLike}
-          disableRipple
-          disableTouchRipple
-        />
-      </Box>
-    </Box>
+      ) : (
+        <></>
+      )}
+    </>
   );
 };
 

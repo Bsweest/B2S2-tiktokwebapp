@@ -12,10 +12,10 @@ import Interaction from './parts/Interaction';
 
 const ReactPlayer = dynamic(() => import('react-player'), { ssr: false });
 
-const ShortVideo = ({ currentElement, item, isHome }) => {
+const ShortVideo = ({ item, isHome }) => {
+  const { id: ssid, created_at, op_id, uri, caption, music } = item;
   const [status, setStatus] = useState(false);
   const { ref, inView } = useInView({ threshold: 1 });
-  const { id: ssid, created_at, op_id, uri, caption, music } = item;
 
   const { data: services, isSuccess: cd1 } = useQueryShortServives(ssid);
   const { data: opData, isSuccess: cd2 } = useQueryUserData(op_id);
@@ -26,12 +26,13 @@ const ShortVideo = ({ currentElement, item, isHome }) => {
 
   useEffect(() => {
     if (inView) {
-      if (currentElement) changeCurrentElement(ssid);
+      changeCurrentElement(ssid, services.count_comment);
       setStatus(true);
     } else {
       setStatus(false);
     }
-  }, [currentElement, inView, ssid]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [inView]);
 
   return (
     <Box
@@ -87,7 +88,12 @@ const ShortVideo = ({ currentElement, item, isHome }) => {
               />
             </ButtonBase>
 
-            <Interaction isHome={isHome} data={services} ssid={ssid} />
+            <Interaction
+              isHome={isHome}
+              opData={opData}
+              data={services}
+              ssid={ssid}
+            />
           </Box>
 
           <Box

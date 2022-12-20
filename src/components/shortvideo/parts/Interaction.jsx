@@ -6,7 +6,7 @@ import CommentButton from './CommentButton';
 import HeartButton from './HeartButton';
 import VideoAvatar from './VideoAvatar';
 
-const Interaction = ({ isHome, data, ssid }) => {
+const Interaction = ({ isHome, opData, data, ssid }) => {
   const { bm, hs, count_heart, count_comment } = data;
 
   return (
@@ -21,7 +21,7 @@ const Interaction = ({ isHome, data, ssid }) => {
         zIndex: 15,
       }}
     >
-      {isHome && <VideoAvatar />}
+      {isHome && <VideoAvatar opData={opData} />}
       <HeartButton isHeart={hs} count={count_heart} />
       <CommentButton isHome={isHome} count={count_comment} ssid={ssid} />
       <BookmarkButton isBM={bm} />
