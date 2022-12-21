@@ -12,8 +12,8 @@ import Interaction from './parts/Interaction';
 
 const ReactPlayer = dynamic(() => import('react-player'), { ssr: false });
 
-const ShortVideo = ({ item, isHome }) => {
-  const { id: ssid, created_at, op_id, uri, caption, music } = item;
+const ShortVideo = ({ data, isHome }) => {
+  const { id: ssid, created_at, op_id, uri, caption, music } = data;
   const [status, setStatus] = useState(false);
   const { ref, inView } = useInView({ threshold: 1 });
 

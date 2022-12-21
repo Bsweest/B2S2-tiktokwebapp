@@ -19,7 +19,6 @@ const SideBarHome = () => {
         height: '100%',
         overflowY: 'auto',
         alignItems: 'center',
-        borderRight: '0.2px solid lightgrey',
       }}
     >
       <List>

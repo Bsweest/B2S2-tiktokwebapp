@@ -23,10 +23,11 @@ const useQueryUserData = (uid) => {
   });
 };
 const useClientData = () => {
-  const uid = clientID.get();
+  const uid = clientID.peek();
 
   return useQuery(['get_user_data', uid], () => getUserData(uid), {
     placeholderData: {
+      displayname: '',
       avatar_url: '',
     },
   });
@@ -86,8 +87,8 @@ const useQueryMarkedShorts = (op_id) => {
 };
 
 //* Check Follow
-const isFollowingOP = async (op_id) => {
-  const client = clientID.get();
+const IsFollowingOP = async (op_id) => {
+  const client = clientID.peek();
 
   const { data, error } = await supabase.rpc('is_following', {
     client: client,
@@ -97,12 +98,12 @@ const isFollowingOP = async (op_id) => {
   return data;
 };
 const useQueryCheckFollow = (op_id) => {
-  return useQuery(['is_following', op_id], () => isFollowingOP(op_id));
+  return useQuery(['is_following', op_id], () => IsFollowingOP(op_id));
 };
 
 //* Check Follow back
 const IsFollowingBack = async (op_id) => {
-  const client = clientID.get();
+  const client = clientID.peek();
 
   const { data, error } = await supabase.rpc('is_following', {
     client: op_id,

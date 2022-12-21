@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 
 import useMsgStyles from './DefaultStyles';
 
-const ChatMsg = ({ avatar, messages, side }) => {
+const ChatMsg = ({ avatarUrl, messages, side }) => {
   const styles = useMsgStyles();
 
   const attachClass = (index) => {
@@ -25,30 +25,32 @@ const ChatMsg = ({ avatar, messages, side }) => {
       container
       sx={{
         justifyContent: side === 'right' ? 'flex-end' : 'flex-start',
+        mt: '8px',
       }}
     >
       {side === 'left' && (
         <Grid item>
-          <Avatar src={avatar} sx={styles.avatar} />
+          <Avatar src={avatarUrl} sx={styles.avatar} />
         </Grid>
       )}
       <Grid item xs={8}>
-        {messages.map((msg, index) => {
-          return (
-            <Box key={msg.id || index} sx={styles[`${side}Row`]}>
-              <Typography
-                align={'left'}
-                sx={{
-                  ...styles.msg,
-                  ...styles[side],
-                  ...attachClass(index),
-                }}
-              >
-                {msg}
-              </Typography>
-            </Box>
-          );
-        })}
+        <Box className="flex" sx={{ flex: 1, flexDirection: 'column-reverse' }}>
+          {messages.map((msg, index) => {
+            return (
+              <Box key={msg.id || index} sx={styles[`${side}Row`]}>
+                <Typography
+                  sx={{
+                    ...styles.msg,
+                    ...styles[side],
+                    ...attachClass(index),
+                  }}
+                >
+                  {msg}
+                </Typography>
+              </Box>
+            );
+          })}
+        </Box>
       </Grid>
     </Grid>
   );

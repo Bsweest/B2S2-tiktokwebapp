@@ -43,7 +43,7 @@ const mutateProfileField = () => {
 
   return useMutation(updateProfleField, {
     onSuccess: () => {
-      queryClient.invalidateQueries(['get_user_data', clientID.get()]);
+      queryClient.invalidateQueries(['get_user_data', clientID.peek()]);
     },
   });
 };

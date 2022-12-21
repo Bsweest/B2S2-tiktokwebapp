@@ -1,11 +1,12 @@
 import { useQuery } from '@tanstack/react-query';
+import { v4 } from 'uuid';
 
 import { clientID } from '../../src/templates/global/ClientData';
 import { supabase } from '../supabase';
 
 //* get all chat rooms
-const getChatRooms = async (bool) => {
-  const client = clientID.get();
+const GetChatRooms = async (bool) => {
+  const client = clientID.peek();
 
   const { data, error } = await supabase.rpc('get_chatrooms', {
     client: client,
@@ -14,13 +15,15 @@ const getChatRooms = async (bool) => {
 
   return data;
 };
-const queryChatRooms = (bool) => {
-  return useQuery(['mess_list', bool], () => getChatRooms(bool));
+const useQueryChatRooms = (bool) => {
+  return useQuery(['mess_list', bool], () => GetChatRooms(bool), {
+    placeholderData: [],
+  });
 };
 
 //* Get last Messages of Chatroom
-const getLastMessage = async (room_id) => {
-  const client = clientID.get();
+const GetLastMessage = async (room_id) => {
+  const client = clientID.peek();
 
   const { data, error } = await supabase.rpc('get_last_message', {
     rmid: room_id,
@@ -29,10 +32,10 @@ const getLastMessage = async (room_id) => {
 
   return data;
 };
-const queryLastMessage = (room_id) => {
+const useQueryLastMessage = (room_id) => {
   return useQuery(
     ['get_last_message', room_id],
-    () => getLastMessage(room_id),
+    () => GetLastMessage(room_id),
     {
       placeholderData: {
         content: '',
@@ -44,7 +47,9 @@ const queryLastMessage = (room_id) => {
 };
 
 //* get messages of chat room
-const getInfiniteMessages = async (room_id) => {
+const GetInfiniteMessages = async (room_id) => {
+  if (!room_id) return null;
+
   const { data, error } = await supabase
     .from('messages')
     .select()
@@ -53,15 +58,19 @@ const getInfiniteMessages = async (room_id) => {
 
   return data;
 };
-const queryInfiniteMessages = (room_id) => {
-  return useQuery(['get_chatroom', room_id], () =>
-    getInfiniteMessages(room_id),
+const useQueryInfiniteMessages = (room_id) => {
+  return useQuery(
+    ['get_chat_messages', room_id],
+    () => GetInfiniteMessages(room_id),
+    {
+      placeholderData: [],
+    },
   );
 };
 
 //* Create Chat room and Add participant
 const createRoom = async (op_id) => {
-  const client = clientID.get();
+  const client = clientID.peek();
 
   const { data } = await supabase.from('chatrooms').insert().select().single();
 
@@ -71,4 +80,9 @@ const createRoom = async (op_id) => {
   ]);
 };
 
-export { queryChatRooms, queryLastMessage, queryInfiniteMessages, createRoom };
+export {
+  useQueryChatRooms,
+  useQueryLastMessage,
+  useQueryInfiniteMessages,
+  createRoom,
+};

@@ -14,8 +14,11 @@ import Link from '@mui/material/Link';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
+import { useUser } from '@supabase/auth-helpers-react';
+import { useEffect } from 'react';
 import { useState } from 'react';
 
+import UseSignIn from '../../../../../backend/auth/LoginFunction';
 import { supabase } from '../../../../../backend/supabase';
 
 const LoginWithEmail = ({
@@ -30,6 +33,8 @@ const LoginWithEmail = ({
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
 
+  const user = useUser();
+
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
   const handleMouseDownPassword = (event) => {
@@ -43,6 +48,10 @@ const LoginWithEmail = ({
   const handleChangePassword = (event) => {
     setPassword(event.target.value);
   };
+
+  useEffect(() => {
+    if (user) setValid(true);
+  }, [user]);
 
   async function logIn() {
     try {
@@ -62,6 +71,7 @@ const LoginWithEmail = ({
       }
     } catch (error) {}
   }
+
   return (
     <>
       <Box
@@ -82,7 +92,6 @@ const LoginWithEmail = ({
           onClick={() => handleClickLogin()}
         />
         <Avatar
-          vatar
           sx={{
             width: 30,
             height: 30,
@@ -192,7 +201,7 @@ const LoginWithEmail = ({
               backgroundColor: '#FE2C55',
             }}
             variant="contained"
-            onClick={() => logIn()}
+            onClick={logIn}
           >
             Next
           </Button>
