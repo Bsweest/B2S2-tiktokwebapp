@@ -24,16 +24,6 @@ const ListenChatroom = (room_id) => {
         queryClient.setQueryData(
           ['get_last_message', room_id],
           ({ id, last_read_id }) => {
-            console.log(
-              'chatID',
-              ChatRoomInFocused.get(),
-              'room',
-              room_id,
-              'id',
-              payload.new.id,
-              'last',
-              last_read_id,
-            );
             return {
               ...payload.new,
               last_read_id:

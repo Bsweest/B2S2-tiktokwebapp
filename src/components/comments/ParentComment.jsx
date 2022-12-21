@@ -28,8 +28,8 @@ const ParentComment = ({ data }) => {
     setIsOpen((prev) => !prev);
   };
 
-  const renderItem = (item, index) => {
-    return <Comment key={index} isParent={false} data={item} />;
+  const renderItem = (item) => {
+    return <Comment key={item.id} isParent={false} data={item} />;
   };
 
   return (

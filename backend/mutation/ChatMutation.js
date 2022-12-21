@@ -5,7 +5,7 @@ import { supabase } from '../supabase';
 
 const addChat = async (props) => {
   const { content, room_id } = props;
-  const sender = clientID.get();
+  const sender = clientID.peek();
 
   const { data, error } = await supabase
     .from('messages')
@@ -25,7 +25,7 @@ const mutateChat = () => {
 };
 
 const changeReadStatus = async (props) => {
-  const client = clientID.get();
+  const client = clientID.peek();
   const { room_id, messID } = props;
 
   const { data, error } = await supabase

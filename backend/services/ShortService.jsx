@@ -9,7 +9,7 @@ import { supabase } from '../supabase';
  */
 
 const GetShortData = async (ssid) => {
-  const client = clientID.get();
+  const client = clientID.peek();
 
   const { data } = await supabase.rpc('short_services', {
     client: client,

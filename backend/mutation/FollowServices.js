@@ -5,7 +5,7 @@ import { supabase } from '../supabase';
 
 const updateFollow = async (props) => {
   const { op_id, bool } = props;
-  const client = clientID.get();
+  const client = clientID.peek();
 
   bool
     ? await supabase

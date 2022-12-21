@@ -5,7 +5,7 @@ import { supabase } from '../supabase';
 
 //* Get all friend data
 const GetFriends = async () => {
-  const client = clientID.get();
+  const client = clientID.peek();
   const { data } = await supabase.rpc('get_friends', {
     client: client,
   });
@@ -18,7 +18,7 @@ const queryAllFriend = () => {
 
 //* Return room ID of friend, if not exist return null
 const findRoomID = async (op_id) => {
-  const client = clientID.get();
+  const client = clientID.peek();
 
   const { data } = await supabase.rpc('find_room_id', {
     client: client,
