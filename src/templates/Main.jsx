@@ -1,6 +1,9 @@
 import '@fontsource/varela-round';
 import Add from '@mui/icons-material/Add';
+import NotificationsActiveRoundedIcon from '@mui/icons-material/NotificationsActiveRounded';
 import Search from '@mui/icons-material/Search';
+import SendRoundedIcon from '@mui/icons-material/SendRounded';
+import { Avatar, Badge } from '@mui/material';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -12,17 +15,21 @@ import Image from 'next/Image';
 import { useEffect, useState } from 'react';
 
 import OpenDialog from '../components/auth/Login/OpenLoginDialogBtn';
+import AccountDropdown from '../components/header/AccountDropdown';
 import { muiTheme } from '../styles/muiStyles';
 
 const Main = ({ children }) => {
   const [isUserId, setIsUserId] = useState(false);
+
   useEffect(() => {
     handleGetSession();
   }, []);
+
   const handleGetSession = () => {
     if (window.localStorage.getItem('userId') != null) setIsUserId(true);
     else setIsUserId(false);
   };
+
   return (
     <>
       <ThemeProvider theme={muiTheme}>
@@ -89,26 +96,42 @@ const Main = ({ children }) => {
               />
             </SearchContainer>
 
-            <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+            <Box
+              sx={{
+                display: { xs: 'none', md: 'flex' },
+                alignItems: 'center',
+                gap: '25px',
+              }}
+            >
               {isUserId ? (
-                <Button
-                  sx={{
-                    marginRight: 1,
-                    width: 100,
-                    borderRadius: '15px',
-                    color: 'gray',
-                    borderColor: '#333',
-                  }}
-                  variant="outlined"
-                  startIcon={<Add />}
-                >
-                  Upload
-                </Button>
-              ) : (
-                <Box />
-              )}
+                <>
+                  <Button
+                    sx={{
+                      width: 100,
+                      color: 'gray',
+                      borderColor: '#333',
+                    }}
+                    variant="outlined"
+                    startIcon={<Add />}
+                  >
+                    Upload
+                  </Button>
 
-              <OpenDialog />
+                  <StyledBadge badgeContent={4} color="primary">
+                    <SendRoundedIcon sx={{ width: '30px', height: '30px' }} />
+                  </StyledBadge>
+
+                  <StyledBadge badgeContent={2} color="primary">
+                    <NotificationsActiveRoundedIcon
+                      sx={{ width: '30px', height: '30px' }}
+                    />
+                  </StyledBadge>
+
+                  <AccountDropdown />
+                </>
+              ) : (
+                <OpenDialog />
+              )}
             </Box>
           </AppBar>
 
@@ -162,6 +185,17 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     [theme.breakpoints.up('md')]: {
       width: '40ch',
     },
+  },
+}));
+
+const StyledBadge = styled(Badge)(({ theme }) => ({
+  '& .MuiBadge-badge': {
+    right: 5,
+    top: 30,
+    border: `2px solid ${theme.palette.background.paper}`,
+    padding: '0 4px',
+    backgroundColor: '#EA2D50',
+    color: '#F0EBF2',
   },
 }));
 
