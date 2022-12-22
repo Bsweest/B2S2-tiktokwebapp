@@ -7,9 +7,11 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
+import Link from 'next/link';
 import React, { useState } from 'react';
 
 const AccountDropdown = () => {
+  const userId = window.localStorage.getItem('userId');
   const [anchorElUser, setAnchorElUser] = useState(null);
 
   const handleOpenUserMenu = (event) => {
@@ -20,6 +22,9 @@ const AccountDropdown = () => {
     setAnchorElUser(null);
   };
 
+  const handleClickProfile = () => {
+    handleCloseUserMenu();
+  };
   const logOut = () => {
     window.localStorage.clear();
     location.reload();
@@ -47,8 +52,10 @@ const AccountDropdown = () => {
         open={Boolean(anchorElUser)}
         onClose={handleCloseUserMenu}
       >
-        <MenuItem onClick={handleCloseUserMenu}>
-          <Typography textAlign="center">Profile</Typography>
+        <MenuItem onClick={handleClickProfile}>
+          <Link href={`/profile/${userId}`} textAlign="center">
+            View profile
+          </Link>
         </MenuItem>
         <MenuItem onClick={logOut}>
           <Typography textAlign="center">Log out</Typography>

@@ -15,52 +15,53 @@ const SideBarHome = () => {
     <Box
       className="flex col"
       sx={{
-        width: '250px',
+        width: '350px',
         height: '100%',
         overflowY: 'auto',
         alignItems: 'center',
-        borderRight: '0.2px solid lightgrey',
       }}
     >
-      <List>
-        <ListItemButton>
+      <List sx={{ width: '250px' }}>
+        <ListItemButton sx={{ borderRadius: '15px' }}>
           <ListItemIcon>
-            <HomeIcon sx={{ color: '#FE2C55' }} />
+            <HomeIcon />
           </ListItemIcon>
           <ListItemText
             primary="For You"
             primaryTypographyProps={{
-              color: '#FE2C55',
+              color: '#f1f1f1',
               fontSize: '1.1rem',
-              fontWeight: 'bold',
+              fontWeight: '400px',
               fontFamily: 'cursive',
             }}
           />
         </ListItemButton>
 
-        <ListItemButton>
+        <ListItemButton sx={{ borderRadius: '15px' }}>
           <ListItemIcon>
             <PeopleIcon />
           </ListItemIcon>
           <ListItemText
             primary="Following"
             primaryTypographyProps={{
+              color: '#f1f1f1',
               fontSize: '1.1rem',
-              fontWeight: 'bold',
+              fontWeight: '400px',
               fontFamily: 'cursive',
             }}
           />
         </ListItemButton>
 
-        <ListItemButton>
+        <ListItemButton sx={{ borderRadius: '15px' }}>
           <ListItemIcon>
             <VideocamIcon />
           </ListItemIcon>
           <ListItemText
             primary="LIVE"
             primaryTypographyProps={{
+              color: '#f1f1f1',
               fontSize: '1.1rem',
-              fontWeight: 'bold',
+              fontWeight: '400px',
               fontFamily: 'cursive',
             }}
           />
