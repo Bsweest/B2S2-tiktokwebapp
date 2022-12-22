@@ -3,11 +3,11 @@ import FlatList from 'flatlist-react';
 
 import ShortVideo from './';
 
-const ListVideo = ({ feed }) => {
-  const renderItem = (item) => {
-    return <ShortVideo data={item} key={item.id} isHome={true} />;
-  };
+const renderItem = (item) => {
+  return <ShortVideo data={item} key={item.id} isHome={true} />;
+};
 
+const ListVideo = ({ feed }) => {
   return (
     <List
       sx={{

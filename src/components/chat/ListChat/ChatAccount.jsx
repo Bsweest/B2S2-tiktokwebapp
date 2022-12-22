@@ -1,18 +1,17 @@
+import {
+  changeChatRoom,
+  useIsFocusedChatRoom,
+} from '@/templates/global/ChatRoomInFocused';
+import { clientID } from '@/templates/global/ClientData';
+import getFirstLetter from '@/templates/hooks/getFirstLetter';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import ButtonBase from '@mui/material/ButtonBase';
 import Typography from '@mui/material/Typography';
-import { useState } from 'react';
-import { useEffect } from 'react';
-
-import { useQueryLastMessage } from '../../../../backend/services/ChatServices';
-import useQueryUserData from '../../../../backend/services/ProfileServices';
-import {
-  changeChatRoom,
-  useIsFocusedChatRoom,
-} from '../../../templates/global/ChatRoomInFocused';
-import { clientID } from '../../../templates/global/ClientData';
-import getFirstLetter from '../../../templates/hooks/getFirstLetter';
+import { useQueryLastMessage } from 'backend/services/ChatServices';
+import useQueryUserData from 'backend/services/ProfileServices';
+import useListenChatroom from 'backend/services/RealTimeChat';
+import { useEffect, useState } from 'react';
 
 const ChatAccount = ({ data }) => {
   const { room_id, parti_id } = data;
@@ -23,6 +22,8 @@ const ChatAccount = ({ data }) => {
 
   const { data: chatter, isSuccess: cd1 } = useQueryUserData(parti_id);
   const { data: lastMsg, isSuccess: cd2 } = useQueryLastMessage(room_id);
+
+  useListenChatroom(room_id);
 
   useEffect(() => {
     if (!lastMsg) return;
@@ -44,7 +45,7 @@ const ChatAccount = ({ data }) => {
         justifyContent: 'flex-start',
         backgroundColor: isChat ? '#242F3C' : '',
       }}
-      onClick={() => changeChatRoom(room_id, chatter)}
+      onClick={() => changeChatRoom(room_id, chatter, lastMsg.last_read_id)}
     >
       <Avatar
         alt="chat"

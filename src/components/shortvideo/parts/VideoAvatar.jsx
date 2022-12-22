@@ -1,9 +1,8 @@
 import Box from '@mui/material/Box';
+import { useQueryCheckFollow } from 'backend/services/ProfileServices';
 import { motion } from 'framer-motion';
 import Image from 'next/Image';
 import { useRef, useState } from 'react';
-
-import { useQueryCheckFollow } from '../../../../backend/services/ProfileServices';
 
 const VideoAvatar = ({ opData }) => {
   const { id, avatar_url } = opData;

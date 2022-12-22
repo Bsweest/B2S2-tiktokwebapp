@@ -4,11 +4,11 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
+import { useQueryCommentSection } from 'backend/services/GetComments';
+import useQueryUserData from 'backend/services/ProfileServices';
 import Link from 'next/link';
 import { useEffect } from 'react';
 
-import { useQueryCommentSection } from '../../../backend/services/GetComments';
-import useQueryUserData from '../../../backend/services/ProfileServices';
 import ListComment from '../comments/ListComment';
 
 const SideBarShortDetail = ({ data }) => {

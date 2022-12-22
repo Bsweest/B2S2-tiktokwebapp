@@ -1,4 +1,4 @@
-const useMsgStyles = () => {
+const MsgStyles = () => {
   const radiusPlus = '10rem';
   const size = '2rem';
 
@@ -46,4 +46,4 @@ const useMsgStyles = () => {
   };
 };
 
-export default useMsgStyles;
+export default MsgStyles;

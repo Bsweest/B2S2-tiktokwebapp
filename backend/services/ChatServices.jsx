@@ -1,7 +1,6 @@
+import { clientID } from '@/templates/global/ClientData';
 import { useQuery } from '@tanstack/react-query';
-import { v4 } from 'uuid';
 
-import { clientID } from '../../src/templates/global/ClientData';
 import { supabase } from '../supabase';
 
 //* get all chat rooms

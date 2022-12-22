@@ -2,8 +2,8 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import Typography from '@mui/material/Typography';
+import { useQueryChatRooms } from 'backend/services/ChatServices';
 
-import { useQueryChatRooms } from '../../../backend/services/ChatServices';
 import ListChat from '../chat/ListChat';
 
 const SideBarMessages = () => {

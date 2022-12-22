@@ -14,8 +14,8 @@ enableLegendStateReact();
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: Infinity,
-      cacheTime: Infinity,
+      staleTime: 250000,
+      cacheTime: 300000,
     },
   },
 });

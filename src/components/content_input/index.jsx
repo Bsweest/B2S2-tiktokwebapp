@@ -10,7 +10,7 @@ import { useState } from 'react';
 
 init({ data });
 
-const ContentInput = ({ submitText }) => {
+const ContentInput = ({ sendFn }) => {
   const [value, setValue] = useState('');
   const [showIcon, setShowIcon] = useState(false);
 
@@ -24,9 +24,13 @@ const ContentInput = ({ submitText }) => {
   const onTextChange = ({ target }) => {
     setValue(target.value);
   };
-
   const addEmoji = ({ native }) => {
     setValue((prev) => prev + native);
+  };
+
+  const submitText = () => {
+    sendFn(value);
+    setValue('');
   };
 
   return (
@@ -57,14 +61,10 @@ const ContentInput = ({ submitText }) => {
           sx={{ p: '5px' }}
           onClick={toggleIconPicker}
         >
-          <EmojiEmotionsIcon sx={{}} />
+          <EmojiEmotionsIcon />
         </IconButton>
-        <IconButton
-          aria-label="icon"
-          sx={{ p: '5px' }}
-          onClick={() => submitText(value)}
-        >
-          <SendRoundedIcon sx={{}} />
+        <IconButton aria-label="icon" sx={{ p: '5px' }} onClick={submitText}>
+          <SendRoundedIcon />
         </IconButton>
       </Box>
 

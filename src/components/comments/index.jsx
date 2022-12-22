@@ -1,12 +1,12 @@
+import getFirstLetter from '@/templates/hooks/getFirstLetter';
+import getRelativeTime from '@/templates/hooks/getRelativeTime';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import ButtonBase from '@mui/material/ButtonBase';
 import Typography from '@mui/material/Typography';
+import { useQueryCommentServices } from 'backend/services/GetComments';
+import useQueryUserData from 'backend/services/ProfileServices';
 
-import { useQueryCommentServices } from '../../../backend/services/GetComments';
-import useQueryUserData from '../../../backend/services/ProfileServices';
-import getFirstLetter from '../../templates/hooks/getFirstLetter';
-import getRelativeTime from '../../templates/hooks/getRelativeTime';
 import CommentHeartButton from './CommentHeartButton';
 
 const Comment = ({ isParent, data }) => {
@@ -24,7 +24,7 @@ const Comment = ({ isParent, data }) => {
             src={commenter.avatar_url}
             sx={{ width: isParent ? 38 : 30, height: isParent ? 38 : 30 }}
           >
-            {}
+            {getFirstLetter(commenter.displayname)}
           </Avatar>
           <Box className="flex col" sx={{ flex: 1, ml: '7px' }}>
             <Typography variant="string" color="white" component="h6">
