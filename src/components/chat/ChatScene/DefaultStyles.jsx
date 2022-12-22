@@ -1,5 +1,5 @@
-const useMsgStyles = () => {
-  const radiusPlus = '1.8rem';
+const MsgStyles = () => {
+  const radiusPlus = '10rem';
   const size = '2rem';
 
   return {
@@ -15,9 +15,9 @@ const useMsgStyles = () => {
       textAlign: 'right',
     },
     msg: {
-      p: '0.5rem 1rem',
-      borderRadius: '8px',
-      marginBottom: '2px',
+      p: '0.3rem 1rem',
+      borderRadius: '10px',
+      marginTop: '2px',
       display: 'inline-block',
       wordBreak: 'break-word',
     },
@@ -32,20 +32,18 @@ const useMsgStyles = () => {
       backgroundColor: '#5B24D1',
     },
     leftFirst: {
-      borderTopLeftRadius: radiusPlus,
+      borderBottomLeftRadius: radiusPlus,
     },
     leftLast: {
-      borderBottomLeftRadius: radiusPlus,
-      mb: '8px',
+      borderTopLeftRadius: radiusPlus,
     },
     rightFirst: {
-      borderTopRightRadius: radiusPlus,
+      borderBottomRightRadius: radiusPlus,
     },
     rightLast: {
-      borderBottomRightRadius: radiusPlus,
-      mb: '8px',
+      borderTopRightRadius: radiusPlus,
     },
   };
 };
 
-export default useMsgStyles;
+export default MsgStyles;

@@ -16,7 +16,6 @@ const LoginMethod = ({
   return (
     <>
       <Avatar
-        vatar
         sx={{
           width: 30,
           height: 30,

@@ -1,9 +1,8 @@
 import Box from '@mui/material/Box';
+import { useQueryCheckFollow } from 'backend/services/ProfileServices';
 import { motion } from 'framer-motion';
 import Image from 'next/Image';
 import { useRef, useState } from 'react';
-
-import { useQueryCheckFollow } from '../../../../backend/services/ProfileServices';
 
 const VideoAvatar = ({ opData }) => {
   const { id, avatar_url } = opData;
@@ -24,16 +23,16 @@ const VideoAvatar = ({ opData }) => {
         style={{ borderRadius: '50%', pointerEvents: 'all', cursor: 'pointer' }}
         src={avatar_url}
       />
-      <FollowButton uid={id} />
+      <FollowButton op_id={id} />
     </Box>
   );
 };
 
-const FollowButton = ({ uid }) => {
+const FollowButton = ({ op_id }) => {
   const [isFL, setIsFL] = useState(false);
   const isDone = useRef(true);
 
-  const { data, isSuccess } = useQueryCheckFollow(uid);
+  const { data: isFollow, isSuccess } = useQueryCheckFollow(op_id);
 
   const onAnimationComplete = () => (isDone.current = true);
 

@@ -1,10 +1,13 @@
+import OpenDialog from '@/components/auth/Login/OpenLoginDialogBtn';
+import AccountDropdown from '@/components/header/AccountDropdown';
+import { muiTheme } from '@/styles/muiStyles';
 import '@fontsource/varela-round';
 import Add from '@mui/icons-material/Add';
 import NotificationsActiveRoundedIcon from '@mui/icons-material/NotificationsActiveRounded';
 import Search from '@mui/icons-material/Search';
 import SendRoundedIcon from '@mui/icons-material/SendRounded';
-import { Avatar, Badge } from '@mui/material';
 import AppBar from '@mui/material/AppBar';
+import Badge from '@mui/material/Badge';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -13,10 +16,6 @@ import Typography from '@mui/material/Typography';
 import { ThemeProvider, styled } from '@mui/material/styles';
 import Image from 'next/Image';
 import { useEffect, useState } from 'react';
-
-import OpenDialog from '../components/auth/Login/OpenLoginDialogBtn';
-import AccountDropdown from '../components/header/AccountDropdown';
-import { muiTheme } from '../styles/muiStyles';
 
 const Main = ({ children }) => {
   const [isUserId, setIsUserId] = useState(false);

@@ -1,19 +1,19 @@
+import { changeCurrentElement } from '@/templates/global/ListVideoStates';
 import Box from '@mui/material/Box';
 import ButtonBase from '@mui/material/ButtonBase';
+import useQueryUserData from 'backend/services/ProfileServices';
+import useQueryShortServives from 'backend/services/ShortService';
 import dynamic from 'next/dynamic';
 import { useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 
-import useQueryUserData from '../../../backend/services/ProfileServices';
-import useQueryShortServives from '../../../backend/services/ShortService';
-import { changeCurrentElement } from '../../templates/global/ListVideoStates';
 import Description from './parts/Description';
 import Interaction from './parts/Interaction';
 
 const ReactPlayer = dynamic(() => import('react-player'), { ssr: false });
 
-const ShortVideo = ({ item, isHome }) => {
-  const { id: ssid, created_at, op_id, uri, caption, music } = item;
+const ShortVideo = ({ data, isHome }) => {
+  const { id: ssid, created_at, op_id, uri, caption, music } = data;
   const [status, setStatus] = useState(false);
   const { ref, inView } = useInView({ threshold: 1 });
 

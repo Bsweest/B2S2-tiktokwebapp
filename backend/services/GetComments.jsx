@@ -1,6 +1,6 @@
+import { clientID } from '@/templates/global/ClientData';
 import { useQuery } from '@tanstack/react-query';
 
-import { clientID } from '../../src/templates/global/ClientData';
 import { supabase } from '../supabase';
 
 //* Get All comment
@@ -31,7 +31,7 @@ const useQueryCommentSection = (fetchID, pid, ac, isOpen) => {
 
 //* Check Heart Comment
 const CommentServices = async (cmid) => {
-  const client = clientID.get();
+  const client = clientID.peek();
 
   const { data, error } = await supabase.rpc('comment_services', {
     cm_id: cmid,

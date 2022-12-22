@@ -1,11 +1,11 @@
+import { clientID } from '@/templates/global/ClientData';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { clientID } from '../../src/templates/global/ClientData';
 import { supabase } from '../supabase';
 
 const updateBookmark = async (props) => {
   const { ssid, bool } = props;
-  const client = clientID.get();
+  const client = clientID.peek();
 
   bool
     ? await supabase.from('_bookmark').insert({ uid: client, ssid: ssid })

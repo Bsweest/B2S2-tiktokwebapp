@@ -1,11 +1,11 @@
+import { clientID } from '@/templates/global/ClientData';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { clientID } from '../../src/templates/global/ClientData';
 import { supabase } from '../supabase';
 
 const updateHeartShort = async (props) => {
   const { ssid, bool } = props;
-  const client = clientID.get();
+  const client = clientID.peek();
 
   bool
     ? await supabase.from('_heart_short').insert({ uid: client, ssid: ssid })
@@ -35,7 +35,7 @@ const mutateHeart = (ssid) => {
 
 const updateHeartComment = async (props) => {
   const { cmid, bool } = props;
-  const client = clientID.get();
+  const client = clientID.peek();
 
   bool
     ? await supabase.from('_heart_comment').insert({ uid: client, cmid: cmid })

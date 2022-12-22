@@ -6,6 +6,16 @@ body {
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
+@media (prefers-color-scheme: light) {
+  html {
+    color-scheme: light;
+  }
+  body {
+    color: dark;
+    background: white;
+  }
+}
+
 a {
   color: inherit;
   text-decoration: none;
@@ -23,14 +33,10 @@ a {
   text-decoration: underline;
 }
 
-@media (prefers-color-scheme: light) {
-  html {
-    color-scheme: light;
-  }
-  body {
-    color: dark;
-    background: white;
-  }
+em-emoji-picker {
+  height: 16rem;
+  min-height: 100px;
+  max-height: 400px;
 }
 
 .block {

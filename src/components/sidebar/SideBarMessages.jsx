@@ -2,10 +2,13 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import Typography from '@mui/material/Typography';
+import { useQueryChatRooms } from 'backend/services/ChatServices';
 
 import ListChat from '../chat/ListChat';
 
-const SideBarMessages = ({}) => {
+const SideBarMessages = () => {
+  const { data: listFriendChat, isSuccess } = useQueryChatRooms(true);
+
   return (
     <Box
       className="flex col"
@@ -55,7 +58,7 @@ const SideBarMessages = ({}) => {
         </ButtonGroup>
       </Box>
 
-      <ListChat />
+      <ListChat list={listFriendChat} />
     </Box>
   );
 };

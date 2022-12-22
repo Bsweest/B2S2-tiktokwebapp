@@ -1,30 +1,89 @@
+import { useFocusedRoomData } from '@/templates/global/ChatRoomInFocused';
+import convertChatMsg from '@/templates/hooks/convertMessages';
 import Box from '@mui/material/Box';
+import List from '@mui/material/List';
+import {
+  useMutateChat,
+  useMutateLastReadMess,
+} from 'backend/mutation/ChatMutation';
+import { useQueryInfiniteMessages } from 'backend/services/ChatServices';
+import FlatList from 'flatlist-react';
+import { useCallback, useEffect, useState } from 'react';
 
+import ContentInput from '../../content_input';
 import ChatMsg from './ChatMsg';
 
 const ChatScene = () => {
+  const { roomID, chatter, lastRead } = useFocusedRoomData();
+
+  const [messages, setMessages] = useState();
+
+  const { data } = useQueryInfiniteMessages(roomID);
+
+  const { mutate: addChat } = useMutateChat();
+  const { mutate: changeLastRead } = useMutateLastReadMess();
+
+  const sendMsg = (content) => {
+    addChat({ content: content, room_id: roomID });
+  };
+
+  const renderItem = useCallback(
+    (item) => {
+      return (
+        <ChatMsg
+          key={item.uuid}
+          id={item.id}
+          side={item.side}
+          avatarUrl={chatter.avatar_url}
+          displayname={chatter.displayname}
+          messages={item.msg}
+        />
+      );
+    },
+    [chatter],
+  );
+
+  useEffect(() => {
+    if (!data) return;
+    if (data.length === 0) return;
+
+    if (lastRead !== data[0].id) {
+      changeLastRead({ room_id: roomID, messID: data[0].id });
+    }
+
+    setMessages(convertChatMsg(data));
+  }, [data, changeLastRead, lastRead, roomID]);
+
   return (
     <Box
       className="flex col"
       sx={{
-        borderRadius: '12px',
         flex: 1,
-        overflowY: 'scroll',
+        borderRadius: '12px',
         boxShadow: 'rgba(255, 255, 255, 0.1) 0px 0px 0px 2px',
-        py: '1rem',
-        px: '0.8rem',
       }}
     >
-      <ChatMsg
-        avatar={''}
-        messages={[
-          'Hi Jenny, How r u today?',
-          'Did you train yesterday',
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Volutpat lacus laoreet non curabitur gravida.',
-        ]}
-      />
-      <ChatMsg side={'right'} messages={["Great! What's about you?"]} />
-      <ChatMsg avatar={''} messages={['Im good.']} />
+      {chatter ? (
+        <>
+          <List
+            sx={{
+              display: 'flex',
+              flex: 1,
+              width: '100%',
+              flexDirection: 'column-reverse',
+              overflowY: 'scroll',
+              py: '1rem',
+              px: '0.8rem',
+            }}
+          >
+            <FlatList list={messages} renderItem={renderItem} />
+          </List>
+
+          <ContentInput sendFn={sendMsg} />
+        </>
+      ) : (
+        <></>
+      )}
     </Box>
   );
 };

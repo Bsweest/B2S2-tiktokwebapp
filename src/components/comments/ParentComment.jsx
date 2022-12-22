@@ -11,6 +11,10 @@ import {
   useQueryCountChildComment,
 } from '../../../backend/services/GetComments';
 
+const renderItem = (item) => {
+  return <Comment key={item.id} isParent={false} data={item} />;
+};
+
 const ParentComment = ({ data }) => {
   const pid = data.id;
 
@@ -26,10 +30,6 @@ const ParentComment = ({ data }) => {
 
   const onClick = () => {
     setIsOpen((prev) => !prev);
-  };
-
-  const renderItem = (item, index) => {
-    return <Comment key={index} isParent={false} data={item} />;
   };
 
   return (

@@ -2,11 +2,11 @@ import FlatList from 'flatlist-react';
 
 import ParentComment from './ParentComment';
 
-const ListComment = ({ list }) => {
-  const renderItem = (item, index) => {
-    return <ParentComment key={index} data={item} />;
-  };
+const renderItem = (item) => {
+  return <ParentComment key={item.id} data={item} />;
+};
 
+const ListComment = ({ list }) => {
   return (
     <div
       className="flex col"

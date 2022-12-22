@@ -1,6 +1,6 @@
+import { clientID } from '@/templates/global/ClientData';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { clientID } from '../../src/templates/global/ClientData';
 import { supabase } from '../supabase';
 
 const updateAvatar = async (client, file, isAdd) => {
@@ -43,7 +43,7 @@ const mutateProfileField = () => {
 
   return useMutation(updateProfleField, {
     onSuccess: () => {
-      queryClient.invalidateQueries(['get_user_data', clientID.get()]);
+      queryClient.invalidateQueries(['get_user_data', clientID.peek()]);
     },
   });
 };

@@ -1,11 +1,11 @@
+import { clientID } from '@/templates/global/ClientData';
 import { useMutation } from '@tanstack/react-query';
 
-import { clientID } from '../../src/templates/global/ClientData';
 import { supabase } from '../supabase';
 
 const addComment = async (props) => {
   const { content, p_id, ssid } = props;
-  const poster = clientID.get();
+  const poster = clientID.peek();
 
   const { data, error } = await supabase
     .from('comments')
