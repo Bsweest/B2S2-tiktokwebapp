@@ -1,11 +1,11 @@
+// import ShortVideo from '../../components/shortvideo';
+import ShortVideo from '@/components/shortvideo';
+import SideBarShortDetail from '@/components/sidebar/SideBarShortDetail';
 import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
+import { useQuerySingleVideo } from 'backend/services/GetNewFeed';
 import { useRouter } from 'next/router';
-
-import { useQuerySingleVideo } from '../../../backend/services/GetNewFeed';
-import ShortVideo from '../../components/shortvideo';
-import SideBarShortDetail from '../../components/sidebar/SideBarShortDetail';
 
 const ShortDetail = () => {
   const router = useRouter();

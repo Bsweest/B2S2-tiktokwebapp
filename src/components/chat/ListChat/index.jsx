@@ -3,11 +3,11 @@ import FlatList from 'flatlist-react';
 
 import ChatAccount from './ChatAccount';
 
-const ListChat = ({ list }) => {
-  const renderItem = (item) => {
-    return <ChatAccount key={item.room_id} data={item} />;
-  };
+const renderItem = (item) => {
+  return <ChatAccount key={item.room_id} data={item} />;
+};
 
+const ListChat = ({ list }) => {
   return (
     <div style={{ flex: 1, overflowY: 'scroll' }}>
       <FlatList list={list} renderItem={renderItem} />

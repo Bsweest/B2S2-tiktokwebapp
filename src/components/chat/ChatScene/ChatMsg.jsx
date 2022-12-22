@@ -4,10 +4,10 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import PropTypes from 'prop-types';
 
-import useMsgStyles from './DefaultStyles';
+import MsgStyles from './DefaultStyles';
 
 const ChatMsg = ({ avatarUrl, messages, side }) => {
-  const styles = useMsgStyles();
+  const styles = MsgStyles();
 
   const attachClass = (index) => {
     const style = {};

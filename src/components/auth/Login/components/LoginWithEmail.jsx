@@ -15,11 +15,9 @@ import OutlinedInput from '@mui/material/OutlinedInput';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { useUser } from '@supabase/auth-helpers-react';
+import { supabase } from 'backend/supabase';
 import { useEffect } from 'react';
 import { useState } from 'react';
-
-import UseSignIn from '../../../../../backend/auth/LoginFunction';
-import { supabase } from '../../../../../backend/supabase';
 
 const LoginWithEmail = ({
   handleClose,

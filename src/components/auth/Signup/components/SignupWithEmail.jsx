@@ -20,7 +20,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import dayjs from 'dayjs';
 import { useState } from 'react';
 
-import { supabase } from '../../../../../backend/supabase';
+import { supabase } from '/backend/supabase';
 
 const SignupWithEmail = ({
   handleClose,
