@@ -1,3 +1,4 @@
+import OpenEditProfileBtn from '@/components/account/OpenEditProfileBtn';
 import {
   Avatar,
   Box,
@@ -14,9 +15,8 @@ import { useEffect } from 'react';
 import { supabase } from '../../../backend/supabase';
 import SideBarHome from '../../components/sidebar/SideBarHome';
 
-const UserProfile = () => {
+const AccountProfile = () => {
   const [value, setValue] = useState(0);
-  const [isFollow, setIsFollow] = useState(false);
   const [username, setUsername] = useState('');
   const [displayname, setDisplayname] = useState('');
   const [bio, setBio] = useState('');
@@ -25,20 +25,13 @@ const UserProfile = () => {
     setValue(newValue);
   };
 
-  const handleClickFollow = () => {
-    if (isFollow) setIsFollow(false);
-    else setIsFollow(true);
-  };
-
   useEffect(() => {
     getProfileUser();
   }, []);
 
   async function getProfileUser() {
-    const result = await supabase
-      .from('profiles')
-      .select()
-      .eq('id', '74e85020-5c01-46b6-9b23-0a2cd4a7c76b');
+    const id = window.localStorage.getItem('userId');
+    const result = await supabase.from('profiles').select().eq('id', id);
     const user = result.data[0];
     setUsername(user.username);
     setBio(user.bio);
@@ -97,48 +90,7 @@ const UserProfile = () => {
                 {username}
               </Typography>
               <Typography sx={{ color: '#f1f1f1' }}>{displayname}</Typography>
-              {isFollow ? (
-                <Button
-                  sx={{
-                    height: '40px',
-                    width: '250px',
-                    marginTop: '28px',
-                    textTransform: 'none',
-                    p: '12px',
-                    '&:hover': {
-                      backgroundColor: '#313131',
-                    },
-                    color: '#f1f1f1',
-                    fontWeight: '700',
-                    fontSize: '16px',
-                  }}
-                  variant="outlined"
-                  onClick={handleClickFollow}
-                >
-                  Followed ✓
-                </Button>
-              ) : (
-                <Button
-                  sx={{
-                    height: '40px',
-                    width: '250px',
-                    marginTop: '28px',
-                    textTransform: 'none',
-                    p: '12px',
-                    backgroundColor: '#FE2C55',
-                    '&:hover': {
-                      backgroundColor: '#a80022',
-                    },
-                    color: '#f1f1f1',
-                    fontWeight: '700',
-                    fontSize: '16px',
-                  }}
-                  variant="contained"
-                  onClick={handleClickFollow}
-                >
-                  Follow
-                </Button>
-              )}
+              <OpenEditProfileBtn />
             </Box>
           </Box>
 
@@ -290,4 +242,4 @@ const itemData = [
   },
 ];
 
-export default UserProfile;
+export default AccountProfile;
