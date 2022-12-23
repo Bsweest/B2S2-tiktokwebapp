@@ -49,8 +49,8 @@ const Main = ({ children }) => {
               justifyContent: 'space-between',
               zIndex: 0,
               backgroundColor: '#030303',
-              paddingLeft: '50px',
-              paddingRight: '50px',
+              paddingLeft: '35px',
+              paddingRight: '35px',
             }}
           >
             <Box
