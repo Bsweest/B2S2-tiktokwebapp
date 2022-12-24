@@ -1,19 +1,22 @@
-import SideBarHome from '@/components/sidebar/SideBarHome';
 import {
   Avatar,
   Box,
   Button,
+  CircularProgress,
   ImageList,
   ImageListItem,
   Tab,
   Tabs,
   Typography,
 } from '@mui/material';
-import { UpsertAvatar } from 'backend/mutation/ProfileMutation';
-import { supabase } from 'backend/supabase';
-import { useEffect, useState } from 'react';
+import React, { useState } from 'react';
+import { useEffect } from 'react';
+
+import { supabase } from '../../../backend/supabase';
+import SideBarHome from '../../components/sidebar/SideBarHome';
 
 const UserProfile = () => {
+  const [loading, setLoading] = useState(false);
   const [value, setValue] = useState(0);
   const [isFollow, setIsFollow] = useState(false);
   const [username, setUsername] = useState('');
@@ -35,6 +38,7 @@ const UserProfile = () => {
   }, []);
 
   async function getProfileUser() {
+    setLoading(true);
     const result = await supabase
       .from('profiles')
       .select()
@@ -44,24 +48,8 @@ const UserProfile = () => {
     setBio(user.bio);
     setDisplayname(user.displayname);
     setAvatar(user.avatar_url);
+    setLoading(false);
   }
-
-  //! update avatar của id này
-  const mockId = 'b28be60b-d83a-4e02-b818-126976925a06';
-
-  const handleGetLocalAvatar = async (e) => {
-    const obj = e.target.files[0];
-
-    const data = await UpsertAvatar(mockId, obj, true);
-
-    if (data) console.log('success');
-    else console.log('fail');
-  };
-  /**
-   *! Chỉ cần như này thôi, thành công thì lấy url về, mà có thay đổi trên database mà
-   *! browser cache media file trước thì nó cũng không đổi, hiện cái dialog rằng thay đổi
-   *! sẽ áp dụng lần sau user đăng nhập
-   */
 
   return (
     <Box
@@ -80,113 +68,126 @@ const UserProfile = () => {
           flexDirection: 'column',
           padding: '16px',
           overflow: 'auto',
+          '&::-webkit-scrollbar, & *::-webkit-scrollbar': {
+            backgroundColor: 'transparent',
+          },
+          '&::-webkit-scrollbar-thumb, & *::-webkit-scrollbar-thumb': {
+            borderRadius: 8,
+            border: '5px solid #323232',
+          },
+          '&::-webkit-scrollbar-thumb:hover, & *::-webkit-scrollbar-thumb:hover':
+            {
+              backgroundColor: '#959595',
+            },
         }}
       >
-        <Box sx={{ width: '650px', marginBottom: '20px' }}>
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'row',
-            }}
-          >
-            <Avatar src={avatar} sx={{ width: '150px', height: '150px' }} />
+        {loading ? (
+          <CircularProgress color="inherit" />
+        ) : (
+          <Box sx={{ width: '650px', marginBottom: '20px' }}>
             <Box
               sx={{
-                height: '100%',
                 display: 'flex',
-                flexDirection: 'column',
-                padding: '10px 0px 0px 20px',
+                flexDirection: 'row',
               }}
             >
-              <Typography
-                sx={{ fontSize: '28px', fontWeight: '700', color: '#f1f1f1' }}
+              <Avatar src={avatar} sx={{ width: '150px', height: '150px' }} />
+              <Box
+                sx={{
+                  height: '100%',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  padding: '10px 0px 0px 20px',
+                }}
               >
-                {username}
-              </Typography>
-              <Typography sx={{ color: '#f1f1f1' }}>{displayname}</Typography>
-              <input type="file" onChange={handleGetLocalAvatar} />
-
-              {isFollow ? (
-                <Button
-                  sx={{
-                    height: '40px',
-                    width: '250px',
-                    marginTop: '28px',
-                    textTransform: 'none',
-                    p: '12px',
-                    '&:hover': {
-                      backgroundColor: '#313131',
-                    },
-                    color: '#f1f1f1',
-                    fontWeight: '700',
-                    fontSize: '16px',
-                  }}
-                  variant="outlined"
-                  onClick={handleClickFollow}
+                <Typography
+                  sx={{ fontSize: '28px', fontWeight: '700', color: '#f1f1f1' }}
                 >
-                  Followed ✓
-                </Button>
-              ) : (
-                <Button
-                  sx={{
-                    height: '40px',
-                    width: '250px',
-                    marginTop: '28px',
-                    textTransform: 'none',
-                    p: '12px',
-                    backgroundColor: '#FE2C55',
-                    '&:hover': {
-                      backgroundColor: '#a80022',
-                    },
-                    color: '#f1f1f1',
-                    fontWeight: '700',
-                    fontSize: '16px',
-                  }}
-                  variant="contained"
-                  onClick={handleClickFollow}
-                >
-                  Follow
-                </Button>
-              )}
+                  {username}
+                </Typography>
+                <Typography sx={{ color: '#f1f1f1' }}>{displayname}</Typography>
+                {isFollow ? (
+                  <Button
+                    sx={{
+                      height: '40px',
+                      width: '250px',
+                      marginTop: '28px',
+                      textTransform: 'none',
+                      p: '12px',
+                      '&:hover': {
+                        backgroundColor: '#313131',
+                      },
+                      color: '#f1f1f1',
+                      fontWeight: '700',
+                      fontSize: '16px',
+                    }}
+                    variant="outlined"
+                    onClick={handleClickFollow}
+                  >
+                    Followed ✓
+                  </Button>
+                ) : (
+                  <Button
+                    sx={{
+                      height: '40px',
+                      width: '250px',
+                      marginTop: '28px',
+                      textTransform: 'none',
+                      p: '12px',
+                      backgroundColor: '#FE2C55',
+                      '&:hover': {
+                        backgroundColor: '#a80022',
+                      },
+                      color: '#f1f1f1',
+                      fontWeight: '700',
+                      fontSize: '16px',
+                    }}
+                    variant="contained"
+                    onClick={handleClickFollow}
+                  >
+                    Follow
+                  </Button>
+                )}
+              </Box>
             </Box>
-          </Box>
 
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'row',
-              padding: '15px 0px 15px 0px',
-              gap: '20px',
-            }}
-          >
-            <Box className="flex row" sx={{ gap: '10px' }}>
-              <Typography sx={{ fontSize: '22px', fontWeight: 'bold' }}>
-                22
-              </Typography>
-              <Typography sx={{ fontSize: '16px', marginTop: '6px' }}>
-                Following
-              </Typography>
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'row',
+                padding: '15px 0px 15px 0px',
+                gap: '20px',
+              }}
+            >
+              <Box className="flex row" sx={{ gap: '10px' }}>
+                <Typography sx={{ fontSize: '22px', fontWeight: 'bold' }}>
+                  22
+                </Typography>
+                <Typography sx={{ fontSize: '16px', marginTop: '6px' }}>
+                  Following
+                </Typography>
+              </Box>
+              <Box className="flex row" sx={{ gap: '10px' }}>
+                <Typography sx={{ fontSize: '22px', fontWeight: 'bold' }}>
+                  132K
+                </Typography>
+                <Typography sx={{ fontSize: '16px', marginTop: '6px' }}>
+                  Followers
+                </Typography>
+              </Box>
+              <Box className="flex row" sx={{ gap: '10px' }}>
+                <Typography sx={{ fontSize: '22px', fontWeight: 'bold' }}>
+                  100M
+                </Typography>
+                <Typography sx={{ fontSize: '16px', marginTop: '6px' }}>
+                  Likes
+                </Typography>
+              </Box>
             </Box>
-            <Box className="flex row" sx={{ gap: '10px' }}>
-              <Typography sx={{ fontSize: '22px', fontWeight: 'bold' }}>
-                132K
-              </Typography>
-              <Typography sx={{ fontSize: '16px', marginTop: '6px' }}>
-                Followers
-              </Typography>
-            </Box>
-            <Box className="flex row" sx={{ gap: '10px' }}>
-              <Typography sx={{ fontSize: '22px', fontWeight: 'bold' }}>
-                100M
-              </Typography>
-              <Typography sx={{ fontSize: '16px', marginTop: '6px' }}>
-                Likes
-              </Typography>
-            </Box>
-          </Box>
 
-          <Typography>{bio}</Typography>
-        </Box>
+            <Typography>{bio}</Typography>
+          </Box>
+        )}
 
         <Box sx={{ width: '100%' }}>
           <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
@@ -210,10 +211,11 @@ const UserProfile = () => {
             </Tabs>
           </Box>
           <TabPanel value={value} index={0}>
-            <ImageList cols={6}>
+            <ImageList cols={5}>
               {itemData.map((item) => (
                 <ImageListItem key={item.img}>
                   <img
+                    style={{ height: '300px' }}
                     src={`${item.img}?w=164&h=164&fit=crop&auto=format`}
                     srcSet={`${item.img}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
                     alt={item.title}

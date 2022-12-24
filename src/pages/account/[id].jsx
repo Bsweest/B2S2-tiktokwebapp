@@ -3,6 +3,7 @@ import {
   Avatar,
   Box,
   Button,
+  CircularProgress,
   ImageList,
   ImageListItem,
   Tab,
@@ -16,6 +17,7 @@ import { supabase } from '../../../backend/supabase';
 import SideBarHome from '../../components/sidebar/SideBarHome';
 
 const AccountProfile = () => {
+  const [loading, setLoading] = useState(false);
   const [value, setValue] = useState(0);
   const [username, setUsername] = useState('');
   const [displayname, setDisplayname] = useState('');
@@ -32,12 +34,15 @@ const AccountProfile = () => {
 
   async function getProfileUser() {
     const id = window.localStorage.getItem('userId');
+
+    setLoading(true);
     const result = await supabase.from('profiles').select().eq('id', id);
     const user = result.data[0];
     setUsername(user.username);
     setBio(user.bio);
     setDisplayname(user.displayname);
     setAvatar(user.avatar_url);
+    setLoading(false);
   }
 
   return (
@@ -57,70 +62,85 @@ const AccountProfile = () => {
           flexDirection: 'column',
           padding: '16px',
           overflow: 'auto',
+          '&::-webkit-scrollbar, & *::-webkit-scrollbar': {
+            backgroundColor: 'transparent',
+          },
+          '&::-webkit-scrollbar-thumb, & *::-webkit-scrollbar-thumb': {
+            borderRadius: 8,
+            border: '5px solid #323232',
+          },
+          '&::-webkit-scrollbar-thumb:hover, & *::-webkit-scrollbar-thumb:hover':
+            {
+              backgroundColor: '#959595',
+            },
         }}
       >
-        <Box sx={{ width: '650px', marginBottom: '20px' }}>
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'row',
-            }}
-          >
-            <Avatar src={avatar} sx={{ width: '150px', height: '150px' }} />
+        {loading ? (
+          <CircularProgress color="inherit" />
+        ) : (
+          <Box sx={{ width: '650px', marginBottom: '20px' }}>
             <Box
               sx={{
-                height: '100%',
                 display: 'flex',
-                flexDirection: 'column',
-                padding: '10px 0px 0px 20px',
+                flexDirection: 'row',
               }}
             >
-              <Typography
-                sx={{ fontSize: '28px', fontWeight: '700', color: '#f1f1f1' }}
+              <Avatar src={avatar} sx={{ width: '150px', height: '150px' }} />
+              <Box
+                sx={{
+                  height: '100%',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  padding: '10px 0px 0px 20px',
+                }}
               >
-                {username}
-              </Typography>
-              <Typography sx={{ color: '#f1f1f1' }}>{displayname}</Typography>
-              <OpenEditProfileBtn />
+                <Typography
+                  sx={{ fontSize: '28px', fontWeight: '700', color: '#f1f1f1' }}
+                >
+                  {username}
+                </Typography>
+                <Typography sx={{ color: '#f1f1f1' }}>{displayname}</Typography>
+                <OpenEditProfileBtn />
+              </Box>
             </Box>
-          </Box>
 
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'row',
-              padding: '15px 0px 15px 0px',
-              gap: '20px',
-            }}
-          >
-            <Box className="flex row" sx={{ gap: '10px' }}>
-              <Typography sx={{ fontSize: '22px', fontWeight: 'bold' }}>
-                22
-              </Typography>
-              <Typography sx={{ fontSize: '16px', marginTop: '6px' }}>
-                Following
-              </Typography>
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'row',
+                padding: '15px 0px 15px 0px',
+                gap: '20px',
+              }}
+            >
+              <Box className="flex row" sx={{ gap: '10px' }}>
+                <Typography sx={{ fontSize: '22px', fontWeight: 'bold' }}>
+                  22
+                </Typography>
+                <Typography sx={{ fontSize: '16px', marginTop: '6px' }}>
+                  Following
+                </Typography>
+              </Box>
+              <Box className="flex row" sx={{ gap: '10px' }}>
+                <Typography sx={{ fontSize: '22px', fontWeight: 'bold' }}>
+                  132K
+                </Typography>
+                <Typography sx={{ fontSize: '16px', marginTop: '6px' }}>
+                  Followers
+                </Typography>
+              </Box>
+              <Box className="flex row" sx={{ gap: '10px' }}>
+                <Typography sx={{ fontSize: '22px', fontWeight: 'bold' }}>
+                  100M
+                </Typography>
+                <Typography sx={{ fontSize: '16px', marginTop: '6px' }}>
+                  Likes
+                </Typography>
+              </Box>
             </Box>
-            <Box className="flex row" sx={{ gap: '10px' }}>
-              <Typography sx={{ fontSize: '22px', fontWeight: 'bold' }}>
-                132K
-              </Typography>
-              <Typography sx={{ fontSize: '16px', marginTop: '6px' }}>
-                Followers
-              </Typography>
-            </Box>
-            <Box className="flex row" sx={{ gap: '10px' }}>
-              <Typography sx={{ fontSize: '22px', fontWeight: 'bold' }}>
-                100M
-              </Typography>
-              <Typography sx={{ fontSize: '16px', marginTop: '6px' }}>
-                Likes
-              </Typography>
-            </Box>
-          </Box>
 
-          <Typography>{bio}</Typography>
-        </Box>
+            <Typography>{bio}</Typography>
+          </Box>
+        )}
 
         <Box sx={{ width: '100%' }}>
           <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
@@ -144,10 +164,11 @@ const AccountProfile = () => {
             </Tabs>
           </Box>
           <TabPanel value={value} index={0}>
-            <ImageList cols={6}>
+            <ImageList cols={5}>
               {itemData.map((item) => (
                 <ImageListItem key={item.img}>
                   <img
+                    style={{ height: '300px' }}
                     src={`${item.img}?w=164&h=164&fit=crop&auto=format`}
                     srcSet={`${item.img}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
                     alt={item.title}

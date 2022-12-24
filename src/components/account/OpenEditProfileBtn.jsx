@@ -1,5 +1,6 @@
 import BorderColorRoundedIcon from '@mui/icons-material/BorderColorRounded';
 import CloseIcon from '@mui/icons-material/Close';
+import { LoadingButton } from '@mui/lab';
 import {
   Avatar,
   Box,
@@ -9,8 +10,8 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import { UpsertAvatar } from 'backend/mutation/ProfileMutation';
 import { supabase } from 'backend/supabase';
+import Randomstring from 'randomstring';
 import { useEffect, useState } from 'react';
 
 const OpenEditProfileBtn = () => {
@@ -20,6 +21,7 @@ const OpenEditProfileBtn = () => {
   const [displayname, setDisplayname] = useState('');
   const [bio, setBio] = useState('');
   const [avatar, setAvatar] = useState('');
+  const [avatarUpload, setAvatarUpload] = useState('');
   const [avatarLocal, setAvatarLocal] = useState();
 
   const handleClickOpen = () => {
@@ -48,9 +50,9 @@ const OpenEditProfileBtn = () => {
 
   async function getProfileUser() {
     const id = window.localStorage.getItem('userId');
-
     const result = await supabase.from('profiles').select().eq('id', id);
     const user = result.data[0];
+
     setUsername(user.username);
     setBio(user.bio);
     setDisplayname(user.displayname);
@@ -59,45 +61,44 @@ const OpenEditProfileBtn = () => {
 
   async function updateProfileUser() {
     const id = window.localStorage.getItem('userId');
+    const randomString = Randomstring.generate();
 
     setLoading(true);
-    const download = await supabase.storage
-      .from('avatars')
-      .download(`${id}.png`);
-    if (download.data) {
-      await supabase.storage.from('avatars').remove([`${id}.png`]);
-      const a = await supabase.storage
-        .from('avatars')
-        .upload(`${id}.png`, avatarLocal);
+    if (avatarLocal) {
+      await supabase.storage.from('avatars').remove([avatar.slice(-32)]);
+      await supabase.storage.from('avatars').upload(randomString, avatarLocal);
+      const url = supabase.storage.from('avatars').getPublicUrl(randomString);
+      await supabase
+        .from('profiles')
+        .update({
+          username: username,
+          displayname: displayname,
+          bio: bio,
+          avatar_url: url.data.publicUrl,
+        })
+        .eq('id', id);
+    } else {
+      await supabase
+        .from('profiles')
+        .update({
+          username: username,
+          displayname: displayname,
+          bio: bio,
+        })
+        .eq('id', id);
     }
-    if (download.error) {
-      const a = await supabase.storage
-        .from('avatars')
-        .update(`${id}.png`, avatarLocal);
-    }
-    const url = `https://utpupcffsaillsgoohtt.supabase.co/storage/v1/object/public/avatars/${id}.png`;
-    await supabase
-      .from('profiles')
-      .update({
-        username: username,
-        displayname: displayname,
-        bio: bio,
-        avatar_url: url,
-      })
-      .eq('id', id);
     setLoading(false);
+
+    setAvatarLocal(null);
     handleClose();
     location.reload();
   }
 
   const handleGetLocalAvatar = (e) => {
     const obj = URL.createObjectURL(e.target.files[0]);
-    console.log('obj', obj);
-    setAvatar(obj);
+    setAvatarUpload(obj);
     setAvatarLocal(e.target.files[0]);
   };
-
-  const updateAvatar = () => {};
 
   return (
     <>
@@ -198,7 +199,7 @@ const OpenEditProfileBtn = () => {
               </Typography>
               <Box>
                 <Avatar
-                  src={avatar}
+                  src={avatarLocal ? avatarUpload : avatar}
                   sx={{
                     height: '120px',
                     width: '120px',
@@ -368,23 +369,33 @@ const OpenEditProfileBtn = () => {
             >
               Cancel
             </Button>
-            <Button
-              sx={{
-                textTransform: 'none',
-                p: '6px',
-                backgroundColor: '#FE2C55',
-                '&:hover': {
-                  backgroundColor: '#a80022',
-                },
-                color: 'white',
-                marginRight: '12px',
-                width: '100px',
-              }}
-              variant="contained"
-              onClick={updateProfileUser}
-            >
-              Save
-            </Button>
+            {loading ? (
+              <LoadingButton
+                sx={{ marginRight: '12px', width: '100px' }}
+                loading
+                variant="outlined"
+              >
+                Submit
+              </LoadingButton>
+            ) : (
+              <Button
+                sx={{
+                  textTransform: 'none',
+                  p: '6px',
+                  backgroundColor: '#FE2C55',
+                  '&:hover': {
+                    backgroundColor: '#a80022',
+                  },
+                  color: 'white',
+                  marginRight: '12px',
+                  width: '100px',
+                }}
+                variant="contained"
+                onClick={updateProfileUser}
+              >
+                Save
+              </Button>
+            )}
           </Box>
         </Box>
       </Dialog>
