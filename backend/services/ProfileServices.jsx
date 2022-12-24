@@ -19,12 +19,14 @@ const useQueryUserData = (uid) => {
   return useQuery(['get_user_data', uid], () => getUserData(uid));
 };
 const useClientData = () => {
-  const uid = clientID.peek();
+  const uid = clientID.get();
 
   return useQuery(['get_user_data', uid], () => getUserData(uid), {
     placeholderData: {
+      username: null,
       displayname: null,
       avatar_url: null,
+      bio: null,
     },
   });
 };

@@ -55,17 +55,6 @@ const AccountProfile = () => {
           flexDirection: 'column',
           padding: '16px',
           overflow: 'auto',
-          '&::-webkit-scrollbar, & *::-webkit-scrollbar': {
-            backgroundColor: 'transparent',
-          },
-          '&::-webkit-scrollbar-thumb, & *::-webkit-scrollbar-thumb': {
-            borderRadius: 8,
-            border: '5px solid #121212',
-          },
-          '&::-webkit-scrollbar-thumb:hover, & *::-webkit-scrollbar-thumb:hover':
-            {
-              backgroundColor: '#959595',
-            },
         }}
       >
         <Box sx={{ width: '650px', marginBottom: '20px' }}>
