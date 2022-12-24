@@ -8,7 +8,8 @@
     "esbenp.prettier-vscode",
     "mohsen1.prettify-json",
     "formulahendry.auto-close-tag",
-    "formulahendry.auto-rename-tag"
+    "formulahendry.auto-rename-tag",
+    "aaron-bond.better-comments"
   ],
   // List of extensions recommended by VS Code that should not be recommended for users of this workspace.
   "unwantedRecommendations": []

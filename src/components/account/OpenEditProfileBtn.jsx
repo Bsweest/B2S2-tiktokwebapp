@@ -2,17 +2,16 @@ import BorderColorRoundedIcon from '@mui/icons-material/BorderColorRounded';
 import CloseIcon from '@mui/icons-material/Close';
 import {
   Avatar,
+  Box,
   Button,
   Dialog,
   IconButton,
   TextField,
   Typography,
 } from '@mui/material';
-import { Box } from '@mui/system';
+import { UpsertAvatar } from 'backend/mutation/ProfileMutation';
 import { supabase } from 'backend/supabase';
-import React from 'react';
-import { useEffect } from 'react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const OpenEditProfileBtn = () => {
   const [loading, setLoading] = useState(false);
@@ -92,9 +91,14 @@ const OpenEditProfileBtn = () => {
   }
 
   const handleGetLocalAvatar = (e) => {
-    setAvatar(URL.createObjectURL(e.target.files[0]));
+    const obj = URL.createObjectURL(e.target.files[0]);
+    console.log('obj', obj);
+    setAvatar(obj);
     setAvatarLocal(e.target.files[0]);
   };
+
+  const updateAvatar = () => {};
+
   return (
     <>
       <Button

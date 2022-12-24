@@ -9,6 +9,7 @@ import {
   Tabs,
   Typography,
 } from '@mui/material';
+import { UpsertAvatar } from 'backend/mutation/ProfileMutation';
 import { supabase } from 'backend/supabase';
 import { useEffect, useState } from 'react';
 
@@ -44,6 +45,23 @@ const UserProfile = () => {
     setDisplayname(user.displayname);
     setAvatar(user.avatar_url);
   }
+
+  //! update avatar của id này
+  const mockId = 'b28be60b-d83a-4e02-b818-126976925a06';
+
+  const handleGetLocalAvatar = async (e) => {
+    const obj = e.target.files[0];
+
+    const data = await UpsertAvatar(mockId, obj, true);
+
+    if (data) console.log('success');
+    else console.log('fail');
+  };
+  /**
+   *! Chỉ cần như này thôi, thành công thì lấy url về, mà có thay đổi trên database mà
+   *! browser cache media file trước thì nó cũng không đổi, hiện cái dialog rằng thay đổi
+   *! sẽ áp dụng lần sau user đăng nhập
+   */
 
   return (
     <Box
@@ -86,6 +104,8 @@ const UserProfile = () => {
                 {username}
               </Typography>
               <Typography sx={{ color: '#f1f1f1' }}>{displayname}</Typography>
+              <input type="file" onChange={handleGetLocalAvatar} />
+
               {isFollow ? (
                 <Button
                   sx={{
