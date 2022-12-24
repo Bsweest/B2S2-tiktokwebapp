@@ -1,12 +1,14 @@
+import { useListVideoStates } from '@/templates/global/ListVideoStates';
 import Box from '@mui/material/Box';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
+import useMutateComment from 'backend/mutation/CommentMutation';
+import { useQueryCommentSection } from 'backend/services/GetComments';
 import { motion } from 'framer-motion';
 import { useEffect } from 'react';
 
-import { useQueryCommentSection } from '../../../backend/services/GetComments';
-import { useListVideoStates } from '../../templates/global/ListVideoStates';
 import ListComment from '../comments/ListComment';
+import ContentInput from '../content_input';
 
 const variants = {
   open: {
@@ -22,6 +24,7 @@ const SideBarComment = () => {
     isOpenComment: isOpen,
     currentElement: { id: fetchID, numComment },
   } = useListVideoStates();
+
   const ac = new AbortController();
 
   const {
@@ -29,6 +32,12 @@ const SideBarComment = () => {
     isSuccess,
     isFetching,
   } = useQueryCommentSection(fetchID, null, ac, isOpen);
+
+  const { mutate, isLoading } = useMutateComment();
+
+  const addComment = (content, ssid, p_id, reply_to) => {
+    mutate({ content, ssid, p_id, reply_to });
+  };
 
   useEffect(() => {
     if (!isOpen) ac.abort();
@@ -48,15 +57,15 @@ const SideBarComment = () => {
       <div
         className="flex col"
         style={{
+          flex: 1,
           width: '400px',
-          height: '100vh',
+          height: '100%',
           borderLeft: '0.5px solid lightgrey',
         }}
       >
         <Box
           sx={{
             display: 'flex',
-            flexWrap: 'nowrap',
             height: '45px',
             borderBottom: '1px solid lightgrey',
             alignItems: 'center',
@@ -69,6 +78,8 @@ const SideBarComment = () => {
         </Box>
 
         <ListComment list={listComment} />
+
+        <ContentInput sendFn={addComment} />
       </div>
     </motion.div>
   );

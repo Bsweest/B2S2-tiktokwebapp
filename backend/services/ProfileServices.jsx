@@ -16,19 +16,15 @@ const getUserData = async (uid) => {
 };
 
 const useQueryUserData = (uid) => {
-  return useQuery(['get_user_data', uid], () => getUserData(uid), {
-    placeholderData: {
-      avatar_url: '',
-    },
-  });
+  return useQuery(['get_user_data', uid], () => getUserData(uid));
 };
 const useClientData = () => {
   const uid = clientID.peek();
 
   return useQuery(['get_user_data', uid], () => getUserData(uid), {
     placeholderData: {
-      displayname: '',
-      avatar_url: '',
+      displayname: null,
+      avatar_url: null,
     },
   });
 };

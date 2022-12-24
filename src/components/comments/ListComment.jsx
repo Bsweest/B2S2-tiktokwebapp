@@ -11,6 +11,7 @@ const ListComment = ({ list }) => {
     <div
       className="flex col"
       style={{
+        flex: 1,
         overflowY: 'scroll',
         padding: '7px 7px 0px 7px',
       }}

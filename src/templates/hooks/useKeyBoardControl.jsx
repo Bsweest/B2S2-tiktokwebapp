@@ -1,16 +1,38 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { observe } from '@legendapp/state';
+import { useObservable, useSelector } from '@legendapp/state/react';
+import { useQueryClient } from '@tanstack/react-query';
+import useMutateBookmark from 'backend/mutation/BookmarkMutate';
+import { useMutateHeartShort } from 'backend/mutation/HeartMutate';
+import { useCallback, useEffect, useMemo } from 'react';
+
+import {
+  toggleCommentSection,
+  useCurrentElement,
+  useListVideoStates,
+} from '../global/ListVideoStates';
 
 const useKeyboardControl = () => {
-  const [controls, setControls] = useState({
+  const ssid = useCurrentElement;
+  const queryClient = useQueryClient();
+
+  const keyboardControls = useObservable({
     comment: false,
     heart: false,
     bookmark: false,
   });
+
+  const { comment, heart, bookmark } = useSelector(() =>
+    keyboardControls.get(),
+  );
+
+  const { mutate: updateHeart } = useMutateHeartShort();
+  const { mutate: updateBM } = useMutateBookmark();
+
   const map = useMemo(
     () => ({
       KeyC: 'comment',
       KeyH: 'heart',
-      keyB: 'bookmark',
+      KeyB: 'bookmark',
     }),
     [],
   );
@@ -20,17 +42,17 @@ const useKeyboardControl = () => {
   const handleKeyPress = useCallback(
     ({ code }) => {
       if (document.activeElement.nodeName.toLowerCase() === 'input') return;
-      setControls((prev) => ({ ...prev, [getField(code)]: true }));
+      keyboardControls[getField(code)].set(true);
     },
-    [getField],
+    [getField, keyboardControls],
   );
 
   const handleKeyUp = useCallback(
     ({ code }) => {
       if (document.activeElement.nodeName.toLowerCase() === 'input') return;
-      setControls((prev) => ({ ...prev, [getField(code)]: false }));
+      keyboardControls[getField(code)].set(false);
     },
-    [getField],
+    [getField, keyboardControls],
   );
 
   useEffect(() => {
@@ -45,7 +67,23 @@ const useKeyboardControl = () => {
     };
   }, [handleKeyPress, handleKeyUp]);
 
-  return controls;
+  useEffect(() => {
+    if (!heart || !id) return;
+    const { hs } = queryClient.getQueryData(['short_services', ssid]);
+    updateHeart({ ssid: ssid, bool: !hs });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [heart]);
+
+  useEffect(() => {
+    if (!bookmark || !id) return;
+    const { bm } = queryClient.getQueryData(['short_services', ssid]);
+    updateBM({ ssid: ssid, bool: !bm });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [bookmark]);
+
+  useEffect(() => {
+    if (comment) toggleCommentSection();
+  }, [comment]);
 };
 
 export { useKeyboardControl };

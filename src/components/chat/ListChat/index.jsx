@@ -1,4 +1,3 @@
-import { useObservable } from '@legendapp/state/react';
 import FlatList from 'flatlist-react';
 
 import ChatAccount from './ChatAccount';

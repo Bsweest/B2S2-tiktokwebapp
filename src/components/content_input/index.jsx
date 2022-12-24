@@ -1,10 +1,17 @@
+import {
+  unReply,
+  useCurrentElement,
+  useGetReply,
+} from '@/templates/global/ListVideoStates';
 import data from '@emoji-mart/data';
 import Picker from '@emoji-mart/react';
+import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
 import EmojiEmotionsIcon from '@mui/icons-material/EmojiEmotions';
 import SendRoundedIcon from '@mui/icons-material/SendRounded';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import InputBase from '@mui/material/InputBase';
+import Typography from '@mui/material/Typography';
 import { init } from 'emoji-mart';
 import { useState } from 'react';
 
@@ -13,6 +20,9 @@ init({ data });
 const ContentInput = ({ sendFn }) => {
   const [value, setValue] = useState('');
   const [showIcon, setShowIcon] = useState(false);
+
+  const { show, displayname, parentID } = useGetReply();
+  const ssid = useCurrentElement();
 
   const toggleIconPicker = () => {
     setShowIcon((prev) => !prev);
@@ -29,18 +39,65 @@ const ContentInput = ({ sendFn }) => {
   };
 
   const submitText = () => {
-    sendFn(value);
+    if (!value) return;
+    sendFn(value, ssid, parentID, displayname);
     setValue('');
+    unReply();
+  };
+
+  const onKeyPress = ({ code }) => {
+    if (code === 'Enter') submitText();
+  };
+
+  const deSelectReply = () => {
+    unReply();
   };
 
   return (
-    <Box sx={{ position: 'relative', width: '100%' }}>
+    <Box
+      className="flex col"
+      sx={{
+        position: 'relative',
+        width: '100%',
+        borderTop: '1px solid lightgrey',
+      }}
+    >
+      {show ? (
+        <Box
+          className="flex row"
+          sx={{
+            pl: '1rem',
+            gap: '5px',
+            alignItems: 'center',
+          }}
+        >
+          <Typography variant="subtitle1">replying</Typography>
+          <Typography variant="string">{show}</Typography>
+          <IconButton
+            sx={{ width: '25px', height: '25px' }}
+            onClick={deSelectReply}
+          >
+            <CancelRoundedIcon
+              sx={{
+                width: '20px',
+                height: '20px',
+                '&:hover': {
+                  color: 'gray',
+                },
+              }}
+            />
+          </IconButton>
+        </Box>
+      ) : (
+        <></>
+      )}
+
       <Box
         className="flex row"
         sx={{
           width: '100%',
           height: '2.6rem',
-          borderTop: '1px solid lightgrey',
+
           px: '1rem',
           alignItems: 'center',
           gap: '0.5rem',
@@ -55,6 +112,7 @@ const ContentInput = ({ sendFn }) => {
           }}
           value={value}
           onChange={onTextChange}
+          onKeyDown={onKeyPress}
         />
         <IconButton
           aria-label="icon"
