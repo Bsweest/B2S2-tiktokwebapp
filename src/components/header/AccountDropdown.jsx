@@ -27,7 +27,7 @@ const AccountDropdown = () => {
   };
   const logOut = () => {
     window.localStorage.clear();
-    location.reload();
+    window.location.replace('/');
     handleCloseUserMenu();
   };
   return (
