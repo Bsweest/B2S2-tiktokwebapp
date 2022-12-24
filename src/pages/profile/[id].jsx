@@ -20,6 +20,7 @@ const UserProfile = () => {
   const [username, setUsername] = useState('');
   const [displayname, setDisplayname] = useState('');
   const [bio, setBio] = useState('');
+  const [avatar, setAvatar] = useState('');
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -43,6 +44,7 @@ const UserProfile = () => {
     setUsername(user.username);
     setBio(user.bio);
     setDisplayname(user.displayname);
+    setAvatar(user.avatar_url);
   }
 
   return (
@@ -82,7 +84,7 @@ const UserProfile = () => {
               flexDirection: 'row',
             }}
           >
-            <Avatar sx={{ width: '150px', height: '150px' }} />
+            <Avatar src={avatar} sx={{ width: '150px', height: '150px' }} />
             <Box
               sx={{
                 height: '100%',
