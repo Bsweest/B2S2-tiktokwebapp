@@ -12,6 +12,9 @@ const listVideoStates = observable({
 const useListVideoStates = () => {
   return useSelector(() => listVideoStates.get());
 };
+const useCurrentElement = () => {
+  return useSelector(() => listVideoStates.currentElement.id);
+};
 
 const toggleCommentSection = (id) => {
   if (!listVideoStates.isOpenComment.peek()) {
@@ -25,4 +28,48 @@ const changeCurrentElement = (ssid, num) => {
   listVideoStates.currentElement.set({ id: ssid, numComment: num });
 };
 
-export { useListVideoStates, toggleCommentSection, changeCurrentElement };
+const replyTo = observable({
+  show: null, // name of the person you reply to show on input bar
+  displayname: null, // name of the person you reply to show above comment
+  parentID: null, // comment that contain the adding comment
+  commentID: null, // Check the comment current reply
+  successPID: null, // parent id of comment that success add to db to open children comment
+});
+
+const useGetReply = () => {
+  return useSelector(() => replyTo.get());
+};
+const useIsReply = (id) => {
+  return useSelector(() => replyTo.commentID.get() === id);
+};
+const changeReplyComment = (n, dis, pid, cmid) => {
+  unReply();
+  replyTo.assign({ show: n, displayname: dis, parentID: pid, commentID: cmid });
+};
+const unReply = () => {
+  replyTo.assign({
+    show: null,
+    displayname: null,
+    parentID: null,
+    commentID: null,
+  });
+};
+const successAddComment = (pid) => {
+  replyTo.successPID.set(pid);
+};
+const useSuccessPID = (id) => {
+  return useSelector(() => replyTo.successPID.get() === id);
+};
+
+export {
+  useListVideoStates,
+  useCurrentElement,
+  toggleCommentSection,
+  changeCurrentElement,
+  useGetReply,
+  useIsReply,
+  changeReplyComment,
+  unReply,
+  successAddComment,
+  useSuccessPID,
+};

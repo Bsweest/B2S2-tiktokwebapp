@@ -1,11 +1,12 @@
 import Box from '@mui/material/Box';
+import useMutateFollow from 'backend/mutation/FollowMutate';
 import { useQueryCheckFollow } from 'backend/services/ProfileServices';
 import { motion } from 'framer-motion';
 import Image from 'next/Image';
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 
 const VideoAvatar = ({ opData }) => {
-  const { id, avatar_url } = opData;
+  const { id, avatar_url, displayname } = opData;
 
   return (
     <Box
@@ -21,7 +22,11 @@ const VideoAvatar = ({ opData }) => {
         fill={true}
         sizes="4rem"
         style={{ borderRadius: '50%', pointerEvents: 'all', cursor: 'pointer' }}
-        src={avatar_url}
+        src={
+          avatar_url
+            ? avatar_url
+            : `https://ui-avatars.com/api/?background=random&name=${displayname}`
+        }
       />
       <FollowButton op_id={id} />
     </Box>
@@ -29,17 +34,18 @@ const VideoAvatar = ({ opData }) => {
 };
 
 const FollowButton = ({ op_id }) => {
-  const [isFL, setIsFL] = useState(false);
   const isDone = useRef(true);
 
   const { data: isFollow, isSuccess } = useQueryCheckFollow(op_id);
+
+  const { mutate } = useMutateFollow();
 
   const onAnimationComplete = () => (isDone.current = true);
 
   const update = () => {
     if (!isDone.current) return;
     isDone.current = false;
-    setIsFL((prev) => !prev);
+    mutate({ op_id: op_id, bool: !isFollow });
   };
 
   return (
@@ -56,7 +62,7 @@ const FollowButton = ({ op_id }) => {
         cursor: 'pointer',
       }}
       variants={variantSvg}
-      animate={isFL ? 'follow' : 'notfollow'}
+      animate={isFollow ? 'follow' : 'notfollow'}
       transition={{
         type: 'tween',
         duration: 0.8,

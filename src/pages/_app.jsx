@@ -1,3 +1,5 @@
+import Main from '@/templates/Main';
+import SetupClient from '@/templates/global/ClientData';
 import { enableLegendStateReact } from '@legendapp/state/react';
 import { createBrowserSupabaseClient } from '@supabase/auth-helpers-nextjs';
 import { SessionContextProvider } from '@supabase/auth-helpers-react';
@@ -6,8 +8,6 @@ import { useState } from 'react';
 
 import Header from '../config';
 import '../styles/globals.css';
-import Main from '../templates/Main';
-import SetupClient from '../templates/global/ClientData';
 
 enableLegendStateReact();
 

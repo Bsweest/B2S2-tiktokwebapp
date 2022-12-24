@@ -7,7 +7,7 @@ const updateFollow = async (props) => {
   const { op_id, bool } = props;
   const client = clientID.peek();
 
-  bool
+  const { error } = bool
     ? await supabase
         .from('_follow')
         .insert({ uid: client, following_id: op_id })
@@ -15,16 +15,18 @@ const updateFollow = async (props) => {
         .from('_follow')
         .delete()
         .match({ uid: client, following_id: op_id });
+
+  if (error) throw new Error(error);
 };
 
-const mutateFollow = (op_id) => {
+const useMutateFollow = () => {
   const queryClient = useQueryClient();
 
   return useMutation(updateFollow, {
-    onMutate: () => {
-      queryClient.setQueryData(['is_following', op_id], (old) => !old);
+    onSuccess: (_, { op_id }) => {
+      queryClient.setQueryData(['is_following', op_id], (prev) => !prev);
     },
   });
 };
 
-export default mutateFollow;
+export default useMutateFollow;

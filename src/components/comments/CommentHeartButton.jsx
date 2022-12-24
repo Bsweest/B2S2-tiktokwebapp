@@ -1,17 +1,19 @@
 import Box from '@mui/material/Box';
 import ButtonBase from '@mui/material/ButtonBase';
 import Typography from '@mui/material/Typography';
+import { useMutateHeartComment } from 'backend/mutation/HeartMutate';
 import { useEffect, useRef, useState } from 'react';
 import Lottie from 'react-lottie-player';
 
 import animationData from '../../assets/lotties/comment_heart.json';
 
-const CommentHeartButton = ({ services }) => {
-  const { hc, count_heart } = services;
+const CommentHeartButton = ({ services, cmid }) => {
+  const { hc: heart, count_heart } = services;
   const lottie = useRef();
-  const [heart, setHeart] = useState(false);
   const [segments, setSegments] = useState();
   const isDone = useRef(true);
+
+  const { mutate } = useMutateHeartComment();
 
   const onComplete = () => {
     isDone.current = true;
@@ -20,7 +22,7 @@ const CommentHeartButton = ({ services }) => {
   const updateLike = () => {
     if (!isDone.current) return;
     isDone.current = false;
-    setHeart((prev) => !prev);
+    mutate({ cmid: cmid, bool: !heart });
   };
 
   useEffect(() => {

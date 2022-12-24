@@ -1,4 +1,3 @@
-// import ShortVideo from '../../components/shortvideo';
 import ShortVideo from '@/components/shortvideo';
 import SideBarShortDetail from '@/components/sidebar/SideBarShortDetail';
 import CancelRoundedIcon from '@mui/icons-material/CancelRounded';

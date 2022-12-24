@@ -1,16 +1,18 @@
 import ButtonBase from '@mui/material/ButtonBase';
 import Tooltip from '@mui/material/Tooltip';
+import useMutateBookmark from 'backend/mutation/BookmarkMutate';
 import { useEffect, useRef, useState } from 'react';
 import Lottie from 'react-lottie-player';
 
 import animationData from '../../../assets/lotties/bookmark_animation.json';
 import styles from './Parts.module.css';
 
-const BookmarkButton = ({ isBm }) => {
+const BookmarkButton = ({ isBM, ssid }) => {
   const lottie = useRef(null);
   const isDone = useRef(false);
-  const [isBM, setIsBM] = useState(false);
   const [segments, setSegments] = useState([0, 0]);
+
+  const { mutate } = useMutateBookmark();
 
   const onComplete = () => {
     isDone.current = true;
@@ -18,7 +20,7 @@ const BookmarkButton = ({ isBm }) => {
   const updateBM = () => {
     if (!isDone.current) return;
     isDone.current = false;
-    setIsBM((prev) => !prev);
+    mutate({ ssid: ssid, bool: !isBM });
   };
 
   useEffect(() => {
