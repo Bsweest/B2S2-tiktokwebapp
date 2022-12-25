@@ -65,7 +65,8 @@ const OpenEditProfileBtn = () => {
 
     setLoading(true);
     if (avatarLocal) {
-      await supabase.storage.from('avatars').remove([avatar.slice(-32)]);
+      if (avatar)
+        await supabase.storage.from('avatars').remove([avatar.slice(-32)]);
       await supabase.storage.from('avatars').upload(randomString, avatarLocal);
       const url = supabase.storage.from('avatars').getPublicUrl(randomString);
       await supabase
@@ -111,7 +112,9 @@ const OpenEditProfileBtn = () => {
           p: '12px',
           '&:hover': {
             backgroundColor: '#313131',
+            borderColor: '#535353',
           },
+          borderColor: '#535353',
           color: '#f1f1f1',
           fontWeight: '700',
           fontSize: '16px',
@@ -123,7 +126,7 @@ const OpenEditProfileBtn = () => {
         Edit profile
       </Button>
 
-      <Dialog maxHeight="lg" maxWidth="lg" open={isShow}>
+      <Dialog maxWidth="lg" open={isShow}>
         <Box
           sx={{
             width: 800,
