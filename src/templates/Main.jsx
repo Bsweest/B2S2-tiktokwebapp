@@ -1,20 +1,19 @@
 import OpenDialog from '@/components/auth/Login/OpenLoginDialogBtn';
 import AccountDropdown from '@/components/header/AccountDropdown';
+import UploadBtn from '@/components/header/UploadBtn';
 import { muiTheme } from '@/styles/muiStyles';
 import '@fontsource/varela-round';
-import Add from '@mui/icons-material/Add';
 import NotificationsActiveRoundedIcon from '@mui/icons-material/NotificationsActiveRounded';
 import Search from '@mui/icons-material/Search';
 import SendRoundedIcon from '@mui/icons-material/SendRounded';
 import AppBar from '@mui/material/AppBar';
 import Badge from '@mui/material/Badge';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import InputBase from '@mui/material/InputBase';
 import Typography from '@mui/material/Typography';
 import { ThemeProvider, styled } from '@mui/material/styles';
-import Image from 'next/image';
+import Image from 'next/Image';
 import { useEffect, useState } from 'react';
 
 const Main = ({ children }) => {
@@ -104,17 +103,7 @@ const Main = ({ children }) => {
             >
               {isUserId ? (
                 <>
-                  <Button
-                    sx={{
-                      width: 100,
-                      color: 'gray',
-                      borderColor: '#333',
-                    }}
-                    variant="outlined"
-                    startIcon={<Add />}
-                  >
-                    Upload
-                  </Button>
+                  <UploadBtn />
 
                   <StyledBadge badgeContent={4} color="primary">
                     <SendRoundedIcon sx={{ width: '30px', height: '30px' }} />
