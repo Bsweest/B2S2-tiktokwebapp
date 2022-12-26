@@ -7,26 +7,19 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
-import { supabase } from 'backend/supabase';
 import Link from 'next/link';
-import React, { useState } from 'react';
-import { useEffect } from 'react';
+import { useState } from 'react';
 
 const AccountDropdown = () => {
   const userId = window.localStorage.getItem('userId');
-  const [avatar, setAvatar] = useState('');
-  const [anchorElUser, setAnchorElUser] = useState(null);
-
-  useEffect(() => {
-    getUserAvatar();
-  });
+  const [anchor, setAnchor] = useState(null);
 
   const handleOpenUserMenu = (event) => {
-    setAnchorElUser(event.currentTarget);
+    setAnchor(event.currentTarget);
   };
 
   const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
+    setAnchor(null);
   };
 
   const handleClickProfile = () => {
@@ -39,24 +32,16 @@ const AccountDropdown = () => {
     handleCloseUserMenu();
   };
 
-  async function getUserAvatar() {
-    const id = window.localStorage.getItem('userId');
-    const result = await supabase
-      .from('profiles')
-      .select('avatar_url')
-      .eq('id', id);
-    setAvatar(result.data[0].avatar_url);
-  }
   return (
     <Box sx={{ flexGrow: 0 }}>
       <Tooltip>
         <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-          <Avatar src={avatar} />
+          <Avatar src={null} />
         </IconButton>
       </Tooltip>
       <Menu
         sx={{ mt: '45px' }}
-        anchorEl={anchorElUser}
+        anchorEl={anchor}
         anchorOrigin={{
           vertical: 'top',
           horizontal: 'right',
@@ -66,7 +51,7 @@ const AccountDropdown = () => {
           vertical: 'top',
           horizontal: 'right',
         }}
-        open={Boolean(anchorElUser)}
+        open={Boolean(anchor)}
         onClose={handleCloseUserMenu}
       >
         <MenuItem onClick={handleClickProfile}>
