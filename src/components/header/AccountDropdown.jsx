@@ -53,9 +53,7 @@ const AccountDropdown = () => {
         onClose={handleCloseUserMenu}
       >
         <MenuItem onClick={handleClickProfile}>
-          <Link href={`/account/${userId}`} textAlign="center">
-            View profile
-          </Link>
+          <Link href={`/account/${userId}`}>View profile</Link>
         </MenuItem>
         <MenuItem onClick={logOut}>
           <Typography textAlign="center">Log out</Typography>

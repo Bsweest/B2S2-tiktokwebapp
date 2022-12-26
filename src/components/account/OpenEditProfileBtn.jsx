@@ -1,100 +1,67 @@
 import BorderColorRoundedIcon from '@mui/icons-material/BorderColorRounded';
 import CloseIcon from '@mui/icons-material/Close';
 import {
-  Avatar,
+  Box,
   Button,
   Dialog,
   IconButton,
   TextField,
   Typography,
 } from '@mui/material';
-import { Box } from '@mui/system';
-import { supabase } from 'backend/supabase';
-import React from 'react';
+import { useMutateProfileField } from 'backend/mutation/ProfileMutation';
 import { useEffect } from 'react';
 import { useState } from 'react';
 
-const OpenEditProfileBtn = () => {
-  const [loading, setLoading] = useState(false);
-  const [isShow, setIsShow] = useState(false);
-  const [username, setUsername] = useState('');
-  const [displayname, setDisplayname] = useState('');
-  const [bio, setBio] = useState('');
-  const [avatar, setAvatar] = useState('');
-  const [avatarLocal, setAvatarLocal] = useState();
+const OpenEditProfileBtn = ({ data }) => {
+  const { username, displayname, bio } = data;
 
-  const handleClickOpen = () => {
-    setIsShow(true);
+  const [get, set] = useState({
+    username: '',
+    displayname: '',
+    bio: '',
+  });
+
+  const [isShow, setIsShow] = useState(false);
+  const [{ alike, length }, setIsOK] = useState({ alike: true, length: false });
+
+  const { mutate } = useMutateProfileField();
+
+  const toggleDialog = () => {
+    setIsShow((prev) => !prev);
+    set({
+      username: username,
+      displayname: displayname,
+      bio: bio,
+    });
   };
 
-  const handleClose = () => {
+  const onChange = ({ target }) => {
+    set((prev) => ({ ...prev, [target.name]: target.value }));
+    if (target.value.length < 5) setIsOK((prev) => ({ ...prev, length: true }));
+    else setIsOK((prev) => ({ ...prev, length: false }));
+  };
+
+  const saveUpdate = () => {
+    mutate({
+      username: get.username,
+      displayname: get.displayname,
+      bio: get.bio,
+    });
     setIsShow(false);
   };
 
-  const handleChangeUsername = (event) => {
-    setUsername(event.target.value);
-  };
-
-  const handleChangeDisplayname = (event) => {
-    setDisplayname(event.target.value);
-  };
-
-  const handleChangeBio = (event) => {
-    setBio(event.target.value);
-  };
-
   useEffect(() => {
-    getProfileUser();
-  }, []);
+    if (
+      get.username === username &&
+      get.displayname === displayname &&
+      get.bio === bio
+    ) {
+      setIsOK((prev) => ({ ...prev, alike: true }));
+    } else setIsOK((prev) => ({ ...prev, alike: false }));
 
-  async function getProfileUser() {
-    const id = window.localStorage.getItem('userId');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [get.username, get.displayname, get.bio]);
 
-    const result = await supabase.from('profiles').select().eq('id', id);
-    const user = result.data[0];
-    setUsername(user.username);
-    setBio(user.bio);
-    setDisplayname(user.displayname);
-    setAvatar(user.avatar_url);
-  }
-
-  async function updateProfileUser() {
-    const id = window.localStorage.getItem('userId');
-
-    setLoading(true);
-    const download = await supabase.storage
-      .from('avatars')
-      .download(`${id}.png`);
-    if (download.data) {
-      await supabase.storage.from('avatars').remove([`${id}.png`]);
-      const a = await supabase.storage
-        .from('avatars')
-        .upload(`${id}.png`, avatarLocal);
-    }
-    if (download.error) {
-      const a = await supabase.storage
-        .from('avatars')
-        .update(`${id}.png`, avatarLocal);
-    }
-    const url = `https://utpupcffsaillsgoohtt.supabase.co/storage/v1/object/public/avatars/${id}.png`;
-    await supabase
-      .from('profiles')
-      .update({
-        username: username,
-        displayname: displayname,
-        bio: bio,
-        avatar_url: url,
-      })
-      .eq('id', id);
-    setLoading(false);
-    handleClose();
-    location.reload();
-  }
-
-  const handleGetLocalAvatar = (e) => {
-    setAvatar(URL.createObjectURL(e.target.files[0]));
-    setAvatarLocal(e.target.files[0]);
-  };
   return (
     <>
       <Button
@@ -112,13 +79,13 @@ const OpenEditProfileBtn = () => {
           fontSize: '16px',
         }}
         variant="outlined"
+        onClick={toggleDialog}
         startIcon={<BorderColorRoundedIcon />}
-        onClick={handleClickOpen}
       >
         Edit profile
       </Button>
 
-      <Dialog maxHeight="lg" maxWidth="lg" open={isShow}>
+      <Dialog maxWidth="lg" open={isShow} onClose={toggleDialog}>
         <Box
           sx={{
             width: 800,
@@ -144,21 +111,21 @@ const OpenEditProfileBtn = () => {
                 margin: '25px',
               }}
             >
-              Edit profile
+              Edit profile &#40;min 5 each&#41;
             </Typography>
-            <Avatar
+            <IconButton
               sx={{
                 width: 30,
                 height: 30,
                 margin: 2,
                 backgroundColor: '#636363',
                 cursor: 'pointer',
-                color: '#444444',
+                color: 'white',
               }}
-              onClick={() => handleClose()}
+              onClick={toggleDialog}
             >
               <CloseIcon />
-            </Avatar>
+            </IconButton>
           </Box>
 
           <Box
@@ -173,54 +140,6 @@ const OpenEditProfileBtn = () => {
               gap: '10px',
             }}
           >
-            <Box
-              sx={{
-                width: '100%',
-                height: '150px',
-                borderBottom: '1px solid #686868',
-                display: 'flex',
-                flexDirection: 'row',
-                justifyContent: 'center',
-              }}
-            >
-              <Typography
-                sx={{
-                  position: 'absolute',
-                  left: '25px',
-                  color: '#b8b8b8',
-                }}
-              >
-                Profile photo
-              </Typography>
-              <Box>
-                <Avatar
-                  src={avatar}
-                  sx={{
-                    height: '120px',
-                    width: '120px',
-                  }}
-                />
-                <IconButton
-                  sx={{
-                    position: 'relative',
-                    bottom: '30px',
-                    left: '70px',
-                    border: '1px solid #202020',
-                    cursor: 'pointer',
-                    backgroundColor: '#383838',
-                    '&:hover': {
-                      backgroundColor: '#4b4b4b',
-                    },
-                  }}
-                  variant="contained"
-                  component="label"
-                >
-                  <input type="file" hidden onChange={handleGetLocalAvatar} />
-                  <BorderColorRoundedIcon sx={{ height: '18px' }} />
-                </IconButton>
-              </Box>
-            </Box>
-
             <Box
               sx={{
                 width: '100%',
@@ -242,9 +161,8 @@ const OpenEditProfileBtn = () => {
               </Typography>
               <Box sx={{ width: '300px' }}>
                 <TextField
-                  value={username}
-                  onChange={handleChangeUsername}
                   size="small"
+                  value={get.username}
                   sx={{
                     width: '300px',
                     marginBottom: '12px',
@@ -252,10 +170,13 @@ const OpenEditProfileBtn = () => {
                       color: '#707070',
                     },
                   }}
+                  inputProps={{ maxLength: 20 }}
+                  name="username"
+                  onChange={onChange}
                 />
                 <Typography sx={{ fontSize: '12px', color: '#b8b8b8' }}>
                   Usernames can only contain letters, numbers, underscores, and
-                  periods.
+                  periods. 5 - 20 characters
                 </Typography>
               </Box>
             </Box>
@@ -277,13 +198,12 @@ const OpenEditProfileBtn = () => {
                   color: '#b8b8b8',
                 }}
               >
-                Name
+                Display Name
               </Typography>
               <Box sx={{ width: '300px' }}>
                 <TextField
-                  value={displayname}
-                  onChange={handleChangeDisplayname}
                   size="small"
+                  value={get.displayname}
                   sx={{
                     width: '300px',
                     marginBottom: '12px',
@@ -291,9 +211,12 @@ const OpenEditProfileBtn = () => {
                       color: '#707070',
                     },
                   }}
+                  inputProps={{ maxLength: 30 }}
+                  name="displayname"
+                  onChange={onChange}
                 />
                 <Typography sx={{ fontSize: '12px', color: '#b8b8b8' }}>
-                  Your name should be between 4 and 16 characters
+                  Your name should be between 5 and 30 characters
                 </Typography>
               </Box>
             </Box>
@@ -318,10 +241,9 @@ const OpenEditProfileBtn = () => {
               </Typography>
               <Box sx={{ width: '300px' }}>
                 <TextField
-                  value={bio}
-                  onChange={handleChangeBio}
                   size="small"
                   multiline
+                  value={get.bio}
                   rows={3}
                   sx={{
                     width: '300px',
@@ -330,6 +252,9 @@ const OpenEditProfileBtn = () => {
                       color: '#707070',
                     },
                   }}
+                  inputProps={{ maxLength: 80 }}
+                  name="bio"
+                  onChange={onChange}
                 />
                 <Typography sx={{ fontSize: '12px', color: '#b8b8b8' }}>
                   Max 80 characters
@@ -360,7 +285,7 @@ const OpenEditProfileBtn = () => {
                 width: '100px',
               }}
               variant="outlined"
-              onClick={handleClose}
+              onClick={toggleDialog}
             >
               Cancel
             </Button>
@@ -376,8 +301,9 @@ const OpenEditProfileBtn = () => {
                 marginRight: '12px',
                 width: '100px',
               }}
+              disabled={alike || length}
               variant="contained"
-              onClick={updateProfileUser}
+              onClick={saveUpdate}
             >
               Save
             </Button>

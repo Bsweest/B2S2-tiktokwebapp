@@ -19,17 +19,19 @@ const useQueryUserData = (uid) => {
   return useQuery(['get_user_data', uid], () => getUserData(uid));
 };
 const useClientData = () => {
-  const uid = clientID.peek();
+  const uid = clientID.get();
 
   return useQuery(['get_user_data', uid], () => getUserData(uid), {
     placeholderData: {
+      username: null,
       displayname: null,
       avatar_url: null,
+      bio: null,
     },
   });
 };
 
-//* Get Following, Follower, Number of heart
+//* Get total_hearts, followed, following
 const GetInteractNumbers = async (op_id) => {
   const { data, error } = await supabase.rpc('get_interact_numbers', {
     pf_id: op_id,
@@ -55,7 +57,9 @@ const GetShortsOfUser = async (op_id) => {
   return data;
 };
 const useQueryShortsOfUser = (op_id) => {
-  return useQuery(['get_user_shorts', op_id], () => GetShortsOfUser(op_id));
+  return useQuery(['get_user_shorts', op_id], () => GetShortsOfUser(op_id), {
+    placeholderData: [],
+  });
 };
 
 //* Get shorts that user like
@@ -67,7 +71,9 @@ const GetLikedShorts = async (op_id) => {
   return data;
 };
 const useQueryLikedShorts = (op_id) => {
-  return useQuery(['get_liked_shorts', op_id], () => GetLikedShorts(op_id));
+  return useQuery(['get_liked_shorts', op_id], () => GetLikedShorts(op_id), {
+    placeholderData: [],
+  });
 };
 
 //* Get shorts that user bookmark
@@ -78,8 +84,10 @@ const GetMarkedShorts = async (op_id) => {
 
   return data;
 };
-const useQueryMarkedShorts = (op_id) => {
-  return useQuery(['get_marked_shorts', op_id], () => GetMarkedShorts(op_id));
+const useQueryMarkedShorts = (op_id, enable) => {
+  return useQuery(['get_marked_shorts', op_id], () => GetMarkedShorts(op_id), {
+    enabled: enable,
+  });
 };
 
 //* Check Follow
@@ -111,7 +119,9 @@ const IsFollowingBack = async (op_id) => {
   return data;
 };
 const useQueryCheckFollowBack = (op_id) => {
-  return useQuery(['is_following_back', op_id], () => IsFollowingBack(op_id));
+  return useQuery(['is_following_back', op_id], () => IsFollowingBack(op_id), {
+    staleTime: 0,
+  });
 };
 
 export {

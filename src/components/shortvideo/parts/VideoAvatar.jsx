@@ -2,7 +2,7 @@ import Box from '@mui/material/Box';
 import useMutateFollow from 'backend/mutation/FollowMutate';
 import { useQueryCheckFollow } from 'backend/services/ProfileServices';
 import { motion } from 'framer-motion';
-import Image from 'next/Image';
+import Image from 'next/image';
 import { useRef } from 'react';
 
 const VideoAvatar = ({ opData }) => {

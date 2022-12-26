@@ -67,7 +67,7 @@ const ShortVideo = ({ data, isHome }) => {
               ref={ref}
               sx={{
                 width: 'calc(100vh / 2)',
-                height: '98%',
+                height: '97%',
                 mb: '1%',
                 backgroundColor: 'black',
                 borderRadius: '14px',
