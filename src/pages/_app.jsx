@@ -1,5 +1,4 @@
 import Main from '@/templates/Main';
-import SetupClient from '@/templates/global/ClientData';
 import { enableLegendStateReact } from '@legendapp/state/react';
 import { createBrowserSupabaseClient } from '@supabase/auth-helpers-nextjs';
 import { SessionContextProvider } from '@supabase/auth-helpers-react';
@@ -22,8 +21,6 @@ const queryClient = new QueryClient({
 
 function MyApp({ Component, pageProps = { title: 'B2S2' } }) {
   const [supabase] = useState(() => createBrowserSupabaseClient());
-
-  SetupClient();
 
   return (
     <SessionContextProvider

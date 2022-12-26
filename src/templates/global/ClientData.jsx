@@ -1,11 +1,9 @@
 import { observable } from '@legendapp/state';
 
-import { testID } from '../../../test_id';
+export const clientID = observable(null);
 
-export const clientID = observable();
-
-const SetupClient = () => {
-  clientID.set(testID);
+const SetupClient = (id) => {
+  clientID.set(id);
 };
 
 export default SetupClient;

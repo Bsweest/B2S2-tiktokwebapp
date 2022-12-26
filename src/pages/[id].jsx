@@ -16,12 +16,10 @@ import {
 } from 'backend/services/ProfileServices';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { testID } from 'test_id';
 
 const Profile = () => {
   const router = useRouter();
-  // const id = router.query.id;
-  const id = testID;
+  const id = router.query.id;
 
   const [localAvatar, setLocalAvatar] = useState();
 

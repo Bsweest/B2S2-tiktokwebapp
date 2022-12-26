@@ -17,25 +17,30 @@ import Typography from '@mui/material/Typography';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { useSupabaseClient } from '@supabase/auth-helpers-react';
+import SignUpEmail from 'backend/auth/SignUpFunction';
 import dayjs from 'dayjs';
-import { useState } from 'react';
-
-import { supabase } from '/backend/supabase';
+import { useRef, useState } from 'react';
 
 const SignupWithEmail = ({
   handleClose,
   handleClickLogin,
   handleClickSignup,
-  handleClickSignupWithEmailSuccess,
 }) => {
+  const supabase = useSupabaseClient();
+
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setLoading] = useState(false);
   const [birthday, setBirthday] = useState(dayjs('2000-01-01T07:00:01'));
   const [validEmail, setValidEmail] = useState(true);
   const [validPassword, setValidPassword] = useState(true);
-  const [password, setPassword] = useState('');
-  const [email, setEmail] = useState('');
-  const [username, setUsername] = useState('');
+  const [validInfo, setValidInfo] = useState(true);
+
+  const email = useRef();
+  const pass = useRef();
+  const repass = useRef();
+  const username = useRef();
+  const displayname = useRef();
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -43,60 +48,52 @@ const SignupWithEmail = ({
     event.preventDefault();
   };
 
-  const handleChangeEmail = (event) => {
-    setEmail(event.target.value);
-  };
-
-  const handleChangePassword = (event) => {
-    setPassword(event.target.value);
-  };
-
-  const handleChangeUsername = (event) => {
-    setUsername(event.target.value);
-  };
-
   const handleChangeBirthday = (event) => {
     setBirthday(event);
   };
 
-  const handleClickSignupBtn = () => {
-    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
-      setValidEmail(true);
-      if (password.length > 5) {
-        setValidPassword(true);
-        signUp();
-      } else {
-        setValidPassword(false);
-      }
-    } else {
-      setValidEmail(false);
-    }
-  };
+  const handleClickSignupBtn = async () => {
+    setLoading(true);
 
-  async function signUp() {
-    try {
-      setLoading(true);
-      const result = await supabase.auth.signUp({
-        email: email,
-        password: password,
-      });
+    if (
+      username.current.value.length > 20 ||
+      username.current.value.length < 5 ||
+      displayname.current.value.length > 30 ||
+      displayname.current.value.length < 5
+    ) {
+      setValidInfo(false);
       setLoading(false);
-      if (result.data.user) {
-        setLoading(true);
-        const userData = result.data.user;
-        await supabase.from('profiles').insert({
-          id: userData.id,
-          created_at: userData.created_at,
-          username: username,
-          displayname: email,
-          birth: birthday,
-        });
-        window.localStorage.setItem('userId', userData.id);
-        setLoading(false);
-        handleClickSignupWithEmailSuccess();
-      }
-    } catch (error) {}
-  }
+      return;
+    }
+
+    if (
+      !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email.current.value)
+    ) {
+      setValidEmail(false);
+      setLoading(false);
+      return;
+    }
+
+    if (
+      pass.current.value.length < 5 ||
+      pass.current.value !== repass.current.value
+    ) {
+      setValidPassword(false);
+      setLoading(false);
+      return;
+    }
+
+    const rs = await SignUpEmail(
+      email.current.value,
+      pass.current.value,
+      username.current.value,
+      displayname.current.value,
+      birthday,
+      supabase,
+    );
+
+    setLoading(false);
+  };
 
   return (
     <>
@@ -115,7 +112,7 @@ const SignupWithEmail = ({
             cursor: 'pointer',
             color: '#cfcfcf',
           }}
-          onClick={() => handleClickSignup()}
+          onClick={handleClickSignup}
         />
         <Avatar
           sx={{
@@ -126,7 +123,7 @@ const SignupWithEmail = ({
             cursor: 'pointer',
             color: '#444444',
           }}
-          onClick={() => handleClose()}
+          onClick={handleClose}
         >
           <CloseIcon />
         </Avatar>
@@ -187,14 +184,17 @@ const SignupWithEmail = ({
         <TextField
           sx={{ marginBottom: '12px' }}
           label="Email Address"
-          value={email}
-          onChange={handleChangeEmail}
+          inputRef={email}
         />
         <TextField
           sx={{ marginBottom: '12px' }}
           label="User name"
-          value={username}
-          onChange={handleChangeUsername}
+          inputRef={username}
+        />
+        <TextField
+          sx={{ marginBottom: '12px' }}
+          label="Display name"
+          inputRef={displayname}
         />
         <FormControl sx={{ marginBottom: '12px' }} variant="outlined">
           <InputLabel>Password</InputLabel>
@@ -212,12 +212,30 @@ const SignupWithEmail = ({
               </InputAdornment>
             }
             label="Password"
-            value={password}
-            onChange={handleChangePassword}
+            inputRef={pass}
           />
         </FormControl>
-        {validEmail && validPassword ? (
-          <Box />
+        <FormControl sx={{ marginBottom: '12px' }} variant="outlined">
+          <InputLabel>Re-Password</InputLabel>
+          <OutlinedInput
+            type={showPassword ? 'text' : 'password'}
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton
+                  onClick={handleClickShowPassword}
+                  onMouseDown={handleMouseDownPassword}
+                  edge="end"
+                >
+                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            }
+            label="Password"
+            inputRef={repass}
+          />
+        </FormControl>
+        {validEmail && validPassword && validInfo ? (
+          <></>
         ) : (
           <Typography
             sx={{
@@ -226,7 +244,11 @@ const SignupWithEmail = ({
               color: '#FE2C55',
             }}
           >
-            {validEmail ? 'Invalid password ❌' : 'Invalid email ❌'}
+            {!validEmail
+              ? 'Invalid email ❌'
+              : !validInfo
+              ? 'Invalid account infomation ❌'
+              : 'Invalid password ❌'}
           </Typography>
         )}
         {isLoading ? (
@@ -250,7 +272,7 @@ const SignupWithEmail = ({
               backgroundColor: '#FE2C55',
             }}
             variant="contained"
-            onClick={() => handleClickSignupBtn()}
+            onClick={handleClickSignupBtn}
           >
             Next
           </Button>
@@ -285,7 +307,7 @@ const SignupWithEmail = ({
             marginLeft: 1,
             color: '#f44336',
           }}
-          onClick={() => handleClickLogin()}
+          onClick={handleClickLogin}
         >
           Log in
         </Link>

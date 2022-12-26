@@ -15,6 +15,7 @@ body {
     background: white;
   }
 }
+
 ::-webkit-scrollbar {
   width: 10px;
   background-color: transparent;
@@ -29,6 +30,13 @@ body {
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: #959595;
+}
+
+main {
+  display: flex;
+  height: calc(100vh - 60px);
+  width: 100vw;
+  z-index: 10;
 }
 
 a {

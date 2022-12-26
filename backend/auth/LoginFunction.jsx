@@ -1,15 +1,10 @@
-import { useSupabaseClient, useUser } from '@supabase/auth-helpers-react';
-
-const UseSignIn = async (email, pass) => {
-  const supabase = useSupabaseClient();
-  const user = useUser();
-
-  const { data, error } = await supabase.auth.signInWithPassword({
+const LogIn = async (email, pass, supabase) => {
+  const { error } = await supabase.auth.signInWithPassword({
     email: email,
     password: pass,
   });
 
-  return data;
+  return error;
 };
 
-export default UseSignIn;
+export default LogIn;

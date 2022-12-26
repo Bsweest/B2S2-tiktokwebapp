@@ -6,13 +6,13 @@ import { supabase } from '../supabase';
 
 const addComment = async (props) => {
   const { content, p_id, ssid, reply_to } = props;
-  const op = clientID.peek();
+  const client = clientID.peek();
 
   const { data, error } = await supabase
     .from('comments')
     .insert({
       content: content,
-      uid: op,
+      uid: client,
       parent_id: p_id,
       ssid: ssid,
       reply_to: reply_to,
