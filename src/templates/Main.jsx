@@ -1,32 +1,25 @@
 import OpenDialog from '@/components/auth/Login/OpenLoginDialogBtn';
-import AccountDropdown from '@/components/header/AccountDropdown';
-import UploadBtn from '@/components/header/UploadBtn';
 import { muiTheme } from '@/styles/muiStyles';
 import '@fontsource/varela-round';
-import NotificationsActiveRoundedIcon from '@mui/icons-material/NotificationsActiveRounded';
 import Search from '@mui/icons-material/Search';
-import SendRoundedIcon from '@mui/icons-material/SendRounded';
 import AppBar from '@mui/material/AppBar';
-import Badge from '@mui/material/Badge';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
 import InputBase from '@mui/material/InputBase';
 import Typography from '@mui/material/Typography';
 import { ThemeProvider, styled } from '@mui/material/styles';
+import { useUser } from '@supabase/auth-helpers-react';
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+
+import SetupClient from './global/ClientData';
 
 const Main = ({ children }) => {
-  const [isUserId, setIsUserId] = useState(false);
+  const user = useUser();
 
   useEffect(() => {
-    handleGetSession();
-  }, []);
-
-  const handleGetSession = () => {
-    if (window.localStorage.getItem('userId') != null) setIsUserId(true);
-    else setIsUserId(false);
-  };
+    if (user) SetupClient(user.id);
+  }, [user]);
 
   return (
     <>
@@ -101,38 +94,11 @@ const Main = ({ children }) => {
                 gap: '25px',
               }}
             >
-              {isUserId ? (
-                <>
-                  <UploadBtn />
-
-                  <StyledBadge badgeContent={4} color="primary">
-                    <SendRoundedIcon sx={{ width: '30px', height: '30px' }} />
-                  </StyledBadge>
-
-                  <StyledBadge badgeContent={2} color="primary">
-                    <NotificationsActiveRoundedIcon
-                      sx={{ width: '30px', height: '30px' }}
-                    />
-                  </StyledBadge>
-
-                  <AccountDropdown />
-                </>
-              ) : (
-                <OpenDialog />
-              )}
+              <OpenDialog />
             </Box>
           </AppBar>
 
-          <Box
-            sx={{
-              display: 'flex',
-              height: 'calc(100vh - 60px)',
-              width: '100vw',
-              zIndex: 10,
-            }}
-          >
-            {children}
-          </Box>
+          <main>{children}</main>
         </Box>
       </ThemeProvider>
     </>
@@ -173,17 +139,6 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     [theme.breakpoints.up('md')]: {
       width: '40ch',
     },
-  },
-}));
-
-const StyledBadge = styled(Badge)(({ theme }) => ({
-  '& .MuiBadge-badge': {
-    right: 5,
-    top: 30,
-    border: `2px solid ${theme.palette.background.paper}`,
-    padding: '0 4px',
-    backgroundColor: '#EA2D50',
-    color: '#F0EBF2',
   },
 }));
 

@@ -1,21 +1,11 @@
-import OpenDialog from '@/components/auth/Login/OpenLoginDialogBtn';
 import CloudUploadRoundedIcon from '@mui/icons-material/CloudUploadRounded';
 import TaskAltIcon from '@mui/icons-material/TaskAlt';
 import { LoadingButton } from '@mui/lab';
-import {
-  Button,
-  Card,
-  Dialog,
-  IconButton,
-  TextField,
-  Typography,
-  video,
-} from '@mui/material';
+import { Button, Card, Dialog, TextField, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import { supabase } from 'backend/supabase';
 import dayjs from 'dayjs';
 import Randomstring from 'randomstring';
-import React from 'react';
 import { useState } from 'react';
 import ReactPlayer from 'react-player';
 

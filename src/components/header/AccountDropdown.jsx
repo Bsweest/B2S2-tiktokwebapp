@@ -1,3 +1,4 @@
+import getFirstLetter from '@/templates/hooks/getFirstLetter';
 import {
   Avatar,
   Box,
@@ -7,12 +8,17 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
+import { useSupabaseClient, useUser } from '@supabase/auth-helpers-react';
+import { useClientData } from 'backend/services/ProfileServices';
 import Link from 'next/link';
 import { useState } from 'react';
 
 const AccountDropdown = () => {
-  const userId = window.localStorage.getItem('userId');
+  const user = useUser();
+  const supabase = useSupabaseClient();
   const [anchor, setAnchor] = useState(null);
+
+  const { data } = useClientData();
 
   const handleOpenUserMenu = (event) => {
     setAnchor(event.currentTarget);
@@ -26,9 +32,8 @@ const AccountDropdown = () => {
     handleCloseUserMenu();
   };
 
-  const logOut = () => {
-    window.localStorage.clear();
-    window.location.replace('/');
+  const logOut = async () => {
+    await supabase.auth.signOut();
     handleCloseUserMenu();
   };
 
@@ -36,7 +41,9 @@ const AccountDropdown = () => {
     <Box sx={{ flexGrow: 0 }}>
       <Tooltip>
         <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-          <Avatar src={null} />
+          <Avatar src={data ? data.avatar_url : null}>
+            {data ? getFirstLetter(data.displayname) : null}
+          </Avatar>
         </IconButton>
       </Tooltip>
       <Menu
@@ -55,7 +62,7 @@ const AccountDropdown = () => {
         onClose={handleCloseUserMenu}
       >
         <MenuItem onClick={handleClickProfile}>
-          <Link href={`/account/${userId}`}>View profile</Link>
+          <Link href={`/${user.id}`}>View profile</Link>
         </MenuItem>
         <MenuItem onClick={logOut}>
           <Typography>Log out</Typography>

@@ -1,6 +1,13 @@
+import AccountDropdown from '@/components/header/AccountDropdown';
+import UploadBtn from '@/components/header/UploadBtn';
+import NotificationsActiveRounded from '@mui/icons-material/NotificationsActiveRounded';
+import SendRounded from '@mui/icons-material/SendRounded';
+import Badge from '@mui/material/Badge';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
+import { styled } from '@mui/material/styles';
+import { useUser } from '@supabase/auth-helpers-react';
 import { useState } from 'react';
 
 import ResetPassword from '../ResetPassword/ResetPassword';
@@ -11,6 +18,8 @@ import LoginMethod from './components/LoginMethod';
 import LoginWithEmail from './components/LoginWithEmail';
 
 const OpenDialog = () => {
+  const user = useUser();
+
   const [isShow, setIsShow] = useState({
     isLogin: false,
     isSignup: false,
@@ -101,77 +110,108 @@ const OpenDialog = () => {
   };
   return (
     <>
-      <Button
-        sx={{
-          marginRight: 1,
-          width: 100,
-          borderRadius: '15px',
-        }}
-        color="error"
-        variant="contained"
-        onClick={handleClickOpen}
-      >
-        Log In
-      </Button>
-      <Dialog open={isShow.isShow}>
-        <Box
-          sx={{
-            height: 600,
-            width: 500,
-            display: 'flex',
-            flexDirection: 'column',
-          }}
-        >
-          {isShow.isLogin && (
-            <LoginMethod
-              handleClose={handleClose}
-              handleClickSignup={handleClickSignup}
-              handleClickLoginWithEmail={handleClickLoginWithEmail}
+      <UploadBtn />
+
+      {user ? (
+        <>
+          <StyledBadge badgeContent={4} color="primary">
+            <SendRounded sx={{ width: '30px', height: '30px' }} />
+          </StyledBadge>
+
+          <StyledBadge badgeContent={2} color="primary">
+            <NotificationsActiveRounded
+              sx={{ width: '30px', height: '30px' }}
             />
-          )}
-          {isShow.isSignup && (
-            <SignupMethod
-              handleClickLogin={handleClickLogin}
-              handleClose={handleClose}
-              handleClickSignupWithEmail={handleClickSignupWithEmail}
-            />
-          )}
-          {isShow.isSignupWithEmail && (
-            <SignupWithEmail
-              handleClickLogin={handleClickLogin}
-              handleClose={handleClose}
-              handleClickSignup={handleClickSignup}
-              handleClickSignupWithEmailSuccess={
-                handleClickSignupWithEmailSuccess
-              }
-            />
-          )}
-          {isShow.isSignupWithEmailSuccess && (
-            <SignupWithEmailSuccess
-              handleClickLogin={handleClickLogin}
-              handleClose={handleClose}
-            />
-          )}
-          {isShow.isLoginWithEmail && (
-            <LoginWithEmail
-              handleClose={handleClose}
-              handleClickSignup={handleClickSignup}
-              handleClickLogin={handleClickLogin}
-              handleClickResetPassword={handleClickResetPassword}
-            />
-          )}
-          {isShow.isResetPassword && (
-            <ResetPassword
-              handleClose={handleClose}
-              handleClickSignup={handleClickSignup}
-              handleClickLoginWithEmail={handleClickLoginWithEmail}
-              // handleClickResetPassword={handleClickResetPassword}
-            />
-          )}
-        </Box>
-      </Dialog>
+          </StyledBadge>
+
+          <AccountDropdown />
+        </>
+      ) : (
+        <>
+          <Button
+            sx={{
+              marginRight: 1,
+              width: 100,
+              borderRadius: '15px',
+            }}
+            color="error"
+            variant="contained"
+            onClick={handleClickOpen}
+          >
+            Log In
+          </Button>
+          <Dialog open={isShow.isShow}>
+            <Box
+              sx={{
+                height: 600,
+                width: 500,
+                display: 'flex',
+                flexDirection: 'column',
+              }}
+            >
+              {isShow.isLogin && (
+                <LoginMethod
+                  handleClose={handleClose}
+                  handleClickSignup={handleClickSignup}
+                  handleClickLoginWithEmail={handleClickLoginWithEmail}
+                />
+              )}
+              {isShow.isSignup && (
+                <SignupMethod
+                  handleClickLogin={handleClickLogin}
+                  handleClose={handleClose}
+                  handleClickSignupWithEmail={handleClickSignupWithEmail}
+                />
+              )}
+              {isShow.isSignupWithEmail && (
+                <SignupWithEmail
+                  handleClickLogin={handleClickLogin}
+                  handleClose={handleClose}
+                  handleClickSignup={handleClickSignup}
+                  handleClickSignupWithEmailSuccess={
+                    handleClickSignupWithEmailSuccess
+                  }
+                />
+              )}
+              {isShow.isSignupWithEmailSuccess && (
+                <SignupWithEmailSuccess
+                  handleClickLogin={handleClickLogin}
+                  handleClose={handleClose}
+                />
+              )}
+              {isShow.isLoginWithEmail && (
+                <LoginWithEmail
+                  handleClose={handleClose}
+                  handleClickSignup={handleClickSignup}
+                  handleClickLogin={handleClickLogin}
+                  handleClickResetPassword={handleClickResetPassword}
+                />
+              )}
+              {isShow.isResetPassword && (
+                <ResetPassword
+                  handleClose={handleClose}
+                  handleClickSignup={handleClickSignup}
+                  handleClickLoginWithEmail={handleClickLoginWithEmail}
+                  // handleClickResetPassword={handleClickResetPassword}
+                />
+              )}
+            </Box>
+          </Dialog>
+        </>
+      )}
     </>
   );
 };
+
+const StyledBadge = styled(Badge)(({ theme }) => ({
+  '& .MuiBadge-badge': {
+    right: 5,
+    top: 30,
+    border: `2px solid ${theme.palette.background.paper}`,
+    padding: '0 4px',
+    backgroundColor: '#EA2D50',
+    color: '#F0EBF2',
+  },
+}));
 
 export default OpenDialog;

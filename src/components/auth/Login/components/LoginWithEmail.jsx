@@ -14,10 +14,9 @@ import Link from '@mui/material/Link';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import { useUser } from '@supabase/auth-helpers-react';
-import { supabase } from 'backend/supabase';
-import { useEffect } from 'react';
-import { useState } from 'react';
+import { useSupabaseClient } from '@supabase/auth-helpers-react';
+import LogIn from 'backend/auth/LoginFunction';
+import { useRef, useState } from 'react';
 
 const LoginWithEmail = ({
   handleClose,
@@ -25,13 +24,14 @@ const LoginWithEmail = ({
   handleClickLogin,
   handleClickResetPassword,
 }) => {
+  const supabase = useSupabaseClient();
+
+  const email = useRef();
+  const pass = useRef();
+
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setLoading] = useState(false);
   const [valid, setValid] = useState(true);
-  const [password, setPassword] = useState('');
-  const [email, setEmail] = useState('');
-
-  const user = useUser();
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -39,36 +39,19 @@ const LoginWithEmail = ({
     event.preventDefault();
   };
 
-  const handleChangeEmail = (event) => {
-    setEmail(event.target.value);
+  const clickSignin = async () => {
+    setLoading(true);
+    const rs = await LogIn(email.current.value, pass.current.value, supabase);
+    setLoading(false);
+    if (rs) setValid(false);
   };
 
-  const handleChangePassword = (event) => {
-    setPassword(event.target.value);
+  const onEnterUsername = ({ code }) => {
+    if (code === 'Enter') pass.current.focus();
   };
-
-  useEffect(() => {
-    if (user) setValid(true);
-  }, [user]);
-
-  async function logIn() {
-    try {
-      setLoading(true);
-      const result = await supabase.auth.signInWithPassword({
-        email: email,
-        password: password,
-      });
-      setLoading(false);
-      if (result.error) {
-        setValid(false);
-      } else {
-        setValid(true);
-        window.localStorage.setItem('userId', result.data.user.id);
-        location.reload();
-        //render Main Screen
-      }
-    } catch (error) {}
-  }
+  const onEnterPass = ({ code }) => {
+    if (code === 'Enter') clickSignin();
+  };
 
   return (
     <>
@@ -128,14 +111,15 @@ const LoginWithEmail = ({
         </Typography>
 
         <TextField
+          inputRef={email}
           sx={{ marginBottom: '12px' }}
+          onKeyDown={onEnterUsername}
           label="Email Address"
-          value={email}
-          onChange={handleChangeEmail}
         />
         <FormControl sx={{ marginBottom: '4px' }} variant="outlined">
           <InputLabel>Password</InputLabel>
           <OutlinedInput
+            inputRef={pass}
             type={showPassword ? 'text' : 'password'}
             endAdornment={
               <InputAdornment position="end">
@@ -148,13 +132,12 @@ const LoginWithEmail = ({
                 </IconButton>
               </InputAdornment>
             }
+            onKeyDown={onEnterPass}
             label="Password"
-            value={password}
-            onChange={handleChangePassword}
           />
         </FormControl>
         {valid ? (
-          <Box />
+          <></>
         ) : (
           <Typography
             sx={{
@@ -199,7 +182,7 @@ const LoginWithEmail = ({
               backgroundColor: '#FE2C55',
             }}
             variant="contained"
-            onClick={logIn}
+            onClick={clickSignin}
           >
             Next
           </Button>

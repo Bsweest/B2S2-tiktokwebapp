@@ -4,8 +4,6 @@ import Link from 'next/link';
 import React from 'react';
 
 const UploadBtn = () => {
-  const userId = window.localStorage.getItem('userId');
-
   return (
     <Button
       sx={{
@@ -16,7 +14,7 @@ const UploadBtn = () => {
       variant="outlined"
       startIcon={<Add />}
     >
-      <Link href={`/upload/${userId}`}>Upload</Link>
+      <Link href={`/upload`}>Upload</Link>
     </Button>
   );
 };

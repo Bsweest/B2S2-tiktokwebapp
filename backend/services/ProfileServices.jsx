@@ -5,6 +5,8 @@ import { supabase } from '../supabase';
 
 //Get User Data
 const getUserData = async (uid) => {
+  if (uid === null) return;
+
   const { data, error } = await supabase
     .from('profiles')
     .select()
@@ -19,15 +21,10 @@ const useQueryUserData = (uid) => {
   return useQuery(['get_user_data', uid], () => getUserData(uid));
 };
 const useClientData = () => {
-  const uid = clientID.get();
+  const client = clientID.get();
 
-  return useQuery(['get_user_data', uid], () => getUserData(uid), {
-    placeholderData: {
-      username: null,
-      displayname: null,
-      avatar_url: null,
-      bio: null,
-    },
+  return useQuery(['get_user_data', client], () => getUserData(client), {
+    enabled: !!client,
   });
 };
 
