@@ -13,7 +13,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import InputBase from '@mui/material/InputBase';
 import Typography from '@mui/material/Typography';
 import { ThemeProvider, styled } from '@mui/material/styles';
-import Image from 'next/Image';
+import Image from 'next/image';
 import { useEffect, useState } from 'react';
 
 const Main = ({ children }) => {
