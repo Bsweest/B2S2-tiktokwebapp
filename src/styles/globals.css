@@ -83,16 +83,10 @@ em-emoji-picker {
 .items-center {
   align-items: center;
 }
-.text-sm {
-  font-size: 0.8rem;
-  font-weight: 300;
+.camera {
+  opacity: 0;
 }
-.text-right {
-  text-align: right;
-}
-.font-light {
-  font-weight: 300;
-}
-.opacity-half {
-  opacity: 50%;
+.camera:hover {
+  opacity: 0.5;
+  background-color: black;
 }

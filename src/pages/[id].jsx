@@ -1,39 +1,59 @@
+import OpenEditProfileBtn from '@/components/account/OpenEditProfileBtn';
+import TabList from '@/components/profile/TabList';
 import SideBarHome from '@/components/sidebar/SideBarHome';
 import getFirstLetter from '@/templates/hooks/getFirstLetter';
+import useInteractNumber from '@/templates/hooks/getInteractNumber';
+import CameraAltRoundedIcon from '@mui/icons-material/CameraAltRounded';
+import ModeCommentRoundedIcon from '@mui/icons-material/ModeCommentRounded';
+import { Avatar, Box, Button, IconButton, Typography } from '@mui/material';
+import useMutateFollow from 'backend/mutation/FollowMutate';
+import { useMutateAvatar } from 'backend/mutation/ProfileMutation';
 import {
-  Avatar,
-  Box,
-  Button,
-  ImageList,
-  ImageListItem,
-  Tab,
-  Tabs,
-  Typography,
-} from '@mui/material';
-import { useClientData } from 'backend/services/ProfileServices';
+  useClientData,
+  useQueryCheckFollow,
+  useQueryCheckFollowBack,
+  useQueryInteractNumbers,
+} from 'backend/services/ProfileServices';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import { testID } from 'test_id';
 
 const Profile = () => {
   const router = useRouter();
-  const id = router.query.id;
+  // const id = router.query.id;
+  const id = testID;
 
-  const [value, setValue] = useState(0);
-  const [isFollow, setIsFollow] = useState(false);
+  const [localAvatar, setLocalAvatar] = useState();
+
+  const changeLocalAvatar = (str) => {
+    setLocalAvatar(str);
+  };
 
   const {
     data: { username, displayname, bio, avatar_url },
-    isSuccess,
+    isSuccess: cd1,
   } = useClientData();
 
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
+  const { data: isFL } = useQueryCheckFollow(id);
+  const { data: isFLBack } = useQueryCheckFollowBack(id);
+
+  const { data: interactNumer, isSuccess: cd2 } = useQueryInteractNumbers(id);
+  const [total_hearts, follower, following] = useInteractNumber(interactNumer);
+
+  const { mutate: mutateFL } = useMutateFollow();
+  const { mutate: mutateAva } = useMutateAvatar(changeLocalAvatar);
+
+  const updateFollow = () => {
+    mutateFL({ op_id: id, bool: !isFL });
   };
 
-  const handleClickFollow = () => {
-    if (isFollow) setIsFollow(false);
-    else setIsFollow(true);
+  const onChangeHandle = async (e) => {
+    mutateAva(e.target.files[0]);
   };
+
+  useEffect(() => {
+    if (avatar_url) setLocalAvatar(avatar_url);
+  }, [avatar_url]);
 
   return (
     <Box
@@ -61,9 +81,43 @@ const Profile = () => {
               flexDirection: 'row',
             }}
           >
-            <Avatar sx={{ width: '150px', height: '150px' }} src={avatar_url}>
-              {getFirstLetter(displayname)}
-            </Avatar>
+            <Box sx={{ position: 'relative' }}>
+              <Avatar
+                sx={{
+                  width: '150px',
+                  height: '150px',
+                }}
+                src={localAvatar}
+              >
+                {getFirstLetter(displayname)}
+              </Avatar>
+              <label
+                htmlFor="input-avatar"
+                className="camera"
+                style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  width: '150px',
+                  height: '150px',
+                  borderRadius: '50%',
+                  cursor: 'pointer',
+                }}
+              >
+                <IconButton
+                  sx={{
+                    display: 'flex',
+                    width: '150px',
+                    height: '150px',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    pointerEvents: 'none',
+                  }}
+                >
+                  <CameraAltRoundedIcon />
+                </IconButton>
+              </label>
+            </Box>
             <Box
               sx={{
                 height: '100%',
@@ -72,13 +126,25 @@ const Profile = () => {
                 padding: '10px 0px 0px 20px',
               }}
             >
-              <Typography
-                sx={{ fontSize: '28px', fontWeight: '700', color: '#f1f1f1' }}
+              <Box
+                className="flex"
+                sx={{
+                  width: '450px',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                }}
               >
-                {displayname}
-              </Typography>
+                <Typography
+                  sx={{ fontSize: '28px', fontWeight: '700', color: '#f1f1f1' }}
+                >
+                  {displayname}
+                </Typography>
+                <ModeCommentRoundedIcon
+                  sx={{ width: '35px', height: '35px', cursor: 'pointer' }}
+                />
+              </Box>
               <Typography sx={{ color: '#f1f1f1' }}>@{username}</Typography>
-              {isFollow ? (
+              {false ? (
                 <Button
                   sx={{
                     height: '40px',
@@ -86,40 +152,35 @@ const Profile = () => {
                     marginTop: '28px',
                     textTransform: 'none',
                     p: '12px',
+                    backgroundColor: isFL ? null : '#FE2C55',
                     '&:hover': {
-                      backgroundColor: '#313131',
+                      backgroundColor: isFL ? '#313131' : '#a80022',
                     },
                     color: '#f1f1f1',
                     fontWeight: '700',
                     fontSize: '16px',
                   }}
-                  variant="outlined"
-                  onClick={handleClickFollow}
+                  variant={isFL ? 'outlined' : 'contained'}
+                  onClick={updateFollow}
                 >
-                  Followed ✓
+                  {isFL
+                    ? isFLBack
+                      ? 'Friend'
+                      : 'Followed ✓'
+                    : isFLBack
+                    ? 'Follow Back'
+                    : 'Follow'}
                 </Button>
               ) : (
-                <Button
-                  sx={{
-                    height: '40px',
-                    width: '250px',
-                    marginTop: '28px',
-                    textTransform: 'none',
-                    p: '12px',
-                    backgroundColor: '#FE2C55',
-                    '&:hover': {
-                      backgroundColor: '#a80022',
-                    },
-                    color: '#f1f1f1',
-                    fontWeight: '700',
-                    fontSize: '16px',
-                  }}
-                  variant="contained"
-                  onClick={handleClickFollow}
-                >
-                  Follow
-                </Button>
+                <OpenEditProfileBtn data={{ username, displayname, bio }} />
               )}
+              <input
+                type="file"
+                id="input-avatar"
+                hidden
+                onChange={onChangeHandle}
+                accept="image/png, image/jpeg"
+              />
             </Box>
           </Box>
 
@@ -133,7 +194,7 @@ const Profile = () => {
           >
             <Box className="flex row" sx={{ gap: '10px' }}>
               <Typography sx={{ fontSize: '22px', fontWeight: 'bold' }}>
-                22
+                {following}
               </Typography>
               <Typography sx={{ fontSize: '16px', marginTop: '6px' }}>
                 Following
@@ -141,7 +202,7 @@ const Profile = () => {
             </Box>
             <Box className="flex row" sx={{ gap: '10px' }}>
               <Typography sx={{ fontSize: '22px', fontWeight: 'bold' }}>
-                132K
+                {follower}
               </Typography>
               <Typography sx={{ fontSize: '16px', marginTop: '6px' }}>
                 Followers
@@ -149,7 +210,7 @@ const Profile = () => {
             </Box>
             <Box className="flex row" sx={{ gap: '10px' }}>
               <Typography sx={{ fontSize: '22px', fontWeight: 'bold' }}>
-                100M
+                {total_hearts}
               </Typography>
               <Typography sx={{ fontSize: '16px', marginTop: '6px' }}>
                 Likes
@@ -160,51 +221,10 @@ const Profile = () => {
           <Typography>{bio}</Typography>
         </Box>
 
-        <Box sx={{ width: '100%' }}>
-          <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-            <Tabs value={value} onChange={handleChange}>
-              <Tab
-                sx={{
-                  textTransform: 'none',
-                  width: '200px',
-                  fontSize: '18px',
-                }}
-                label="Videos"
-              />
-              <Tab
-                sx={{
-                  textTransform: 'none',
-                  width: '200px',
-                  fontSize: '18px',
-                }}
-                label="Liked"
-              />
-            </Tabs>
-          </Box>
-          <TabPanel value={value} index={0}>
-            lol
-          </TabPanel>
-          <TabPanel value={value} index={1}>
-            Private
-          </TabPanel>
-        </Box>
+        <TabList uid={id} />
       </Box>
     </Box>
   );
 };
 
-function TabPanel(props) {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      {...other}
-    >
-      {value === index && <Box sx={{ marginTop: '5px' }}>{children}</Box>}
-    </div>
-  );
-}
+export default Profile;
