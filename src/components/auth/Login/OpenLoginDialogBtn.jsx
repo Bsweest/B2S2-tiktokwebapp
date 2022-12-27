@@ -1,12 +1,10 @@
 import AccountDropdown from '@/components/header/AccountDropdown';
+import Message from '@/components/header/Message';
+import Notification from '@/components/header/Notification';
 import UploadBtn from '@/components/header/UploadBtn';
-import NotificationsActiveRounded from '@mui/icons-material/NotificationsActiveRounded';
-import SendRounded from '@mui/icons-material/SendRounded';
-import Badge from '@mui/material/Badge';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
-import { styled } from '@mui/material/styles';
 import { useUser } from '@supabase/auth-helpers-react';
 import { useState } from 'react';
 
@@ -114,15 +112,9 @@ const OpenDialog = () => {
 
       {user ? (
         <>
-          <StyledBadge badgeContent={4} color="primary">
-            <SendRounded sx={{ width: '30px', height: '30px' }} />
-          </StyledBadge>
+          <Message />
 
-          <StyledBadge badgeContent={2} color="primary">
-            <NotificationsActiveRounded
-              sx={{ width: '30px', height: '30px' }}
-            />
-          </StyledBadge>
+          <Notification />
 
           <AccountDropdown />
         </>
@@ -202,16 +194,5 @@ const OpenDialog = () => {
     </>
   );
 };
-
-const StyledBadge = styled(Badge)(({ theme }) => ({
-  '& .MuiBadge-badge': {
-    right: 5,
-    top: 30,
-    border: `2px solid ${theme.palette.background.paper}`,
-    padding: '0 4px',
-    backgroundColor: '#EA2D50',
-    color: '#F0EBF2',
-  },
-}));
 
 export default OpenDialog;

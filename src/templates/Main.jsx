@@ -80,7 +80,7 @@ const Main = ({ children }) => {
               sx={{
                 display: { xs: 'none', md: 'flex' },
                 alignItems: 'center',
-                gap: '25px',
+                gap: '20px',
               }}
             >
               <OpenDialog />
