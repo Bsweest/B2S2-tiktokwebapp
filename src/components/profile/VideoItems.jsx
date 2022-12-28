@@ -20,7 +20,7 @@ const VideoItem = ({ data }) => {
       >
         <Image
           alt="list-item"
-          src={poster_uri ? poster_uri : null}
+          src={poster_uri ? poster_uri : '/img/placeholder/poster.svg'}
           fill={true}
         />
         <Box

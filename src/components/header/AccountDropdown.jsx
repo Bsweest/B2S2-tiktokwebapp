@@ -1,4 +1,4 @@
-import getFirstLetter from '@/templates/hooks/getFirstLetter';
+import getFirstLetter from '@/utils/getFirstLetter';
 import {
   Avatar,
   Box,
@@ -14,7 +14,6 @@ import Link from 'next/link';
 import { useState } from 'react';
 
 const AccountDropdown = () => {
-  const user = useUser();
   const supabase = useSupabaseClient();
   const [anchor, setAnchor] = useState(null);
 
@@ -62,7 +61,7 @@ const AccountDropdown = () => {
         onClose={handleCloseUserMenu}
       >
         <MenuItem onClick={handleClickProfile}>
-          <Link href={`/${user.id}`}>View profile</Link>
+          <Link href={`/${data ? data.id : ''}`}>View profile</Link>
         </MenuItem>
         <MenuItem onClick={logOut}>
           <Typography>Log out</Typography>

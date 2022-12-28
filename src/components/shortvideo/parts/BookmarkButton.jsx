@@ -1,3 +1,4 @@
+import { CheckAuth } from '@/templates/global/CheckAuth';
 import ButtonBase from '@mui/material/ButtonBase';
 import Tooltip from '@mui/material/Tooltip';
 import useMutateBookmark from 'backend/mutation/BookmarkMutate';
@@ -18,6 +19,8 @@ const BookmarkButton = ({ isBM, ssid }) => {
     isDone.current = true;
   };
   const updateBM = () => {
+    if (!CheckAuth()) return;
+
     if (!isDone.current) return;
     isDone.current = false;
     mutate({ ssid: ssid, bool: !isBM });

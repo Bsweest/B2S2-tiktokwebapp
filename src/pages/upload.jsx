@@ -1,54 +1,40 @@
 import CloudUploadRoundedIcon from '@mui/icons-material/CloudUploadRounded';
 import TaskAltIcon from '@mui/icons-material/TaskAlt';
 import { LoadingButton } from '@mui/lab';
-import { Button, Card, Dialog, TextField, Typography } from '@mui/material';
-import { Box } from '@mui/system';
-import { supabase } from 'backend/supabase';
-import dayjs from 'dayjs';
-import Randomstring from 'randomstring';
-import { useState } from 'react';
-import ReactPlayer from 'react-player';
+import {
+  Box,
+  Button,
+  Card,
+  Dialog,
+  TextField,
+  Typography,
+} from '@mui/material';
+import AddVideo from 'backend/mutation/AddVideo';
+import dynamic from 'next/dynamic';
+import { useRef, useState } from 'react';
+
+const ReactPlayer = dynamic(() => import('react-player'), { ssr: false });
 
 const UploadVideo = () => {
   const [loading, setLoading] = useState(false);
-  const [videoUpload, setvideoUpload] = useState('');
-  const [videoLocal, setvideoLocal] = useState();
+  const [videoLocal, setVideoLocal] = useState();
   const [valid, setValid] = useState(true);
-  const [caption, setCaption] = useState('');
   const [showDialog, setShowDialog] = useState(false);
 
-  const handleChangeCaption = (event) => {
-    setCaption(event.target.value);
-  };
+  const caption = useRef();
 
   const getLocalVideo = (e) => {
-    const obj = URL.createObjectURL(e.target.files[0]);
-    setvideoUpload(obj);
-    setvideoLocal(e.target.files[0]);
+    setVideoLocal(e.target.files[0]);
   };
 
-  async function uploadVideo() {
-    const id = window.localStorage.getItem('userId');
-    const randomString = Randomstring.generate();
-
-    if (videoLocal) {
-      setLoading(true);
-      await supabase.storage
-        .from('shareshorts')
-        .upload(randomString, videoLocal);
-      const url = supabase.storage
-        .from('shareshorts')
-        .getPublicUrl(randomString);
-      await supabase.from('shareshorts').insert({
-        created_at: dayjs(),
-        op_id: id,
-        uri: url.data.publicUrl,
-        caption: caption,
-      });
-      setLoading(false);
-      setShowDialog(true);
-    } else setValid(false);
-  }
+  const uploadVideo = async () => {
+    if (!videoLocal) return;
+    setLoading(true);
+    const rs = await AddVideo(videoLocal, caption.current.value);
+    setLoading(false);
+    setShowDialog(true);
+    if (!rs) setValid(false);
+  };
 
   return (
     <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
@@ -141,13 +127,12 @@ const UploadVideo = () => {
         <Box sx={{ display: 'flex', flexDirection: 'row' }}>
           {videoLocal ? (
             <ReactPlayer
-              url={videoUpload}
-              playing={true}
-              width=" 50%"
+              url={URL.createObjectURL(videoLocal)}
+              playing={false}
+              width="50%"
               height="500px"
               controls
               style={{
-                backgroundColor: '#cfcfcf',
                 marginRight: '10px',
                 borderRadius: '10px',
               }}
@@ -195,7 +180,12 @@ const UploadVideo = () => {
                 component="label"
               >
                 Select file
-                <input type="file" hidden onChange={getLocalVideo} />
+                <input
+                  type="file"
+                  accept="video/mp4, video/x-m4v, video/*"
+                  hidden
+                  onChange={getLocalVideo}
+                />
               </Button>
             </Box>
           )}
@@ -203,8 +193,7 @@ const UploadVideo = () => {
           <Box sx={{ width: '50%', marginLeft: '10px' }}>
             <Typography sx={{ color: '#cfcfcf' }}>Caption</Typography>
             <TextField
-              value={caption}
-              onChange={handleChangeCaption}
+              inputRef={caption}
               size="small"
               multiline
               rows={5}
@@ -236,8 +225,7 @@ const UploadVideo = () => {
                 }}
                 variant="outlined"
                 onClick={() => {
-                  setvideoLocal(null);
-                  setvideoUpload('');
+                  setVideoLocal(null);
                 }}
               >
                 Discard
@@ -270,7 +258,7 @@ const UploadVideo = () => {
               )}
             </Box>
             {valid ? (
-              <Box />
+              <></>
             ) : (
               <Typography
                 sx={{

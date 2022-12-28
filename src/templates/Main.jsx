@@ -10,16 +10,13 @@ import Typography from '@mui/material/Typography';
 import { ThemeProvider, styled } from '@mui/material/styles';
 import { useUser } from '@supabase/auth-helpers-react';
 import Image from 'next/image';
-import { useEffect } from 'react';
 
 import SetupClient from './global/ClientData';
 
 const Main = ({ children }) => {
   const user = useUser();
 
-  useEffect(() => {
-    if (user) SetupClient(user.id);
-  }, [user]);
+  SetupClient(user);
 
   return (
     <>

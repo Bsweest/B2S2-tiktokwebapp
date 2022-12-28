@@ -1,6 +1,4 @@
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import ButtonGroup from '@mui/material/ButtonGroup';
 import Typography from '@mui/material/Typography';
 import { useQueryChatRooms } from 'backend/services/ChatServices';
 
@@ -37,25 +35,6 @@ const SideBarMessages = () => {
         >
           Messages
         </Typography>
-        <ButtonGroup size="small" aria-label="small button group">
-          <Button
-            variant="contained"
-            sx={{
-              borderRadius: '1rem',
-              boxShadow: 'none',
-            }}
-          >
-            Friend
-          </Button>
-          <Button
-            sx={{
-              borderRadius: '1rem',
-              boxShadow: 'none',
-            }}
-          >
-            Stranger
-          </Button>
-        </ButtonGroup>
       </Box>
 
       <ListChat list={listFriendChat} />

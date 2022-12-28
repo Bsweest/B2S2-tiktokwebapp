@@ -2,8 +2,8 @@ import {
   changeReplyComment,
   useIsReply,
 } from '@/templates/global/ListVideoStates';
-import getFirstLetter from '@/templates/hooks/getFirstLetter';
-import getRelativeTime from '@/templates/hooks/getRelativeTime';
+import getFirstLetter from '@/utils/getFirstLetter';
+import getRelativeTime from '@/utils/getRelativeTime';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import ButtonBase from '@mui/material/ButtonBase';

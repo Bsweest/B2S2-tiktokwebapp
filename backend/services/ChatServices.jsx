@@ -4,9 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { supabase } from '../supabase';
 
 //* get all chat rooms
-const GetChatRooms = async (bool) => {
-  const client = clientID.peek();
-
+const GetChatRooms = async (client, bool) => {
   const { data, error } = await supabase.rpc('get_chatrooms', {
     client: client,
     is_friend: bool,
@@ -15,9 +13,16 @@ const GetChatRooms = async (bool) => {
   return data;
 };
 const useQueryChatRooms = (bool) => {
-  return useQuery(['mess_list', bool], () => GetChatRooms(bool), {
-    placeholderData: [],
-  });
+  const client = clientID.get();
+
+  return useQuery(
+    ['chat_rooms', client, bool],
+    () => GetChatRooms(client, bool),
+    {
+      placeholderData: [],
+      staleTime: 0,
+    },
+  );
 };
 
 //* Get last Messages of Chatroom
@@ -41,6 +46,7 @@ const useQueryLastMessage = (room_id) => {
         id: null,
         last_read_id: null,
       },
+      staleTime: 0,
     },
   );
 };
@@ -63,6 +69,7 @@ const useQueryInfiniteMessages = (room_id) => {
     () => GetInfiniteMessages(room_id),
     {
       placeholderData: [],
+      staleTime: 0,
     },
   );
 };
@@ -71,12 +78,18 @@ const useQueryInfiniteMessages = (room_id) => {
 const createRoom = async (op_id) => {
   const client = clientID.peek();
 
-  const { data } = await supabase.from('chatrooms').insert().select().single();
+  const { data } = await supabase
+    .from('chatrooms')
+    .insert({})
+    .select()
+    .single();
 
   await supabase.from('chat_parti').insert([
     { room_id: data.id, parti_id: client },
     { room_id: data.id, parti_id: op_id },
   ]);
+
+  return data.id;
 };
 
 export {

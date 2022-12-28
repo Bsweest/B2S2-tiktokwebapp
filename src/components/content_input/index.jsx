@@ -1,3 +1,4 @@
+import { CheckAuth } from '@/templates/global/CheckAuth';
 import {
   unReply,
   useCurrentElement,
@@ -39,6 +40,8 @@ const ContentInput = ({ sendFn }) => {
   };
 
   const submitText = () => {
+    if (!CheckAuth()) return;
+
     if (!value) return;
     sendFn(value, ssid, parentID, displayname);
     setValue('');

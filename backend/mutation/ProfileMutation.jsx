@@ -31,10 +31,12 @@ const useMutateAvatar = (changeLocalAvatar) => {
       queryClient.setQueryData(['get_user_data', client], (prev) => {
         changeLocalAvatar(URL.createObjectURL(file));
 
+        const date = new Date().toISOString();
+
         if (prev.avatar_url) return;
         return {
           ...prev,
-          avatar_url: `https://utpupcffsaillsgoohtt.supabase.co/storage/v1/object/public/avatars/${client}.png`,
+          avatar_url: `https://utpupcffsaillsgoohtt.supabase.co/storage/v1/object/public/avatars/${client}.png?lastmod=${date}`,
         };
       });
     },

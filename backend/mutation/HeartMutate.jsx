@@ -1,5 +1,6 @@
 import { clientID } from '@/templates/global/ClientData';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useRouter } from 'next/router';
 
 import { supabase } from '../supabase';
 
@@ -7,12 +8,14 @@ const UpdateHeartShort = async (props) => {
   const { ssid, bool } = props;
   const client = clientID.peek();
 
-  bool
+  const { error } = bool
     ? await supabase.from('_heart_short').insert({ uid: client, ssid: ssid })
     : await supabase
         .from('_heart_short')
         .delete()
         .match({ uid: client, ssid: ssid });
+
+  if (error) throw new Error(error);
 };
 
 const useMutateHeartShort = () => {

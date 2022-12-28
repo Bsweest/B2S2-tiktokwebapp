@@ -5,6 +5,7 @@ import useMutateBookmark from 'backend/mutation/BookmarkMutate';
 import { useMutateHeartShort } from 'backend/mutation/HeartMutate';
 import { useCallback, useEffect, useMemo } from 'react';
 
+import { CheckAuth } from '../global/CheckAuth';
 import {
   toggleCommentSection,
   useCurrentElement,
@@ -68,14 +69,18 @@ const useKeyboardControl = () => {
   }, [handleKeyPress, handleKeyUp]);
 
   useEffect(() => {
-    if (!heart || !id) return;
+    if (!heart) return;
+    if (!CheckAuth()) return;
+
     const { hs } = queryClient.getQueryData(['short_services', ssid]);
     updateHeart({ ssid: ssid, bool: !hs });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [heart]);
 
   useEffect(() => {
-    if (!bookmark || !id) return;
+    if (!bookmark) return;
+    if (!CheckAuth()) return;
+
     const { bm } = queryClient.getQueryData(['short_services', ssid]);
     updateBM({ ssid: ssid, bool: !bm });
     // eslint-disable-next-line react-hooks/exhaustive-deps
