@@ -27,7 +27,7 @@ const ChatScene = () => {
   const { mutate: changeLastRead } = useMutateLastReadMess();
 
   const sendMsg = (content) => {
-    addChat({ content: content, room_id: room_id });
+    addChat({ content: content, room_id: room_id, receiver: chatter.id });
   };
 
   const renderItem = useCallback(

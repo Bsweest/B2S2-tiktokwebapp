@@ -4,6 +4,7 @@ import useMutateFollow from 'backend/mutation/FollowMutate';
 import { useQueryCheckFollow } from 'backend/services/ProfileServices';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useRef } from 'react';
 
 const VideoAvatar = ({ opData }) => {
@@ -18,17 +19,23 @@ const VideoAvatar = ({ opData }) => {
         mb: '2rem',
       }}
     >
-      <Image
-        alt="avatar"
-        fill={true}
-        sizes="4rem"
-        style={{ borderRadius: '50%', pointerEvents: 'all', cursor: 'pointer' }}
-        src={
-          avatar_url
-            ? avatar_url
-            : `https://ui-avatars.com/api/?background=random&name=${displayname}`
-        }
-      />
+      <Link href={`${id}`}>
+        <Image
+          alt="avatar"
+          fill={true}
+          sizes="4rem"
+          style={{
+            borderRadius: '50%',
+            pointerEvents: 'all',
+            cursor: 'pointer',
+          }}
+          src={
+            avatar_url
+              ? avatar_url
+              : `https://ui-avatars.com/api/?background=random&name=${displayname}`
+          }
+        />
+      </Link>
       <FollowButton op_id={id} />
     </Box>
   );

@@ -18,13 +18,18 @@ const getUserData = async (uid) => {
 };
 
 const useQueryUserData = (uid) => {
-  return useQuery(['get_user_data', uid], () => getUserData(uid));
+  return useQuery(['get_user_data', uid], () => getUserData(uid), {
+    staleTime: Infinity,
+    cacheTime: Infinity,
+  });
 };
 const useClientData = () => {
   const client = clientID.get();
 
   return useQuery(['get_user_data', client], () => getUserData(client), {
     enabled: !!client,
+    staleTime: Infinity,
+    cacheTime: Infinity,
   });
 };
 
@@ -122,6 +127,7 @@ const useQueryCheckFollowBack = (op_id) => {
 };
 
 export {
+  getUserData,
   useQueryShortsOfUser,
   useQueryInteractNumbers,
   useQueryCheckFollow,

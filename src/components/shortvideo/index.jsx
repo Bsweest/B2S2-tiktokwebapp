@@ -22,7 +22,7 @@ const ShortVideo = ({ data, isHome }) => {
 
   useEffect(() => {
     if (inView) {
-      changeCurrentElement(ssid, services.count_comment);
+      changeCurrentElement(ssid, op_id, services.count_comment);
       setStatus(true);
     } else {
       setStatus(false);

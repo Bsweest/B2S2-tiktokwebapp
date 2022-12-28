@@ -4,13 +4,14 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '../supabase';
 
 const SendChat = async (props) => {
-  const { content, room_id } = props;
+  const { content, room_id, receiver } = props;
   const sender = clientID.peek();
 
   const { error } = await supabase.from('messages').insert({
     content: content,
     sender: sender,
     room_id: room_id,
+    receiver: receiver,
   });
 
   if (error) throw new Error(error);

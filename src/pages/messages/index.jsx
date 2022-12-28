@@ -2,7 +2,7 @@ import ChatScene from '@/components/chat/ChatScene';
 import SideBarMessages from '@/components/sidebar/SideBarMessages';
 import Container from '@mui/material/Container';
 
-const Message = () => {
+const Messages = () => {
   return (
     <Container
       sx={{
@@ -19,4 +19,4 @@ const Message = () => {
   );
 };
 
-export default Message;
+export default Messages;

@@ -22,7 +22,7 @@ const variants = {
 const SideBarComment = () => {
   const {
     isOpenComment: isOpen,
-    currentElement: { id: fetchID, numComment },
+    currentElement: { id: fetchID, numComment, op_id },
   } = useListVideoStates();
 
   const ac = new AbortController();
@@ -35,8 +35,8 @@ const SideBarComment = () => {
 
   const { mutate, isLoading } = useMutateComment();
 
-  const addComment = (content, ssid, p_id, reply_to) => {
-    mutate({ content, ssid, p_id, reply_to });
+  const addComment = (content, p_id, reply_to) => {
+    mutate({ content, fetchID: ssid, p_id, reply_to, op_id });
   };
 
   useEffect(() => {
