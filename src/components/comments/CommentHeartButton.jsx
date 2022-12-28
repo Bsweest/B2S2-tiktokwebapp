@@ -1,3 +1,4 @@
+import { CheckAuth } from '@/templates/global/CheckAuth';
 import Box from '@mui/material/Box';
 import ButtonBase from '@mui/material/ButtonBase';
 import Typography from '@mui/material/Typography';
@@ -20,6 +21,8 @@ const CommentHeartButton = ({ services, cmid }) => {
   };
 
   const updateLike = () => {
+    if (!CheckAuth()) return;
+
     if (!isDone.current) return;
     isDone.current = false;
     mutate({ cmid: cmid, bool: !heart });

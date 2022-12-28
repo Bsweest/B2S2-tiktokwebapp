@@ -1,6 +1,6 @@
 import { v4 } from 'uuid';
 
-import { clientID } from '../global/ClientData';
+import { clientID } from '../templates/global/ClientData';
 
 const convertChatMsg = (data) => {
   const client = clientID.peek();

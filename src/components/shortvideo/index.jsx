@@ -20,10 +20,6 @@ const ShortVideo = ({ data, isHome }) => {
   const { data: services, isSuccess: cd1 } = useQueryShortServives(ssid);
   const { data: opData, isSuccess: cd2 } = useQueryUserData(op_id);
 
-  const onVideoClick = () => {
-    setStatus((prev) => !prev);
-  };
-
   useEffect(() => {
     if (inView) {
       changeCurrentElement(ssid, services.count_comment);
@@ -74,7 +70,6 @@ const ShortVideo = ({ data, isHome }) => {
                 overflow: 'hidden',
                 zIndex: 10,
               }}
-              onClick={onVideoClick}
             >
               <ReactPlayer
                 url={uri}

@@ -1,3 +1,4 @@
+import { CheckAuth } from '@/templates/global/CheckAuth';
 import Box from '@mui/material/Box';
 import useMutateFollow from 'backend/mutation/FollowMutate';
 import { useQueryCheckFollow } from 'backend/services/ProfileServices';
@@ -43,6 +44,8 @@ const FollowButton = ({ op_id }) => {
   const onAnimationComplete = () => (isDone.current = true);
 
   const update = () => {
+    if (!CheckAuth()) return;
+
     if (!isDone.current) return;
     isDone.current = false;
     mutate({ op_id: op_id, bool: !isFollow });

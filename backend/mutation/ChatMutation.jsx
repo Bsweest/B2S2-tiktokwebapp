@@ -1,7 +1,5 @@
-import { useFocusedRoomId } from '@/templates/global/ChatRoomInFocused';
 import { clientID } from '@/templates/global/ClientData';
-import { useMutation } from '@tanstack/react-query';
-import { useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { supabase } from '../supabase';
 
@@ -39,14 +37,9 @@ const ChangeReadStatus = async (props) => {
 
 const useMutateLastReadMess = () => {
   const queryClient = useQueryClient();
-  const fcID = useFocusedRoomId();
-
   return useMutation(ChangeReadStatus, {
-    onSuccess: (data, variables) => {
-      queryClient.setQueryData(['get_last_message', fcID], (prev) => ({
-        ...prev,
-        last_read_id: fcID ? variables.messID : prev.last_read_id,
-      }));
+    onSuccess: (_, { room_id }) => {
+      queryClient.invalidateQueries(['get_last_message', room_id]);
     },
   });
 };

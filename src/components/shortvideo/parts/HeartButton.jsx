@@ -1,3 +1,4 @@
+import { CheckAuth } from '@/templates/global/CheckAuth';
 import Box from '@mui/material/Box';
 import ButtonBase from '@mui/material/ButtonBase';
 import Tooltip from '@mui/material/Tooltip';
@@ -21,6 +22,8 @@ const HeartButton = ({ isHeart, count, ssid }) => {
   };
 
   const updateLike = () => {
+    if (!CheckAuth()) return;
+
     if (!isDone.current) return;
     isDone.current = false;
     mutate({ ssid: ssid, bool: !isHeart });

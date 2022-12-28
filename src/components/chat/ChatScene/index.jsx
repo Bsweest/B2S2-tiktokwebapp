@@ -1,5 +1,5 @@
 import { useFocusedRoomData } from '@/templates/global/ChatRoomInFocused';
-import convertChatMsg from '@/templates/hooks/convertMessages';
+import convertChatMsg from '@/utils/convertMessages';
 import Box from '@mui/material/Box';
 import List from '@mui/material/List';
 import {
@@ -8,23 +8,26 @@ import {
 } from 'backend/mutation/ChatMutation';
 import { useQueryInfiniteMessages } from 'backend/services/ChatServices';
 import FlatList from 'flatlist-react';
+import { useRouter } from 'next/router';
 import { useCallback, useEffect, useState } from 'react';
 
 import ContentInput from '../../content_input';
 import ChatMsg from './ChatMsg';
 
 const ChatScene = () => {
-  const { roomID, chatter, lastRead } = useFocusedRoomData();
+  const router = useRouter();
+  const room_id = router.query.id;
+  const { chatter, lastRead } = useFocusedRoomData();
 
   const [messages, setMessages] = useState();
 
-  const { data } = useQueryInfiniteMessages(roomID);
+  const { data } = useQueryInfiniteMessages(room_id);
 
   const { mutate: addChat } = useMutateChat();
   const { mutate: changeLastRead } = useMutateLastReadMess();
 
   const sendMsg = (content) => {
-    addChat({ content: content, room_id: roomID });
+    addChat({ content: content, room_id: room_id });
   };
 
   const renderItem = useCallback(
@@ -48,11 +51,11 @@ const ChatScene = () => {
     if (data.length === 0) return;
 
     if (lastRead !== data[0].id) {
-      changeLastRead({ room_id: roomID, messID: data[0].id });
+      changeLastRead({ room_id: room_id, messID: data[0].id });
     }
 
     setMessages(convertChatMsg(data));
-  }, [data, changeLastRead, lastRead, roomID]);
+  }, [data, changeLastRead, lastRead, room_id]);
 
   return (
     <Box

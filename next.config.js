@@ -6,6 +6,7 @@ const nextConfig = {
       'i.picsum.photos',
       'picsum.photos',
       'utpupcffsaillsgoohtt.supabase.co',
+      'ui-avatars.com',
     ],
   },
 };
