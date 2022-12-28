@@ -1,6 +1,6 @@
 import Search from '@mui/icons-material/Search';
+import Box from '@mui/material/Box';
 import InputBase from '@mui/material/InputBase';
-import { Box } from '@mui/system';
 import Link from 'next/link';
 import React, { useState } from 'react';
 

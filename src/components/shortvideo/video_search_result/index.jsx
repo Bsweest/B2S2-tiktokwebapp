@@ -1,6 +1,5 @@
 import PlayArrowRoundedIcon from '@mui/icons-material/PlayArrowRounded';
-import { Avatar, Typography } from '@mui/material';
-import { Box } from '@mui/system';
+import { Avatar, Box, Typography } from '@mui/material';
 import React from 'react';
 import ReactPlayer from 'react-player';
 

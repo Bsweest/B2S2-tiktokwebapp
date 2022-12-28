@@ -1,19 +1,8 @@
 import AccountSearchResult from '@/components/account/AccountSearchResult';
 import VideoSearchResult from '@/components/shortvideo/video_search_result';
 import SideBarHome from '@/components/sidebar/SideBarHome';
-import {
-  Avatar,
-  Box,
-  Button,
-  IconButton,
-  ImageList,
-  ImageListItem,
-  Stack,
-  Tab,
-  Tabs,
-  Typography,
-} from '@mui/material';
-import { useEffect, useState } from 'react';
+import { Box, Stack, Tab, Tabs, Typography } from '@mui/material';
+import { useState } from 'react';
 
 const Search = () => {
   const [loading, setLoading] = useState(false);

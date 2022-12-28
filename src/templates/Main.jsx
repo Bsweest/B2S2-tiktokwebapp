@@ -1,5 +1,5 @@
 import OpenDialog from '@/components/auth/Login/OpenLoginDialogBtn';
-import SearchBar from '@/components/header/SearchBar';
+import SearchBar from '@/components/userheader/SearchBar';
 import { muiTheme } from '@/styles/muiStyles';
 import '@fontsource/varela-round';
 import AppBar from '@mui/material/AppBar';
@@ -9,6 +9,7 @@ import Typography from '@mui/material/Typography';
 import { ThemeProvider, styled } from '@mui/material/styles';
 import { useUser } from '@supabase/auth-helpers-react';
 import Image from 'next/image';
+import Link from 'next/link';
 
 import SetupClient from './global/ClientData';
 
@@ -35,7 +36,6 @@ const Main = ({ children }) => {
               height: '60px',
               alignItems: 'center',
               justifyContent: 'space-between',
-              zIndex: 0,
               backgroundColor: '#030303',
               paddingLeft: '35px',
               paddingRight: '35px',
@@ -49,26 +49,28 @@ const Main = ({ children }) => {
               }}
             >
               <Image alt="logo" src="/img/logo.svg" width={45} height={45} />
-              <Typography
-                variant="h6"
-                noWrap
-                component="div"
-                sx={{
-                  fontWeight: 'bold',
-                  fontSize: '2rem',
-                  marginLeft: 2,
-                  fontFamily: 'cursive',
-                  backgroundcolor: 'primary',
-                  backgroundImage: `linear-gradient(180deg, #CA2D73, #411D9E)`,
-                  backgroundSize: '100%',
-                  backgroundRepeat: 'repeat',
-                  backgroundClip: 'text',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                }}
-              >
-                B2S2
-              </Typography>
+              <Link href="/">
+                <Typography
+                  variant="h6"
+                  noWrap
+                  component="div"
+                  sx={{
+                    fontWeight: 'bold',
+                    fontSize: '2rem',
+                    marginLeft: 2,
+                    fontFamily: 'cursive',
+                    backgroundcolor: 'primary',
+                    backgroundImage: `linear-gradient(180deg, #CA2D73, #411D9E)`,
+                    backgroundSize: '100%',
+                    backgroundRepeat: 'repeat',
+                    backgroundClip: 'text',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                  }}
+                >
+                  B2S2
+                </Typography>
+              </Link>
             </Box>
 
             <SearchBar />

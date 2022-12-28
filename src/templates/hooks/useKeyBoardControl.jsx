@@ -1,4 +1,3 @@
-import { observe } from '@legendapp/state';
 import { useObservable, useSelector } from '@legendapp/state/react';
 import { useQueryClient } from '@tanstack/react-query';
 import useMutateBookmark from 'backend/mutation/BookmarkMutate';
@@ -9,7 +8,6 @@ import { CheckAuth } from '../global/CheckAuth';
 import {
   toggleCommentSection,
   useCurrentElement,
-  useListVideoStates,
 } from '../global/ListVideoStates';
 
 const useKeyboardControl = () => {

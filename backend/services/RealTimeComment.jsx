@@ -6,14 +6,14 @@ const ListenCommentSection = () => {
   const client_id = clientID.get();
 
   supabase
-    .channel(`public:comments:uid=eq.${client_id}`)
+    .channel(`public:comments:op_id=eq.${client_id}`)
     .on(
       'postgres_changes',
       {
         event: 'INSERT',
         schema: 'public',
         table: 'comments',
-        filter: `uid=eq.${client_id}`,
+        filter: `op_id=eq.${client_id}`,
       },
       (payload) => {},
     )

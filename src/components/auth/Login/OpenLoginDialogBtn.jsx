@@ -1,7 +1,8 @@
-import AccountDropdown from '@/components/header/AccountDropdown';
-import Message from '@/components/header/Message';
-import Notification from '@/components/header/Notification';
-import UploadBtn from '@/components/header/UploadBtn';
+import UserHeader from '@/components/userheader';
+import AccountDropdown from '@/components/userheader/AccountDropdown';
+import Message from '@/components/userheader/Message';
+import Notification from '@/components/userheader/Notification';
+import UploadBtn from '@/components/userheader/UploadBtn';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
@@ -111,13 +112,7 @@ const OpenDialog = () => {
       <UploadBtn />
 
       {user ? (
-        <>
-          <Message />
-
-          <Notification />
-
-          <AccountDropdown />
-        </>
+        <UserHeader />
       ) : (
         <>
           <Button

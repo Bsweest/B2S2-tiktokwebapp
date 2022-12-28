@@ -1,9 +1,5 @@
 import { CheckAuth } from '@/templates/global/CheckAuth';
-import {
-  unReply,
-  useCurrentElement,
-  useGetReply,
-} from '@/templates/global/ListVideoStates';
+import { unReply, useGetReply } from '@/templates/global/ListVideoStates';
 import data from '@emoji-mart/data';
 import Picker from '@emoji-mart/react';
 import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
@@ -23,7 +19,6 @@ const ContentInput = ({ sendFn }) => {
   const [showIcon, setShowIcon] = useState(false);
 
   const { show, displayname, parentID } = useGetReply();
-  const ssid = useCurrentElement();
 
   const toggleIconPicker = () => {
     setShowIcon((prev) => !prev);
@@ -43,7 +38,7 @@ const ContentInput = ({ sendFn }) => {
     if (!CheckAuth()) return;
 
     if (!value) return;
-    sendFn(value, ssid, parentID, displayname);
+    sendFn(value, parentID, displayname);
     setValue('');
     unReply();
   };
