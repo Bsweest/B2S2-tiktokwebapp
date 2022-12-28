@@ -1,6 +1,7 @@
-import { NotificationsActiveRounded } from '@mui/icons-material';
+import NotificationsActiveRounded from '@mui/icons-material/NotificationAdd';
 import {
   Avatar,
+  Badge,
   Divider,
   IconButton,
   List,
@@ -9,9 +10,7 @@ import {
   ListItemText,
   Menu,
 } from '@mui/material';
-import Badge from '@mui/material/Badge';
 import { styled } from '@mui/material/styles';
-import React from 'react';
 import { useState } from 'react';
 
 const Notification = () => {

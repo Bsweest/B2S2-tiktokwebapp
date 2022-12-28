@@ -65,7 +65,7 @@ const GetInfiniteMessages = async (room_id) => {
 };
 const useQueryInfiniteMessages = (room_id) => {
   return useQuery(
-    ['get_chat_messages', room_id],
+    ['get_chatroom', room_id],
     () => GetInfiniteMessages(room_id),
     {
       placeholderData: [],

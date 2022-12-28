@@ -24,7 +24,7 @@ const ChatAccount = ({ data }) => {
   const { data: chatter, isSuccess: cd1 } = useQueryUserData(parti_id);
   const { data: lastMsg, isSuccess: cd2 } = useQueryLastMessage(room_id);
 
-  useListenChatroom(room_id);
+  useListenChatroom(room_id, currentID);
 
   const onClickRoom = () => {
     router.push(`/messages/${room_id}`);
@@ -38,7 +38,7 @@ const ChatAccount = ({ data }) => {
   }, [lastMsg]);
 
   useEffect(() => {
-    if (currentID && chatter && lastMsg)
+    if (currentID === room_id && chatter && lastMsg)
       changeChatRoom(chatter, lastMsg.last_read_id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentID, chatter, lastMsg]);
