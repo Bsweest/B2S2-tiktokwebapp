@@ -29,7 +29,7 @@ const ParentComment = ({ data }) => {
     data.ssid,
     pid,
     ac,
-    true,
+    isOpen,
   );
 
   const onClick = () => {

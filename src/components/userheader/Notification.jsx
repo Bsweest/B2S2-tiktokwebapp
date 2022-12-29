@@ -1,8 +1,12 @@
+import notification, {
+  resetNoti,
+} from '@/templates/global/NotificationPersist';
+import getRelativeTime from '@/utils/getRelativeTime';
+import { For } from '@legendapp/state/react';
 import NotificationsActiveRounded from '@mui/icons-material/NotificationAdd';
 import {
   Avatar,
   Badge,
-  Divider,
   IconButton,
   List,
   ListItem,
@@ -11,30 +15,71 @@ import {
   Menu,
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
+import useQueryUserData from 'backend/services/ProfileServices';
+import useListenCommentSection from 'backend/services/RealTimeComment';
+import Link from 'next/link';
 import { useState } from 'react';
+
+const Row = ({ item }) => {
+  const { uid, event, ssid, content } = item;
+
+  const { data, isSuccess } = useQueryUserData(uid);
+
+  const textPri = data
+    ? event === 0
+      ? `${data.displayname} comments on your short`
+      : `${data.displayname} likes your short`
+    : null;
+
+  const textSe = getRelativeTime(item.at);
+
+  return (
+    <>
+      {isSuccess ? (
+        <Link href={`/short/${ssid}`}>
+          <ListItem
+            sx={{ borderBottom: '1px solid lightgrey' }}
+            alignItems="flex-start"
+          >
+            <ListItemAvatar>
+              <Avatar src={data.avatar_url} />
+            </ListItemAvatar>
+            <ListItemText primary={textPri} secondary={textSe} />
+          </ListItem>
+        </Link>
+      ) : (
+        <></>
+      )}
+    </>
+  );
+};
 
 const Notification = () => {
   const [anchor, setAnchor] = useState(null);
-  const [badge, setBadge] = useState(2);
 
   const handleOpen = (event) => {
     setAnchor(event.currentTarget);
-    setBadge(0);
+    resetNoti();
   };
 
   const handleClose = () => {
     setAnchor(null);
   };
 
+  useListenCommentSection();
+
   return (
     <>
-      <StyledBadge badgeContent={badge} color="primary">
+      <StyledBadge badgeContent={notification.num.get()} color="primary">
         <IconButton onClick={handleOpen}>
           <NotificationsActiveRounded sx={{ width: '30px', height: '30px' }} />
         </IconButton>
       </StyledBadge>
       <Menu
-        sx={{ mt: '45px' }}
+        sx={{
+          mt: '45px',
+          display: notification.arr.get().length ? 'flex' : 'none',
+        }}
         anchorEl={anchor}
         anchorOrigin={{
           vertical: 'top',
@@ -49,27 +94,7 @@ const Notification = () => {
         onClose={handleClose}
       >
         <List sx={{ width: '100%', maxWidth: 360 }}>
-          <ListItem alignItems="flex-start">
-            <ListItemAvatar>
-              <Avatar src="https://randomuser.me/api/portraits/men/0.jpg" />
-            </ListItemAvatar>
-            <ListItemText
-              primary="Phan Huy Manh liked your post"
-              secondary="21 minute ago"
-            />
-          </ListItem>
-          <Divider variant="inset" component="li" />
-
-          <ListItem alignItems="flex-start">
-            <ListItemAvatar>
-              <Avatar src="https://randomuser.me/api/portraits/women/26.jpg" />
-            </ListItemAvatar>
-            <ListItemText
-              primary="Phan Huy Manh commented on your post"
-              secondary="1 minute ago"
-            />
-          </ListItem>
-          <Divider variant="inset" component="li" />
+          <For each={notification.arr} item={Row} />
         </List>
       </Menu>
     </>
