@@ -3,10 +3,24 @@ import Box from '@mui/material/Box';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import Typography from '@mui/material/Typography';
+import { supabase } from 'backend/supabase';
 import Link from 'next/link';
+import { useState } from 'react';
+import { useEffect } from 'react';
 
 const AccountSearchResult = ({ data }) => {
   const { id, username, displayname, avatar_url, bio } = data;
+  const [follow, setFollow] = useState(0);
+
+  async function getFollow() {
+    const rs = await supabase.from('_follow').select().eq('following_id', id);
+    setFollow(rs.data.length);
+  }
+
+  useEffect(() => {
+    getFollow();
+  }, []);
+
   return (
     <Link href={`/${id}`}>
       <ListItemButton
@@ -26,7 +40,7 @@ const AccountSearchResult = ({ data }) => {
               {displayname}
             </Typography>
             <Typography sx={{ fontSize: '17px', fontWeight: 'bold' }}>
-              99
+              {follow}
             </Typography>
             <Typography sx={{ fontSize: '16px', color: '#9f9f9f' }}>
               Followers

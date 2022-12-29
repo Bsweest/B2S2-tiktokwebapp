@@ -34,6 +34,7 @@ const AccountDropdown = () => {
   const logOut = async () => {
     await supabase.auth.signOut();
     handleCloseUserMenu();
+    window.location.replace('/');
   };
 
   return (
