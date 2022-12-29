@@ -6,10 +6,12 @@ import {
   Button,
   Card,
   Dialog,
+  Paper,
   TextField,
   Typography,
 } from '@mui/material';
 import AddVideo from 'backend/mutation/AddVideo';
+import Image from 'mui-image';
 import dynamic from 'next/dynamic';
 import { useRef, useState } from 'react';
 
@@ -18,10 +20,16 @@ const ReactPlayer = dynamic(() => import('react-player'), { ssr: false });
 const UploadVideo = () => {
   const [loading, setLoading] = useState(false);
   const [videoLocal, setVideoLocal] = useState();
+  const [imageLocal, setImageLocal] = useState();
   const [valid, setValid] = useState(true);
   const [showDialog, setShowDialog] = useState(false);
 
   const caption = useRef();
+  const music = useRef();
+
+  const getLocalImage = (e) => {
+    setImageLocal(e.target.files[0]);
+  };
 
   const getLocalVideo = (e) => {
     setVideoLocal(e.target.files[0]);
@@ -168,9 +176,9 @@ const UploadVideo = () => {
                 sx={{
                   textTransform: 'none',
                   p: '6px',
-                  backgroundColor: '#FE2C55',
+                  backgroundColor: '#454545',
                   '&:hover': {
-                    backgroundColor: '#a80022',
+                    backgroundColor: '#525252',
                   },
                   color: 'white',
                   width: '150px',
@@ -191,6 +199,91 @@ const UploadVideo = () => {
           )}
 
           <Box sx={{ width: '50%', marginLeft: '10px' }}>
+            <Box className="flex row">
+              <Box sx={{ width: '50%', height: '255px' }}>
+                <Typography sx={{ color: '#cfcfcf' }}>Thumbnail</Typography>
+                {imageLocal ? (
+                  <Box
+                    sx={{
+                      height: '200px',
+                      width: '200px',
+                      borderRadius: '10px',
+                      margin: '12px 12px 12px 0px',
+                    }}
+                  >
+                    <Image
+                      sx={{ borderRadius: '10px' }}
+                      src={URL.createObjectURL(imageLocal)}
+                    />
+                  </Box>
+                ) : (
+                  <Box
+                    sx={{
+                      border: '1px solid #bbbbbb',
+                      margin: '12px 12px 12px 0px',
+                      padding: '10px',
+                      borderRadius: '10px',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      height: '200px',
+                    }}
+                  >
+                    <CloudUploadRoundedIcon
+                      sx={{ width: '30px', height: '30px' }}
+                    />
+                    <Typography
+                      sx={{
+                        fontSize: 14,
+                        fontWeight: 'bold',
+                        color: '#cfcfcf',
+                        margin: '20px 0px 20px 0px',
+                      }}
+                    >
+                      Select image to upload
+                    </Typography>
+                    <Button
+                      sx={{
+                        textTransform: 'none',
+                        p: '4px',
+                        backgroundColor: '#454545',
+                        '&:hover': {
+                          backgroundColor: '#525252',
+                        },
+                        color: 'white',
+                        width: '150px',
+                      }}
+                      variant="contained"
+                      component="label"
+                    >
+                      Select file
+                      <input
+                        type="file"
+                        accept="image/*"
+                        hidden
+                        onChange={getLocalImage}
+                      />
+                    </Button>
+                  </Box>
+                )}
+              </Box>
+
+              <Box>
+                <Typography sx={{ color: '#cfcfcf' }}>Music</Typography>
+                <TextField
+                  size="small"
+                  inputRef={music}
+                  sx={{
+                    width: '100%',
+                    margin: '12px 0px 12px 0px',
+                    '& label.Mui-focused': {
+                      color: '#707070',
+                    },
+                  }}
+                />
+              </Box>
+            </Box>
+
             <Typography sx={{ color: '#cfcfcf' }}>Caption</Typography>
             <TextField
               inputRef={caption}
