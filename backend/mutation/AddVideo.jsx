@@ -47,6 +47,12 @@ const AddVideo = async (file, caption, poster, music) => {
   return true;
 };
 
+export const deleteVideo = async (ssid) => {
+  await supabase.from('shareshorts').delete().eq('id', ssid);
+
+  await supabase.storage.from('shareshorts').remove([ssid]);
+};
+
 const updateVideo = async (props) => {
   const { id, poster, music, caption } = props;
 
@@ -77,21 +83,6 @@ export const useMutateVideo = () => {
       queryClient.invalidateQueries(['single_short', id]);
     },
   });
-};
-
-const GetVideoData = async (id) => {
-  const { data } = await supabase
-    .from('shareshorts')
-    .select()
-    .eq('id', id)
-    .limit(1)
-    .single();
-
-  return data;
-};
-
-export const useQuerySingleVideo = (id) => {
-  return useQuery(['single_short', id], () => GetVideoData(id));
 };
 
 export default AddVideo;

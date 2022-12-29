@@ -14,8 +14,7 @@ const SignUpEmail = async (
   if (error) return false;
 
   const newUser = {
-    id: data.id,
-    created_at: userData.created_at,
+    id: data.user.id,
     username: username,
     displayname: displayname,
     birth: birthday,

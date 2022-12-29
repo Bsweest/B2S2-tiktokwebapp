@@ -14,7 +14,8 @@ const CustomToast = (payload) => {
 
   return (
     <div>
-      New messages from <strong>{data ? data.displayname : null}</strong>{' '}
+      New messages from{' '}
+      <p style={{ color: 'white' }}>{data ? data.displayname : null}</p>{' '}
       {payload.content}
     </div>
   );

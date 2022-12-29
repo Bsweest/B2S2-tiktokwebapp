@@ -1,11 +1,9 @@
 import { clientID } from '@/templates/global/ClientData';
-import { resetNoti } from '@/templates/global/NotificationPersist';
 import { useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 
 import { supabase } from '../supabase';
-import { getUserData } from './ProfileServices';
 
 const useListenChatroom = (room_id, currentID) => {
   const queryClient = useQueryClient();
@@ -30,7 +28,7 @@ const useListenChatroom = (room_id, currentID) => {
     .subscribe();
 };
 
-export const useListenToAllChat = (AddNoti) => {
+export const useListenToAllChat = (AddNoti, resetNoti) => {
   const client = clientID.get();
   const router = useRouter();
 
@@ -40,7 +38,7 @@ export const useListenToAllChat = (AddNoti) => {
 
   useEffect(() => {
     if (!needListener) resetNoti();
-  }, [needListener]);
+  }, [needListener, resetNoti]);
 
   supabase
     .channel(`public:messages:receiver=eq.${needListener ? client : null}`)
@@ -52,7 +50,7 @@ export const useListenToAllChat = (AddNoti) => {
         table: 'messages',
         filter: `receiver=eq.${needListener ? client : null}`,
       },
-      async (payload) => {
+      (payload) => {
         AddNoti(payload);
       },
     )

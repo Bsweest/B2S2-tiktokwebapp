@@ -66,7 +66,7 @@ const Notification = () => {
     setAnchor(null);
   };
 
-  useListenCommentSection();
+  // useListenCommentSection();
 
   return (
     <>

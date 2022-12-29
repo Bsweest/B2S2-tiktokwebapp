@@ -50,20 +50,19 @@ function MyApp({ Component, pageProps = { title: 'B2S2' } }) {
           <Main>
             <Component {...pageProps} />
           </Main>
+          <ToastContainer
+            position="top-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss={false}
+            pauseOnHover
+            theme="dark"
+          />
         </QueryClientProvider>
       </SessionContextProvider>
-
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss={false}
-        pauseOnHover
-        theme="dark"
-      />
     </>
   );
 }

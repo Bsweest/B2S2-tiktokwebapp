@@ -19,7 +19,12 @@ const useQuerySingleVideo = (ssid) => {
 
 //* Get explore newfeed
 const getExplore = async () => {
-  const { data } = await supabase.from('shareshorts').select();
+  const { data } = await supabase
+    .from('shareshorts')
+    .select()
+    .order('created_at', {
+      ascending: false,
+    });
 
   return data;
 };
