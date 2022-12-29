@@ -1,21 +1,14 @@
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import CloseIcon from '@mui/icons-material/Close';
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import { LoadingButton } from '@mui/lab';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import FormControl from '@mui/material/FormControl';
-import IconButton from '@mui/material/IconButton';
-import InputAdornment from '@mui/material/InputAdornment';
-import InputLabel from '@mui/material/InputLabel';
 import Link from '@mui/material/Link';
-import OutlinedInput from '@mui/material/OutlinedInput';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
+import { supabase } from 'backend/supabase';
 import { useState } from 'react';
-
-import { supabase } from '../../../../supabaseClient';
 
 const ResetPassword = ({
   handleClose,
@@ -23,25 +16,19 @@ const ResetPassword = ({
   handleClickLoginWithEmail,
   //   handleClickLoginWithEmailSuccess,
 }) => {
-  const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setLoading] = useState(false);
   const [email, setEmail] = useState('');
-
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
-
-  const handleMouseDownPassword = (event) => {
-    event.preventDefault();
-  };
 
   const handleChangeEmail = (event) => {
     setEmail(event.target.value);
   };
+
   async function resetPassword() {
     try {
       setLoading(true);
-      const result = await supabase.auth.resetPasswordForEmail(
-        'laophan74@gmail.com',
-      );
+      await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: 'http://localhost:3000/resetpassword',
+      });
       setLoading(false);
     } catch (error) {}
   }
@@ -100,7 +87,7 @@ const ResetPassword = ({
             textAlign: 'center',
           }}
         >
-          Reset password
+          Forget password
         </Typography>
         <Typography
           sx={{
@@ -119,36 +106,32 @@ const ResetPassword = ({
           value={email}
           onChange={handleChangeEmail}
         />
-        <FormControl sx={{ marginBottom: '12px' }} variant="outlined">
-          <InputLabel>Password</InputLabel>
-          <OutlinedInput
-            type={showPassword ? 'text' : 'password'}
-            endAdornment={
-              <InputAdornment position="end">
-                <IconButton
-                  onClick={handleClickShowPassword}
-                  onMouseDown={handleMouseDownPassword}
-                  edge="end"
-                >
-                  {showPassword ? <VisibilityOff /> : <Visibility />}
-                </IconButton>
-              </InputAdornment>
-            }
-            label="Password"
-          />
-        </FormControl>
-        <Button
-          sx={{
-            marginBottom: '4px',
-            textTransform: 'none',
-            p: '12px',
-            backgroundColor: '#FE2C55',
-          }}
-          variant="contained"
-          onClick={() => resetPassword()}
-        >
-          Log in
-        </Button>
+        {isLoading ? (
+          <LoadingButton
+            sx={{
+              marginBottom: '4px',
+              textTransform: 'none',
+              p: '12px',
+              color: '#161823',
+            }}
+            loading
+          >
+            Submit
+          </LoadingButton>
+        ) : (
+          <Button
+            sx={{
+              marginBottom: '4px',
+              textTransform: 'none',
+              p: '12px',
+              backgroundColor: '#FE2C55',
+            }}
+            variant="contained"
+            onClick={() => resetPassword()}
+          >
+            Send
+          </Button>
+        )}
       </Box>
 
       <Box
