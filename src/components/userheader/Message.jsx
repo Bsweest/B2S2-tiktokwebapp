@@ -1,29 +1,42 @@
-import { useObservable } from '@legendapp/state/react';
+import { observable } from '@legendapp/state';
+import { persistObservable } from '@legendapp/state/persist';
 import SendRounded from '@mui/icons-material/SendRounded';
 import { IconButton } from '@mui/material';
 import Badge from '@mui/material/Badge';
 import { styled } from '@mui/material/styles';
+import useQueryUserData from 'backend/services/ProfileServices';
 import { useListenToAllChat } from 'backend/services/RealTimeChat';
 import Link from 'next/link';
 import { toast } from 'react-toastify';
 
-const CustomToast = (displayname) => {
+const CustomToast = (payload) => {
+  const { data } = useQueryUserData(payload.sender);
+
   return (
     <div>
-      New messages from <strong>{displayname}</strong>{' '}
+      New messages from <strong>{data ? data.displayname : null}</strong>{' '}
+      {payload.content}
     </div>
   );
 };
 
-const Message = () => {
-  const countNoti = useObservable(0);
+const countNoti = observable(0);
 
-  const addNoti = (displayname) => {
+// persistObservable(countNoti, {
+//   local: 'notiChat',
+// });
+
+const Message = () => {
+  const addNoti = (payload) => {
     countNoti.set((prev) => ++prev);
-    toast(<CustomToast displayname={displayname} />);
+    toast(<CustomToast data={payload} />);
   };
 
-  useListenToAllChat(addNoti);
+  const resetNoti = () => {
+    countNoti.set(0);
+  };
+
+  useListenToAllChat(addNoti, resetNoti);
 
   return (
     <Link href="/messages">

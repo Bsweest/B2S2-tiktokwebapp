@@ -13,9 +13,6 @@ const listVideoStates = observable({
 const useListVideoStates = () => {
   return useSelector(() => listVideoStates.get());
 };
-const useCurrentElement = () => {
-  return useSelector(() => listVideoStates.currentElement.id);
-};
 
 const toggleCommentSection = (id) => {
   if (!listVideoStates.isOpenComment.peek()) {
@@ -68,7 +65,6 @@ const useSuccessPID = (id) => {
 
 export {
   useListVideoStates,
-  useCurrentElement,
   toggleCommentSection,
   changeCurrentElement,
   useGetReply,
