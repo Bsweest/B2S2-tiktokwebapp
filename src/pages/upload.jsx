@@ -1,12 +1,13 @@
+import options from '@/assets/music';
 import CloudUploadRoundedIcon from '@mui/icons-material/CloudUploadRounded';
 import TaskAltIcon from '@mui/icons-material/TaskAlt';
-import { LoadingButton } from '@mui/lab';
+import LoadingButton from '@mui/lab/LoadingButton';
 import {
+  Autocomplete,
   Box,
   Button,
   Card,
   Dialog,
-  Paper,
   TextField,
   Typography,
 } from '@mui/material';
@@ -19,13 +20,14 @@ const ReactPlayer = dynamic(() => import('react-player'), { ssr: false });
 
 const UploadVideo = () => {
   const [loading, setLoading] = useState(false);
-  const [videoLocal, setVideoLocal] = useState();
-  const [imageLocal, setImageLocal] = useState();
   const [valid, setValid] = useState(true);
   const [showDialog, setShowDialog] = useState(false);
 
+  const [videoLocal, setVideoLocal] = useState();
+  const [imageLocal, setImageLocal] = useState();
+  const [music, setMusic] = useState(options[0]);
+
   const caption = useRef();
-  const music = useRef();
 
   const getLocalImage = (e) => {
     setImageLocal(e.target.files[0]);
@@ -38,10 +40,22 @@ const UploadVideo = () => {
   const uploadVideo = async () => {
     if (!videoLocal) return;
     setLoading(true);
-    const rs = await AddVideo(videoLocal, caption.current.value);
+    const rs = await AddVideo(
+      videoLocal,
+      caption.current.value,
+      imageLocal,
+      music ? music.id : 0,
+    );
     setLoading(false);
     setShowDialog(true);
     if (!rs) setValid(false);
+  };
+
+  const discard = () => {
+    setImageLocal();
+    setVideoLocal();
+    setMusic(options[0]);
+    caption.current.value = '';
   };
 
   return (
@@ -200,7 +214,7 @@ const UploadVideo = () => {
 
           <Box sx={{ width: '50%', marginLeft: '10px' }}>
             <Box className="flex row">
-              <Box sx={{ width: '50%', height: '255px' }}>
+              <Box sx={{ flex: 1, height: '255px' }}>
                 <Typography sx={{ color: '#cfcfcf' }}>Thumbnail</Typography>
                 {imageLocal ? (
                   <Box
@@ -212,6 +226,7 @@ const UploadVideo = () => {
                     }}
                   >
                     <Image
+                      alt="poster"
                       sx={{ borderRadius: '10px' }}
                       src={URL.createObjectURL(imageLocal)}
                     />
@@ -268,11 +283,14 @@ const UploadVideo = () => {
                 )}
               </Box>
 
-              <Box>
+              <Box sx={{ flex: 1 }}>
                 <Typography sx={{ color: '#cfcfcf' }}>Music</Typography>
-                <TextField
+                <Autocomplete
+                  id="combo-box"
+                  value={music}
+                  onChange={(_, v) => setMusic(v)}
                   size="small"
-                  inputRef={music}
+                  defaultValue={options[0]}
                   sx={{
                     width: '100%',
                     margin: '12px 0px 12px 0px',
@@ -280,6 +298,8 @@ const UploadVideo = () => {
                       color: '#707070',
                     },
                   }}
+                  options={options}
+                  renderInput={(params) => <TextField {...params} />}
                 />
               </Box>
             </Box>
@@ -317,9 +337,7 @@ const UploadVideo = () => {
                   width: '100px',
                 }}
                 variant="outlined"
-                onClick={() => {
-                  setVideoLocal(null);
-                }}
+                onClick={discard}
               >
                 Discard
               </Button>

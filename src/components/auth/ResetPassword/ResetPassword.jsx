@@ -13,9 +13,8 @@ import Link from '@mui/material/Link';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
+import { supabase } from 'backend/supabase';
 import { useState } from 'react';
-
-import { supabase } from '../../../../supabaseClient';
 
 const ResetPassword = ({
   handleClose,
