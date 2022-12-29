@@ -10,7 +10,7 @@ const ShortDetail = () => {
   const router = useRouter();
   const id = router.query.id;
 
-  const { data, isSuccess } = useQuerySingleVideo(id);
+  const { data, isSuccess, isError } = useQuerySingleVideo(id);
 
   const onClick = () => {
     router.back();
@@ -32,11 +32,17 @@ const ShortDetail = () => {
               zIndex: 0,
             }}
           >
-            <Box sx={{ flex: 1 }}>
-              <ShortVideo data={data} isHome={false} />
-            </Box>
+            {data ? (
+              <>
+                <Box sx={{ flex: 1 }}>
+                  <ShortVideo data={data} isHome={false} />
+                </Box>
 
-            <SideBarShortDetail data={data} />
+                <SideBarShortDetail data={data} />
+              </>
+            ) : (
+              <div>Wrong link or short is not exist anymore</div>
+            )}
           </Box>
           <IconButton
             sx={{

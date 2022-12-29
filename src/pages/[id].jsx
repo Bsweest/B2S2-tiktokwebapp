@@ -104,173 +104,179 @@ const Profile = () => {
         }}
       >
         {cd1 && cd2 ? (
-          <>
-            <Box sx={{ width: '650px', marginBottom: '20px' }}>
-              <Box
-                sx={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                }}
-              >
-                <Box sx={{ position: 'relative' }}>
-                  <Avatar
-                    sx={{
-                      width: '150px',
-                      height: '150px',
-                    }}
-                    src={localAvatar}
-                  >
-                    {getFirstLetter(data.displayname)}
-                  </Avatar>
-                  <label
-                    htmlFor="input-avatar"
-                    className="camera"
-                    style={{
-                      position: 'absolute',
-                      top: 0,
-                      left: 0,
-                      width: '150px',
-                      height: '150px',
-                      borderRadius: '50%',
-                      cursor: 'pointer',
-                    }}
-                  >
-                    <IconButton
-                      sx={{
-                        display: 'flex',
-                        width: '150px',
-                        height: '150px',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        pointerEvents: 'none',
-                      }}
-                    >
-                      <CameraAltRoundedIcon />
-                    </IconButton>
-                  </label>
-                </Box>
+          data ? (
+            <>
+              <Box sx={{ width: '650px', marginBottom: '20px' }}>
                 <Box
                   sx={{
-                    height: '100%',
                     display: 'flex',
-                    flexDirection: 'column',
-                    padding: '10px 0px 0px 20px',
+                    flexDirection: 'row',
                   }}
                 >
-                  <Box
-                    className="flex"
-                    sx={{
-                      width: '450px',
-                      justifyContent: 'space-between',
-                      alignItems: 'center',
-                    }}
-                  >
-                    <Typography
+                  <Box sx={{ position: 'relative' }}>
+                    <Avatar
                       sx={{
-                        fontSize: '28px',
-                        fontWeight: '700',
-                        color: '#f1f1f1',
+                        width: '150px',
+                        height: '150px',
                       }}
+                      src={localAvatar}
                     >
-                      {data.displayname}
-                    </Typography>
-                    {isClient ? (
-                      <></>
-                    ) : (
-                      <IconButton sx={{ p: 0 }} onClick={clickChat}>
-                        <EmailOutlined
+                      {getFirstLetter(data.displayname)}
+                    </Avatar>
+                    {isClient && (
+                      <label
+                        htmlFor="input-avatar"
+                        className="camera"
+                        style={{
+                          position: 'absolute',
+                          top: 0,
+                          left: 0,
+                          width: '150px',
+                          height: '150px',
+                          borderRadius: '50%',
+                          cursor: 'pointer',
+                        }}
+                      >
+                        <IconButton
                           sx={{
-                            width: '35px',
-                            height: '35px',
+                            display: 'flex',
+                            width: '150px',
+                            height: '150px',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            pointerEvents: 'none',
                           }}
-                        />
-                      </IconButton>
+                        >
+                          <CameraAltRoundedIcon />
+                          <input
+                            type="file"
+                            id="input-avatar"
+                            hidden
+                            onChange={onChangeHandle}
+                            accept="image/png, image/jpeg"
+                          />
+                        </IconButton>
+                      </label>
                     )}
                   </Box>
-                  <Typography sx={{ color: '#f1f1f1' }}>
-                    @{data.username}
-                  </Typography>
-                  {isClient ? (
-                    <OpenEditProfileBtn data={data} />
-                  ) : (
-                    <Button
+                  <Box
+                    sx={{
+                      height: '100%',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      padding: '10px 0px 0px 20px',
+                    }}
+                  >
+                    <Box
+                      className="flex"
                       sx={{
-                        height: '40px',
-                        width: '250px',
-                        marginTop: '28px',
-                        textTransform: 'none',
-                        p: '12px',
-                        backgroundColor: isFL ? null : '#FE2C55',
-                        '&:hover': {
-                          backgroundColor: isFL ? '#313131' : '#a80022',
-                        },
-                        color: '#f1f1f1',
-                        fontWeight: '700',
-                        fontSize: '16px',
+                        width: '450px',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
                       }}
-                      variant={isFL ? 'outlined' : 'contained'}
-                      onClick={updateFollow}
                     >
-                      {isFL
-                        ? isFLBack
-                          ? 'Friend'
-                          : 'Followed ✓'
-                        : isFLBack
-                        ? 'Follow Back'
-                        : 'Follow'}
-                    </Button>
-                  )}
-                  <input
-                    type="file"
-                    id="input-avatar"
-                    hidden
-                    onChange={onChangeHandle}
-                    accept="image/png, image/jpeg"
-                  />
+                      <Typography
+                        sx={{
+                          fontSize: '28px',
+                          fontWeight: '700',
+                          color: '#f1f1f1',
+                        }}
+                      >
+                        {data.displayname}
+                      </Typography>
+                      {isClient ? (
+                        <></>
+                      ) : (
+                        <IconButton sx={{ p: 0 }} onClick={clickChat}>
+                          <EmailOutlined
+                            sx={{
+                              width: '35px',
+                              height: '35px',
+                            }}
+                          />
+                        </IconButton>
+                      )}
+                    </Box>
+                    <Typography sx={{ color: '#f1f1f1' }}>
+                      @{data.username}
+                    </Typography>
+                    {isClient ? (
+                      <OpenEditProfileBtn data={data} />
+                    ) : (
+                      <Button
+                        sx={{
+                          height: '40px',
+                          width: '250px',
+                          marginTop: '28px',
+                          textTransform: 'none',
+                          p: '12px',
+                          backgroundColor: isFL ? null : '#FE2C55',
+                          '&:hover': {
+                            backgroundColor: isFL ? '#313131' : '#a80022',
+                          },
+                          color: '#f1f1f1',
+                          fontWeight: '700',
+                          fontSize: '16px',
+                        }}
+                        variant={isFL ? 'outlined' : 'contained'}
+                        onClick={updateFollow}
+                      >
+                        {isFL
+                          ? isFLBack
+                            ? 'Friend'
+                            : 'Followed ✓'
+                          : isFLBack
+                          ? 'Follow Back'
+                          : 'Follow'}
+                      </Button>
+                    )}
+                  </Box>
                 </Box>
+
+                <Box
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    padding: '15px 0px 15px 0px',
+                    gap: '20px',
+                  }}
+                >
+                  <Box className="flex row" sx={{ gap: '10px' }}>
+                    <Typography sx={{ fontSize: '22px', fontWeight: 'bold' }}>
+                      {following}
+                    </Typography>
+                    <Typography sx={{ fontSize: '16px', marginTop: '6px' }}>
+                      Following
+                    </Typography>
+                  </Box>
+                  <Box className="flex row" sx={{ gap: '10px' }}>
+                    <Typography sx={{ fontSize: '22px', fontWeight: 'bold' }}>
+                      {follower}
+                    </Typography>
+                    <Typography sx={{ fontSize: '16px', marginTop: '6px' }}>
+                      Followers
+                    </Typography>
+                  </Box>
+                  <Box className="flex row" sx={{ gap: '10px' }}>
+                    <Typography sx={{ fontSize: '22px', fontWeight: 'bold' }}>
+                      {total_hearts}
+                    </Typography>
+                    <Typography sx={{ fontSize: '16px', marginTop: '6px' }}>
+                      Likes
+                    </Typography>
+                  </Box>
+                </Box>
+
+                <Typography>{data.bio}</Typography>
               </Box>
 
-              <Box
-                sx={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  padding: '15px 0px 15px 0px',
-                  gap: '20px',
-                }}
-              >
-                <Box className="flex row" sx={{ gap: '10px' }}>
-                  <Typography sx={{ fontSize: '22px', fontWeight: 'bold' }}>
-                    {following}
-                  </Typography>
-                  <Typography sx={{ fontSize: '16px', marginTop: '6px' }}>
-                    Following
-                  </Typography>
-                </Box>
-                <Box className="flex row" sx={{ gap: '10px' }}>
-                  <Typography sx={{ fontSize: '22px', fontWeight: 'bold' }}>
-                    {follower}
-                  </Typography>
-                  <Typography sx={{ fontSize: '16px', marginTop: '6px' }}>
-                    Followers
-                  </Typography>
-                </Box>
-                <Box className="flex row" sx={{ gap: '10px' }}>
-                  <Typography sx={{ fontSize: '22px', fontWeight: 'bold' }}>
-                    {total_hearts}
-                  </Typography>
-                  <Typography sx={{ fontSize: '16px', marginTop: '6px' }}>
-                    Likes
-                  </Typography>
-                </Box>
-              </Box>
-
-              <Typography>{data.bio}</Typography>
-            </Box>
-
-            <TabList uid={id} />
-          </>
+              <TabList uid={id} />
+            </>
+          ) : (
+            <></>
+          )
         ) : (
-          <></>
+          <div>wrong link or user does not exist</div>
         )}
       </Box>
     </Box>

@@ -67,16 +67,18 @@ const ChatAccount = ({ data }) => {
           >
             {getFirstLetter(chatter.displayname)}
           </Avatar>
-          <Box>
+          <Box sx={{ width: '100%', textAlign: 'left  ' }}>
             <Typography
-              sx={{ textAlign: 'left', color: haveRead ? '#71767B' : 'white' }}
+              sx={{ color: haveRead ? '#71767B' : 'white' }}
               variant="string"
               component="h6"
             >
               {chatter.displayname}
             </Typography>
             <Typography
-              sx={{ color: haveRead ? '#71767B' : 'white' }}
+              sx={{
+                color: haveRead ? '#71767B' : 'white',
+              }}
               variant="string"
             >
               {lastMsg.sender === client_id ? 'You: ' : ''}

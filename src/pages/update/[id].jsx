@@ -11,7 +11,8 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import { useMutateVideo, useQuerySingleVideo } from 'backend/mutation/AddVideo';
+import { useMutateVideo } from 'backend/mutation/AddVideo';
+import { useQuerySingleVideo } from 'backend/services/GetNewFeed';
 import Image from 'mui-image';
 import { useRouter } from 'next/router';
 import { useCallback } from 'react';
@@ -233,7 +234,7 @@ const UpdateVideo = () => {
                     Select file
                     <input
                       type="file"
-                      accept="image/*"
+                      accept="image/png, image/jpeg"
                       hidden
                       onChange={getLocalImage}
                     />

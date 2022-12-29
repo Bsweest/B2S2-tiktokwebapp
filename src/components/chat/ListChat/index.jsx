@@ -9,7 +9,7 @@ const renderItem = (item) => {
 const ListChat = ({ list }) => {
   return (
     <div style={{ flex: 1, overflowY: 'scroll' }}>
-      <FlatList list={list} renderItem={renderItem} />
+      <FlatList list={list} renderItem={renderItem} reversed />
     </div>
   );
 };

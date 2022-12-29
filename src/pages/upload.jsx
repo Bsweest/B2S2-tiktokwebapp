@@ -274,7 +274,7 @@ const UploadVideo = () => {
                       Select file
                       <input
                         type="file"
-                        accept="image/*"
+                        accept="image/png, image/jpeg"
                         hidden
                         onChange={getLocalImage}
                       />
