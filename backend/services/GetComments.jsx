@@ -25,7 +25,7 @@ const useQueryCommentSection = (fetchID, pid, ac, isOpen) => {
   return useQuery(
     ['get_comments', fetchID, pid],
     () => GetComments(fetchID, pid, ac),
-    { enabled: isOpen, staleTime: 60000, refetchOnWindowFocus: false },
+    { enabled: isOpen, staleTime: 0, refetchOnWindowFocus: false },
   );
 };
 

@@ -10,7 +10,7 @@ import Lottie from 'react-lottie-player';
 import animationData from '../../../assets/lotties/heart_animation.json';
 import styles from './Parts.module.css';
 
-const HeartButton = ({ isHeart, count, ssid }) => {
+const HeartButton = ({ isHeart, count, ssid, op_id }) => {
   const lottie = useRef(null);
   const [segments, setSegments] = useState([0, 0]);
   const isDone = useRef(true);
@@ -26,7 +26,7 @@ const HeartButton = ({ isHeart, count, ssid }) => {
 
     if (!isDone.current) return;
     isDone.current = false;
-    mutate({ ssid: ssid, bool: !isHeart });
+    mutate({ ssid: ssid, bool: !isHeart, op_id: op_id });
   };
 
   useEffect(() => {

@@ -1,7 +1,7 @@
 import HeadphonesIcon from '@mui/icons-material/Headphones';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import WarningRoundedIcon from '@mui/icons-material/WarningRounded';
-import { LoadingButton } from '@mui/lab';
+import LoadingButton from '@mui/lab/LoadingButton';
 import { Dialog } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';

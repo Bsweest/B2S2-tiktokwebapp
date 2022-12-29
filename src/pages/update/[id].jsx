@@ -1,7 +1,9 @@
+import options from '@/assets/music';
 import CloudUploadRoundedIcon from '@mui/icons-material/CloudUploadRounded';
 import TaskAltIcon from '@mui/icons-material/TaskAlt';
-import { LoadingButton } from '@mui/lab';
+import LoadingButton from '@mui/lab/LoadingButton';
 import {
+  Autocomplete,
   Box,
   Button,
   Card,
@@ -9,29 +11,67 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
+import { useMutateVideo, useQuerySingleVideo } from 'backend/mutation/AddVideo';
 import Image from 'mui-image';
-import dynamic from 'next/dynamic';
+import { useRouter } from 'next/router';
+import { useCallback } from 'react';
+import { useEffect } from 'react';
 import { useRef, useState } from 'react';
 
 const UpdateVideo = () => {
-  const [loading, setLoading] = useState(false);
-  const [imageLocal, setImageLocal] = useState();
+  const router = useRouter();
+  const ssid = router.query.id;
+
+  const { data } = useQuerySingleVideo(ssid);
+  const [poster, setPoster] = useState();
+
   const [showDialog, setShowDialog] = useState(false);
 
   const caption = useRef();
-  const music = useRef();
+  const [imageToChange, setImageToChange] = useState();
+  const [music, setMusic] = useState(options[0]);
 
-  const getLocalImage = (e) => {
-    setImageLocal(e.target.files[0]);
+  const { mutate, isLoading, isSuccess, isError } = useMutateVideo();
+
+  const updateVideo = () => {
+    mutate({
+      id: ssid,
+      poster: imageToChange,
+      caption: caption.current.value,
+      music: music ? music.id : 0,
+    });
   };
 
-  const getVideoInfo = async () => {};
+  const getLocalImage = (e) => {
+    setImageToChange(e.target.files[0]);
+    setPoster(URL.createObjectURL(e.target.files[0]));
+  };
 
-  const updateVideo = async () => {};
+  const toggleDialog = useCallback(() => {
+    setShowDialog((prev) => !prev);
+  }, []);
+
+  const init = useCallback(() => {
+    setPoster(data.poster_uri);
+    setMusic(options[data.music]);
+    caption.current.value = data.caption;
+    setImageToChange();
+  }, [data]);
+
+  useEffect(() => {
+    if (data) init();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data]);
+
+  useEffect(() => {
+    if (isSuccess) toggleDialog();
+    if (isError) {
+    }
+  }, [isSuccess, isError, toggleDialog]);
 
   return (
     <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
-      <Dialog open={showDialog}>
+      <Dialog open={showDialog} onClose={toggleDialog}>
         <Box
           sx={{
             display: 'flex',
@@ -49,7 +89,7 @@ const UpdateVideo = () => {
               marginBottom: '10px',
             }}
           >
-            Upload video
+            Update video
           </Typography>
           <Typography
             sx={{
@@ -59,7 +99,7 @@ const UpdateVideo = () => {
               textAlign: 'center',
             }}
           >
-            Your video has been updated to your profile
+            Your video has been updated
           </Typography>
 
           <TaskAltIcon
@@ -93,9 +133,7 @@ const UpdateVideo = () => {
                 width: '100px',
               }}
               variant="contained"
-              onClick={() => {
-                location.reload();
-              }}
+              onClick={toggleDialog}
             >
               OK
             </Button>
@@ -115,91 +153,104 @@ const UpdateVideo = () => {
         </Typography>
 
         <Box sx={{ display: 'flex', flexDirection: 'row' }}>
-          {imageLocal ? (
+          <Box
+            className="flex col"
+            sx={{
+              position: 'relative',
+              height: '480px',
+              width: '45%',
+            }}
+          >
+            <Typography>Thumbnail</Typography>
+
             <Box
-              sx={{
-                height: '480px',
-                width: '45%',
-                border: '1px solid #bbbbbb',
-                marginRight: '10px',
-                borderRadius: '10px',
-              }}
+              className="flex"
+              sx={{ position: 'relative', justifyContent: 'center' }}
             >
-              <Image
-                sx={{ borderRadius: '10px' }}
-                src={URL.createObjectURL(imageLocal)}
-              />
-            </Box>
-          ) : (
-            <Box
-              sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                width: '45%',
-                gap: '12px',
-              }}
-            >
-              <Typography sx={{ color: '#cfcfcf' }}>Thumbnail</Typography>
               <Box
                 sx={{
-                  height: '480px',
                   border: '1px solid #bbbbbb',
-                  marginRight: '10px',
-                  padding: '50px 20px 50px 20px',
+                  height: '400px',
+                  mt: '4px',
                   borderRadius: '10px',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
                 }}
               >
-                <CloudUploadRoundedIcon
-                  sx={{ width: '60px', height: '60px' }}
+                <Image
+                  alt="poster"
+                  sx={{ borderRadius: '10px' }}
+                  src={poster}
                 />
-                <Typography
+              </Box>
+              <Box
+                className="camera"
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  position: 'absolute',
+                  gap: '12px',
+                  width: '100%',
+                }}
+              >
+                <Box
                   sx={{
-                    fontSize: 18,
-                    fontWeight: 'bold',
-                    color: '#cfcfcf',
-                    margin: '20px 0px 20px 0px',
+                    border: '1px solid #bbbbbb',
+                    marginRight: '10px',
+                    padding: '50px 20px 50px 20px',
+                    borderRadius: '10px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
                   }}
                 >
-                  Select image to upload
-                </Typography>
-                <Typography sx={{ color: '#b8b8b8' }}>
-                  JPG, JPEG, ...
-                </Typography>
-                <Button
-                  sx={{
-                    textTransform: 'none',
-                    p: '6px',
-                    backgroundColor: '#FE2C55',
-                    '&:hover': {
-                      backgroundColor: '#a80022',
-                    },
-                    color: 'white',
-                    width: '150px',
-                    marginTop: '120px',
-                  }}
-                  variant="contained"
-                  component="label"
-                >
-                  Select file
-                  <input
-                    type="file"
-                    accept="image/*"
-                    hidden
-                    onChange={getLocalImage}
+                  <CloudUploadRoundedIcon
+                    sx={{ width: '60px', height: '60px' }}
                   />
-                </Button>
+                  <Typography
+                    sx={{
+                      fontSize: 18,
+                      fontWeight: 'bold',
+                      margin: '20px 0px 20px 0px',
+                    }}
+                  >
+                    Select image to upload
+                  </Typography>
+                  <Typography>JPG, JPEG, ...</Typography>
+                  <Button
+                    sx={{
+                      textTransform: 'none',
+                      p: '6px',
+                      backgroundColor: '#FE2C55',
+                      '&:hover': {
+                        backgroundColor: '#a80022',
+                      },
+                      color: 'white',
+                      width: '150px',
+                      marginTop: '120px',
+                    }}
+                    variant="contained"
+                    component="label"
+                  >
+                    Select file
+                    <input
+                      type="file"
+                      accept="image/*"
+                      hidden
+                      onChange={getLocalImage}
+                    />
+                  </Button>
+                </Box>
               </Box>
             </Box>
-          )}
+          </Box>
 
           <Box sx={{ width: '55%', marginLeft: '10px' }}>
             <Typography sx={{ color: '#cfcfcf' }}>Music</Typography>
-            <TextField
-              inputRef={music}
+            <Autocomplete
+              id="combo-box"
+              value={music}
+              onChange={(_, v) => setMusic(v)}
               size="small"
+              defaultValue={options[0]}
               sx={{
                 width: '100%',
                 margin: '12px 0px 12px 0px',
@@ -207,6 +258,8 @@ const UpdateVideo = () => {
                   color: '#707070',
                 },
               }}
+              options={options}
+              renderInput={(params) => <TextField {...params} />}
             />
 
             <Typography sx={{ color: '#cfcfcf' }}>Caption</Typography>
@@ -242,13 +295,11 @@ const UpdateVideo = () => {
                   width: '100px',
                 }}
                 variant="outlined"
-                onClick={() => {
-                  setImageLocal(null);
-                }}
+                onClick={init}
               >
                 Discard
               </Button>
-              {loading ? (
+              {isLoading ? (
                 <LoadingButton
                   sx={{ width: '100px' }}
                   loading
@@ -269,6 +320,7 @@ const UpdateVideo = () => {
                     width: '100px',
                   }}
                   variant="contained"
+                  onClick={updateVideo}
                 >
                   Post
                 </Button>

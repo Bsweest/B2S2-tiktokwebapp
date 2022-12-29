@@ -5,11 +5,13 @@ import { useRouter } from 'next/router';
 import { supabase } from '../supabase';
 
 const UpdateHeartShort = async (props) => {
-  const { ssid, bool } = props;
+  const { ssid, bool, op_id } = props;
   const client = clientID.peek();
 
   const { error } = bool
-    ? await supabase.from('_heart_short').insert({ uid: client, ssid: ssid })
+    ? await supabase
+        .from('_heart_short')
+        .insert({ uid: client, ssid: ssid, op_id: op_id })
     : await supabase
         .from('_heart_short')
         .delete()

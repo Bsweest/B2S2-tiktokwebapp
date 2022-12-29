@@ -1292,10 +1292,10 @@
     "@jridgewell/resolve-uri" "3.1.0"
     "@jridgewell/sourcemap-codec" "1.4.14"
 
-"@legendapp/state@^0.23.0":
-  version "0.23.0"
-  resolved "https://registry.yarnpkg.com/@legendapp/state/-/state-0.23.0.tgz#7f19f1df1981817c667e9befd826384f297f95b7"
-  integrity sha512-12WYfmZ8n+LOZVe3vR4tQV1zPb1K1EOFeVPdDK/fq1mGWZHOpduAFZbwF5sbsFPA4KtsSYD2SfghtNucN420ow==
+"@legendapp/state@^0.23.1":
+  version "0.23.1"
+  resolved "https://registry.yarnpkg.com/@legendapp/state/-/state-0.23.1.tgz#404824ee8011c2546ffa09c4d4e438eaa07a2e2f"
+  integrity sha512-gr8L0r6h9zYSy04GIahgsQLpQ4Xkr4K7UW5BKO9H9G8tvH35RHAOH+MHlA1JqUn9HDzJnW4gen93oEXDeB7piA==
 
 "@motionone/animation@^10.13.1":
   version "10.15.1"

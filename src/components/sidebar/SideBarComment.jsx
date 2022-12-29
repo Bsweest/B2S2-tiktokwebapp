@@ -36,7 +36,7 @@ const SideBarComment = () => {
   const { mutate, isLoading } = useMutateComment();
 
   const addComment = (content, p_id, reply_to) => {
-    mutate({ content, fetchID: ssid, p_id, reply_to, op_id });
+    mutate({ content, fetchID, p_id, reply_to, op_id });
   };
 
   useEffect(() => {

@@ -7,11 +7,13 @@ import { useCallback, useEffect, useMemo } from 'react';
 import { CheckAuth } from '../global/CheckAuth';
 import {
   toggleCommentSection,
-  useCurrentElement,
+  useListVideoStates,
 } from '../global/ListVideoStates';
 
 const useKeyboardControl = () => {
-  const ssid = useCurrentElement;
+  const {
+    currentElement: { id: ssid, op_id },
+  } = useListVideoStates();
   const queryClient = useQueryClient();
 
   const keyboardControls = useObservable({
@@ -71,7 +73,7 @@ const useKeyboardControl = () => {
     if (!CheckAuth()) return;
 
     const { hs } = queryClient.getQueryData(['short_services', ssid]);
-    updateHeart({ ssid: ssid, bool: !hs });
+    updateHeart({ ssid: ssid, bool: !hs, op_id: op_id });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [heart]);
 

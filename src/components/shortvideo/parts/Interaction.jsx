@@ -22,7 +22,12 @@ const Interaction = ({ isHome, opData, data, ssid }) => {
       }}
     >
       {isHome && <VideoAvatar opData={opData} />}
-      <HeartButton isHeart={hs} count={count_heart} ssid={ssid} />
+      <HeartButton
+        isHeart={hs}
+        count={count_heart}
+        ssid={ssid}
+        op_id={opData.id}
+      />
       <CommentButton isHome={isHome} count={count_comment} ssid={ssid} />
       <BookmarkButton isBM={bm} ssid={ssid} />
     </Box>
