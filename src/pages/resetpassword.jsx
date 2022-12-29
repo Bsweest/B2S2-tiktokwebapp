@@ -15,7 +15,8 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import { supabase } from 'backend/supabase';
+import { useSupabaseClient } from '@supabase/auth-helpers-react';
+// import { supabase } from 'backend/supabase';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { useRef, useState } from 'react';
@@ -25,6 +26,7 @@ const ResetPassword = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showDialog, setShowDialog] = useState(false);
   const [hash, setHash] = useState(null);
+  const supabase = useSupabaseClient();
 
   const repass = useRef();
   const pass = useRef();
@@ -61,6 +63,7 @@ const ResetPassword = () => {
     const a = await supabase.auth.updateUser(hash[0][1], {
       password: '123456',
     });
+    // const a = await supabase.auth.update({ password: '1234567' });
     console.log(hash[0][1]);
     console.log(a);
     setLoading(false);

@@ -14,14 +14,15 @@ const SignUpEmail = async (
   if (error) return false;
 
   const newUser = {
-    id: data.id,
-    created_at: userData.created_at,
+    id: data.user.id,
     username: username,
     displayname: displayname,
     birth: birthday,
   };
 
+  console.log(newUser);
   const { error: cd2 } = await supabase.from('profiles').insert(newUser);
+  console.log(cd2);
 
   if (cd2) return false;
 
