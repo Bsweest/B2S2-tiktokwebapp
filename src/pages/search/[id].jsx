@@ -1,17 +1,56 @@
 import AccountSearchResult from '@/components/account/AccountSearchResult';
 import VideoSearchResult from '@/components/shortvideo/video_search_result';
 import SideBarHome from '@/components/sidebar/SideBarHome';
-import { Box, Stack, Tab, Tabs, Typography } from '@mui/material';
-import { useState } from 'react';
+import { Avatar, Box, Stack, Tab, Tabs, Typography } from '@mui/material';
+import { supabase } from 'backend/supabase';
+import FlatList from 'flatlist-react';
+import { useRouter } from 'next/router';
+import { useEffect, useRef, useState } from 'react';
 
 const Search = () => {
   const [loading, setLoading] = useState(false);
   const [value, setValue] = useState(0);
-  const [result, setResult] = useState(true);
+  const [resultAccount, setResultAccount] = useState([]);
+  const [resultVideo, setResultVideo] = useState([]);
+
+  const router = useRouter();
+  const id = router.query.id;
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+
+  const getAccountByName = async () => {
+    const result = await supabase
+      .from('profiles')
+      .select()
+      .like('username', `%${id}%`);
+    if (result.data[0]) setResultAccount(result.data);
+    else setResultAccount([]);
+  };
+
+  const getVideoByCaption = async () => {
+    const result = await supabase
+      .from('shareshorts')
+      .select()
+      .like('caption', `%${id}%`);
+    if (result.data[0]) setResultVideo(result.data);
+    else setResultVideo([]);
+  };
+
+  const renderAccount = (item) => {
+    return <AccountSearchResult data={item} key={item.id} />;
+  };
+
+  const renderVideo = (item) => {
+    return <VideoSearchResult data={item} key={item.id} />;
+  };
+
+  useEffect(() => {
+    getAccountByName();
+    getVideoByCaption();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id]);
 
   return (
     <Box
@@ -44,14 +83,9 @@ const Search = () => {
         </Box>
 
         <TabPanel value={value} index={0}>
-          {result ? (
+          {resultAccount ? (
             <>
-              <AccountSearchResult />
-              <AccountSearchResult />
-              <AccountSearchResult />
-              <AccountSearchResult />
-              <AccountSearchResult />
-              <AccountSearchResult />
+              <FlatList list={resultAccount} renderItem={renderAccount} />
             </>
           ) : (
             <Typography
@@ -63,20 +97,16 @@ const Search = () => {
         </TabPanel>
 
         <TabPanel value={value} index={1}>
-          {result ? (
+          {resultVideo ? (
             <>
-              <Stack direction={'row'} spacing={4}>
-                <VideoSearchResult />
-                <VideoSearchResult />
-                <VideoSearchResult />
-                <VideoSearchResult />
-              </Stack>
-              <Stack direction={'row'} spacing={{ xs: 1, sm: 2, md: 4 }}>
-                <VideoSearchResult />
-                <VideoSearchResult />
-                <VideoSearchResult />
-                <VideoSearchResult />
-              </Stack>
+              <FlatList
+                list={resultVideo}
+                renderItem={renderVideo}
+                display={{
+                  grid: true,
+                  gridGap: '35px',
+                }}
+              />
             </>
           ) : (
             <Typography
