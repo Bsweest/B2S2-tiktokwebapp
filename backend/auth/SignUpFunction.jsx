@@ -20,7 +20,9 @@ const SignUpEmail = async (
     birth: birthday,
   };
 
+  console.log(newUser);
   const { error: cd2 } = await supabase.from('profiles').insert(newUser);
+  console.log(cd2);
 
   if (cd2) return false;
 

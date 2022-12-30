@@ -26,6 +26,7 @@ const SignupWithEmail = ({
   handleClose,
   handleClickLogin,
   handleClickSignup,
+  handleClickSignupWithEmailSuccess,
 }) => {
   const supabase = useSupabaseClient();
 
@@ -92,6 +93,7 @@ const SignupWithEmail = ({
       supabase,
     );
 
+    handleClickSignupWithEmailSuccess();
     setLoading(false);
   };
 
