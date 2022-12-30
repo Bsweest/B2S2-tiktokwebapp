@@ -1,19 +1,21 @@
 import Main from '@/templates/Main';
 import { CheckAuthProvider } from '@/templates/global/CheckAuth';
+import data from '@emoji-mart/data';
 import { configureObservablePersistence } from '@legendapp/state/persist';
-import { ObservablePersistLocalIndexedDB } from '@legendapp/state/persist-plugins/indexeddb';
 import { ObservablePersistLocalStorage } from '@legendapp/state/persist-plugins/local-storage';
 import { enableLegendStateReact } from '@legendapp/state/react';
 import { createBrowserSupabaseClient } from '@supabase/auth-helpers-nextjs';
 import { SessionContextProvider } from '@supabase/auth-helpers-react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { init } from 'emoji-mart';
 import { useState } from 'react';
-import { useEffect } from 'react';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import Header from '../config';
 import '../styles/globals.css';
+
+init({ data });
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -25,17 +27,15 @@ const queryClient = new QueryClient({
   },
 });
 
+configureObservablePersistence({
+  // Use Local Storage on web
+  persistLocal: ObservablePersistLocalStorage,
+});
+
 enableLegendStateReact();
 
 function MyApp({ Component, pageProps = { title: 'B2S2' } }) {
   const [supabase] = useState(() => createBrowserSupabaseClient());
-
-  useEffect(() => {
-    configureObservablePersistence({
-      // Use Local Storage on web
-      persistLocal: ObservablePersistLocalStorage,
-    });
-  }, []);
 
   CheckAuthProvider();
 

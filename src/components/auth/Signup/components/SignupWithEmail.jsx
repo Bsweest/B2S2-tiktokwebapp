@@ -55,6 +55,9 @@ const SignupWithEmail = ({
 
   const handleClickSignupBtn = async () => {
     setLoading(true);
+    setValidEmail(true);
+    setValidPassword(true);
+    setValidInfo(true);
 
     if (
       username.current.value.length > 20 ||

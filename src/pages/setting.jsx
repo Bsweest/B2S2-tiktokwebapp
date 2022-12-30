@@ -1,7 +1,6 @@
-import { Visibility, VisibilityOff } from '@mui/icons-material';
-import CloudUploadRoundedIcon from '@mui/icons-material/CloudUploadRounded';
 import TaskAltIcon from '@mui/icons-material/TaskAlt';
-import { LoadingButton } from '@mui/lab';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import {
   Box,
   Button,
@@ -12,11 +11,8 @@ import {
   InputAdornment,
   InputLabel,
   OutlinedInput,
-  TextField,
   Typography,
 } from '@mui/material';
-import Image from 'mui-image';
-import dynamic from 'next/dynamic';
 import { useRef, useState } from 'react';
 
 const Setting = () => {

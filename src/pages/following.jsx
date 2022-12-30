@@ -1,14 +1,11 @@
 import ListVideo from '@/components/shortvideo/ListVideo';
 import SideBarComment from '@/components/sidebar/SideBarComment';
 import SideBarHome from '@/components/sidebar/SideBarHome';
-import { useKeyboardControl } from '@/templates/hooks/useKeyBoardControl';
 import Box from '@mui/material/Box';
-import { useQueryFeedExplore } from 'backend/services/GetNewFeed';
+import { useQueryFollowShort } from 'backend/services/GetNewFeed';
 
-export default function Home() {
-  const { data: feedExplore } = useQueryFeedExplore();
-
-  useKeyboardControl();
+const Following = () => {
+  const { data } = useQueryFollowShort();
 
   return (
     <Box
@@ -19,13 +16,15 @@ export default function Home() {
     >
       <SideBarHome />
 
-      <ListVideo feed={feedExplore} empty={RenderWhenEmpty} />
+      <ListVideo feed={data} empty={RenderWhenEmpty} />
 
       <SideBarComment />
     </Box>
   );
-}
+};
 
 const RenderWhenEmpty = () => {
-  return <div>On fetching...</div>;
+  return <div>You haven&apos;t follow anyone</div>;
 };
+
+export default Following;

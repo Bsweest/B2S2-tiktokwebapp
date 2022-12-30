@@ -70,7 +70,7 @@ const LoginWithEmail = ({
             cursor: 'pointer',
             color: '#cfcfcf',
           }}
-          onClick={() => handleClickLogin()}
+          onClick={handleClickLogin}
         />
         <Avatar
           sx={{
@@ -81,7 +81,7 @@ const LoginWithEmail = ({
             cursor: 'pointer',
             color: '#444444',
           }}
-          onClick={() => handleClose()}
+          onClick={handleClose}
         >
           <CloseIcon />
         </Avatar>
@@ -156,7 +156,7 @@ const LoginWithEmail = ({
             cursor: 'pointer',
             color: '#f44336',
           }}
-          onClick={() => handleClickResetPassword()}
+          onClick={handleClickResetPassword}
         >
           Forgot passsword
         </Link>
@@ -217,7 +217,7 @@ const LoginWithEmail = ({
             marginLeft: 1,
             color: '#f44336',
           }}
-          onClick={() => handleClickSignup()}
+          onClick={handleClickSignup}
         >
           Sign up
         </Link>

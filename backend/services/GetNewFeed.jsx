@@ -1,3 +1,4 @@
+import { clientID } from '@/templates/global/ClientData';
 import { useQuery } from '@tanstack/react-query';
 
 import { supabase } from '../supabase';
@@ -32,4 +33,23 @@ const useQueryFeedExplore = () => {
   return useQuery(['explore_feed'], getExplore);
 };
 
-export { useQuerySingleVideo, useQueryFeedExplore };
+const getClientFollowShort = async (client) => {
+  const { data } = await supabase.rpc('get_follow_short', {
+    client_id: client,
+  });
+
+  return data;
+};
+
+const useQueryFollowShort = () => {
+  const client = clientID.get();
+  return useQuery(
+    ['get_follow_short', client],
+    () => getClientFollowShort(client),
+    {
+      placeholderData: [],
+    },
+  );
+};
+
+export { useQuerySingleVideo, useQueryFeedExplore, useQueryFollowShort };

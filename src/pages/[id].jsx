@@ -3,7 +3,6 @@ import TabList from '@/components/profile/TabList';
 import SideBarHome from '@/components/sidebar/SideBarHome';
 import { CheckAuth } from '@/templates/global/CheckAuth';
 import useInteractNumber from '@/templates/hooks/useInteractNumber';
-import { toastError } from '@/utils/createToast';
 import getFirstLetter from '@/utils/getFirstLetter';
 import CameraAltRoundedIcon from '@mui/icons-material/CameraAltRounded';
 import EmailOutlined from '@mui/icons-material/EmailOutlined';
@@ -20,6 +19,7 @@ import useQueryUserData, {
 } from 'backend/services/ProfileServices';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 
 const Profile = () => {
   const router = useRouter();
@@ -33,7 +33,7 @@ const Profile = () => {
     setLocalAvatar(str);
   };
 
-  const { data, isSuccess: cd1 } = useQueryUserData(id);
+  const { data, isSuccess: cd1, isError } = useQueryUserData(id);
 
   const { data: isFL } = useQueryCheckFollow(id);
   const { data: isFLBack } = useQueryCheckFollowBack(id);
@@ -57,7 +57,7 @@ const Profile = () => {
   const clickChat = async () => {
     if (!CheckAuth()) return;
     if (!isFL || !isFLBack) {
-      toastError("You two don't follow each other");
+      toast.error("You two don't follow each other");
       return;
     }
 
@@ -77,11 +77,11 @@ const Profile = () => {
   }, [data]);
 
   useEffect(() => {
-    if (!user) {
+    if (!user || user.id !== id) {
       setIsClient(false);
       return;
     }
-    if (user.id === id) setIsClient(true);
+    setIsClient(true);
   }, [user, id]);
 
   return (
@@ -275,8 +275,10 @@ const Profile = () => {
           ) : (
             <></>
           )
-        ) : (
+        ) : isError ? (
           <div>wrong link or user does not exist</div>
+        ) : (
+          <></>
         )}
       </Box>
     </Box>

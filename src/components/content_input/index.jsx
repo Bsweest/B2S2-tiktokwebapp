@@ -1,6 +1,5 @@
 import { CheckAuth } from '@/templates/global/CheckAuth';
 import { unReply, useGetReply } from '@/templates/global/ListVideoStates';
-import data from '@emoji-mart/data';
 import Picker from '@emoji-mart/react';
 import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
 import EmojiEmotionsIcon from '@mui/icons-material/EmojiEmotions';
@@ -9,10 +8,7 @@ import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import InputBase from '@mui/material/InputBase';
 import Typography from '@mui/material/Typography';
-import { init } from 'emoji-mart';
 import { useState } from 'react';
-
-init({ data });
 
 const ContentInput = ({ sendFn }) => {
   const [value, setValue] = useState('');
@@ -134,7 +130,7 @@ const ContentInput = ({ sendFn }) => {
         }}
       >
         <Picker
-          data={data}
+          // data={data}
           previewPosition="none"
           maxFrequentRows={1}
           onClickOutside={closeIconPicker}
