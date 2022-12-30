@@ -4,6 +4,7 @@ import React from 'react';
 import BookmarkButton from './BookmarkButton';
 import CommentButton from './CommentButton';
 import HeartButton from './HeartButton';
+import ShareButton from './ShareButton';
 import VideoAvatar from './VideoAvatar';
 
 const Interaction = ({ isHome, opData, data, ssid }) => {
@@ -16,7 +17,7 @@ const Interaction = ({ isHome, opData, data, ssid }) => {
         color: 'white',
         alignItems: 'center',
         pointerEvents: 'auto',
-        mb: isHome ? '15vh' : '30vh',
+        mb: isHome ? '5vh' : '30vh',
         transform: isHome ? '' : 'translateX(-20px)',
         zIndex: 15,
       }}
@@ -30,6 +31,7 @@ const Interaction = ({ isHome, opData, data, ssid }) => {
       />
       <CommentButton isHome={isHome} count={count_comment} ssid={ssid} />
       <BookmarkButton isBM={bm} ssid={ssid} />
+      {isHome && <ShareButton ssid={ssid} />}
     </Box>
   );
 };

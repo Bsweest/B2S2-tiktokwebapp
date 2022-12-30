@@ -44,7 +44,7 @@ const AddVideo = async (file, caption, poster, music) => {
     return false;
   }
 
-  return true;
+  return data.id;
 };
 
 export const deleteVideo = async (ssid) => {

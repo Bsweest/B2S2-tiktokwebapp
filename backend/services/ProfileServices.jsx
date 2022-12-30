@@ -75,6 +75,7 @@ const GetLikedShorts = async (op_id) => {
 const useQueryLikedShorts = (op_id) => {
   return useQuery(['get_liked_shorts', op_id], () => GetLikedShorts(op_id), {
     placeholderData: [],
+    staleTime: 0,
   });
 };
 
@@ -89,6 +90,7 @@ const GetMarkedShorts = async (op_id) => {
 const useQueryMarkedShorts = (op_id, enable) => {
   return useQuery(['get_marked_shorts', op_id], () => GetMarkedShorts(op_id), {
     enabled: enable,
+    staleTime: 0,
   });
 };
 
