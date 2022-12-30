@@ -1,9 +1,10 @@
 const LogIn = async (email, pass, supabase) => {
-  const { error } = await supabase.auth.signInWithPassword({
+  const { data, error } = await supabase.auth.signInWithPassword({
     email: email,
     password: pass,
   });
 
+  window.localStorage.setItem('userId', data.user.id);
   return error;
 };
 

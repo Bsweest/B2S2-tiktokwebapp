@@ -30,6 +30,7 @@
     "emoji-mart": "^5.4.0",
     "flatlist-react": "^1.5.7",
     "framer-motion": "^7.6.19",
+    "lodash": "^4.17.21",
     "moment": "^2.29.4",
     "mui-image": "^1.0.7",
     "next": "13.0.5",
