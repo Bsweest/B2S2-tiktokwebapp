@@ -14,11 +14,14 @@ import {
 import AddVideo from 'backend/mutation/AddVideo';
 import Image from 'mui-image';
 import dynamic from 'next/dynamic';
+import { useRouter } from 'next/router';
 import { useRef, useState } from 'react';
 
 const ReactPlayer = dynamic(() => import('react-player'), { ssr: false });
 
 const UploadVideo = () => {
+  const router = useRouter();
+
   const [loading, setLoading] = useState(false);
   const [valid, setValid] = useState(true);
   const [showDialog, setShowDialog] = useState(false);
@@ -49,6 +52,7 @@ const UploadVideo = () => {
     setLoading(false);
     setShowDialog(true);
     if (!rs) setValid(false);
+    else router.push(`short/${rs}`);
   };
 
   const discard = () => {
