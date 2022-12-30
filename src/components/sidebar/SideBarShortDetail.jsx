@@ -1,4 +1,5 @@
 import options from '@/assets/music';
+import { CheckAuth } from '@/templates/global/CheckAuth';
 import { clientID } from '@/templates/global/ClientData';
 import { useSelector } from '@legendapp/state/react';
 import HeadphonesIcon from '@mui/icons-material/Headphones';
@@ -13,8 +14,12 @@ import MenuItem from '@mui/material/MenuItem';
 import Typography from '@mui/material/Typography';
 import { deleteVideo } from 'backend/mutation/AddVideo';
 import useMutateComment from 'backend/mutation/CommentMutation';
+import useMutateFollow from 'backend/mutation/FollowMutate';
 import { useQueryCommentSection } from 'backend/services/GetComments';
-import useQueryUserData from 'backend/services/ProfileServices';
+import useQueryUserData, {
+  useQueryCheckFollow,
+  useQueryCheckFollowBack,
+} from 'backend/services/ProfileServices';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
@@ -42,10 +47,21 @@ const SideBarShortDetail = ({ data }) => {
     true,
   );
   const { data: opData, isSuccess: cd2 } = useQueryUserData(op_id);
+  const { data: isFL } = useQueryCheckFollow(op_id);
+  const { data: isFLBack } = useQueryCheckFollowBack(op_id);
 
   const isClient = useSelector(() => clientID.get() === op_id);
 
   const { mutate, isLoading } = useMutateComment();
+
+  const { mutate: muatateFL } = useMutateFollow();
+
+  const updateFL = () => {
+    if (!CheckAuth()) return;
+
+    isDone.current = false;
+    mutate({ op_id: op_id, bool: !isFL });
+  };
 
   const addComment = (content, p_id, reply_to) => {
     mutate({ content, fetchID: ssid, p_id, reply_to, op_id });
@@ -124,8 +140,8 @@ const SideBarShortDetail = ({ data }) => {
                 </Typography>
               </Grid>
 
-              {isClient && (
-                <Box>
+              {isClient ? (
+                <>
                   <IconButton onClick={handleClick}>
                     <MoreVertIcon />
                   </IconButton>
@@ -141,7 +157,33 @@ const SideBarShortDetail = ({ data }) => {
                       <Link href={`/update/${ssid}`}>Edit</Link>
                     </MenuItem>
                   </Menu>
-                </Box>
+                </>
+              ) : (
+                <Button
+                  sx={{
+                    height: '35px',
+                    width: '200px',
+                    textTransform: 'none',
+                    p: '12px',
+                    backgroundColor: isFL ? null : '#FE2C55',
+                    '&:hover': {
+                      backgroundColor: isFL ? '#313131' : '#a80022',
+                    },
+                    color: '#f1f1f1',
+                    fontWeight: '700',
+                    fontSize: '16px',
+                  }}
+                  variant={isFL ? 'outlined' : 'contained'}
+                  onClick={updateFL}
+                >
+                  {isFL
+                    ? isFLBack
+                      ? 'Friend'
+                      : 'Followed ✓'
+                    : isFLBack
+                    ? 'Follow Back'
+                    : 'Follow'}
+                </Button>
               )}
             </Grid>
 

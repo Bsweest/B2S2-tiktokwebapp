@@ -25,7 +25,7 @@ const LoginMethod = ({
           cursor: 'pointer',
           color: '#444444',
         }}
-        onClick={() => handleClose()}
+        onClick={handleClose}
       >
         <CloseIcon />
       </Avatar>
@@ -63,7 +63,7 @@ const LoginMethod = ({
             cursor: 'pointer',
             marginBottom: '16px',
           }}
-          onClick={() => handleClickLoginWithEmail()}
+          onClick={handleClickLoginWithEmail}
         >
           <PersonIcon
             color="disabled"
@@ -181,7 +181,7 @@ const LoginMethod = ({
             marginLeft: 1,
             color: '#f44336',
           }}
-          onClick={() => handleClickSignup()}
+          onClick={handleClickSignup}
         >
           Sign up
         </Link>

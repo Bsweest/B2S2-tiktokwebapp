@@ -1,7 +1,7 @@
-import { Visibility, VisibilityOff } from '@mui/icons-material';
-import CloudUploadRoundedIcon from '@mui/icons-material/CloudUploadRounded';
 import TaskAltIcon from '@mui/icons-material/TaskAlt';
-import { LoadingButton } from '@mui/lab';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import LoadingButton from '@mui/lab/LoadingButton';
 import {
   Box,
   Button,
@@ -10,22 +10,22 @@ import {
   FormControl,
   IconButton,
   InputAdornment,
-  InputLabel,
   OutlinedInput,
-  TextField,
   Typography,
 } from '@mui/material';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
-// import { supabase } from 'backend/supabase';
+import { runResetPassword } from 'backend/auth/ResetPassword';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { toast } from 'react-toastify';
 
 const ResetPassword = () => {
+  const router = useRouter();
+
   const [loading, setLoading] = useState(false);
+  const [display, setDisplay] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showDialog, setShowDialog] = useState(false);
-  const [hash, setHash] = useState(null);
   const supabase = useSupabaseClient();
 
   const repass = useRef();
@@ -37,40 +37,44 @@ const ResetPassword = () => {
     event.preventDefault();
   };
 
-  useEffect(() => {
-    setHash(
-      window.location.hash
-        .substring(1)
-        .split('&')
-        .map((param) => param.split('=')),
+  const resetPass = async () => {
+    if (pass.current.value !== repass.current.value) {
+      toast.error('Passwords are not matched');
+      return;
+    }
+    const { data, error } = await runResetPassword(
+      pass.current.value,
+      supabase,
     );
+
+    if (error) {
+      alert('There was an error updating your password.');
+      return;
+    }
+
+    if (data) {
+      alert('Password updated successfully!');
+      router.push('/');
+    }
+  };
+
+  useEffect(() => {
+    supabase.auth.onAuthStateChange(async (event, session) => {
+      if (event == 'PASSWORD_RECOVERY') {
+        setDisplay(true);
+      }
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  async function resetPassword() {
-    let type;
-    let accessToken;
-    setLoading(true);
-    // for (const [key, value] of hash) {
-    //   if (key === 'type') type = value;
-    //   else if (key === 'access_token') accessToken = value;
-    // }
-    // if (type !== 'recovery' || !accessToken || typeof accessToken === 'object')
-    //   console.log(aaaaaa);
-
-    // const a = await supabase.auth.updateUser(accessToken, {
-    //   password: '123456',
-    // });
-    const a = await supabase.auth.updateUser(hash[0][1], {
-      password: '123456',
-    });
-    // const a = await supabase.auth.update({ password: '1234567' });
-    console.log(hash[0][1]);
-    console.log(a);
-    setLoading(false);
-  }
-
   return (
-    <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+    <Box
+      sx={{
+        display: display ? 'flex' : 'none',
+        width: '100%',
+        justifyContent: 'center',
+      }}
+    >
       <Dialog open={showDialog}>
         <Box
           sx={{
@@ -133,9 +137,7 @@ const ResetPassword = () => {
                 width: '100px',
               }}
               variant="contained"
-              onClick={() => {
-                setShowDialog(false);
-              }}
+              onClick={() => setShowDialog(false)}
             >
               OK
             </Button>
@@ -240,7 +242,7 @@ const ResetPassword = () => {
                 backgroundColor: '#FE2C55',
               }}
               variant="contained"
-              onClick={() => resetPassword()}
+              onClick={resetPass}
             >
               Save
             </Button>

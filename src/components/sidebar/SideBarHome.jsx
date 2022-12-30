@@ -1,3 +1,4 @@
+import { clientID } from '@/templates/global/ClientData';
 import HomeIcon from '@mui/icons-material/Home';
 import PeopleIcon from '@mui/icons-material/People';
 import VideocamIcon from '@mui/icons-material/Videocam';
@@ -7,42 +8,23 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import ListSubheader from '@mui/material/ListSubheader';
-import { supabase } from 'backend/supabase';
+import { useQueryTopFollow } from 'backend/services/ShortService';
 import FlatList from 'flatlist-react';
-import _ from 'lodash';
 import Link from 'next/link';
-import { useState } from 'react';
-import { useEffect } from 'react';
+import { useRouter } from 'next/router';
 
 import HotAccount from '../account/HotAccount';
 
+const renderAccount = (item) => {
+  return <HotAccount data={item} key={item.id} />;
+};
+
 const SideBarHome = () => {
-  const [resultAccount, setResultAccount] = useState([]);
-  // const id = window.localStorage.getItem('userId');
-  const id = '74e85020-5c01-46b6-9b23-0a2cd4a7c76b';
+  const router = useRouter();
+  const choose =
+    router.pathname === '/' ? 0 : router.pathname === '/following' ? 1 : 2;
 
-  async function getTop5() {
-    const rs = await supabase.from('profiles').select('id');
-    const arr = [];
-    const user = [];
-    for (let i = 0; i < rs.data.length; i++) {
-      arr.push(rs.data[i].id);
-    }
-    const x = _.shuffle(arr);
-    for (let i = 0; i < 5; i++) {
-      const final = await supabase.from('profiles').select().eq('id', x[i]);
-      user.push(final.data[0]);
-    }
-    setResultAccount(user);
-  }
-
-  const renderAccount = (item) => {
-    return <HotAccount data={item} key={item.id} />;
-  };
-
-  useEffect(() => {
-    getTop5();
-  }, []);
+  const { data, isSuccess } = useQueryTopFollow();
 
   return (
     <Box
@@ -59,26 +41,28 @@ const SideBarHome = () => {
           <ListItemIcon>
             <HomeIcon />
           </ListItemIcon>
-          <ListItemText
-            primary="For You"
-            primaryTypographyProps={{
-              color: '#f1f1f1',
-              fontSize: '1.1rem',
-              fontWeight: '400px',
-              fontFamily: 'cursive',
-            }}
-          />
+          <Link href="/">
+            <ListItemText
+              primary="For You"
+              primaryTypographyProps={{
+                color: choose === 0 ? '#EA2D50' : '#f1f1f1',
+                fontSize: '1.1rem',
+                fontWeight: '400px',
+                fontFamily: 'cursive',
+              }}
+            />
+          </Link>
         </ListItemButton>
 
         <ListItemButton sx={{ borderRadius: '15px' }}>
           <ListItemIcon>
             <PeopleIcon />
           </ListItemIcon>
-          <Link href={`/following/${id}`}>
+          <Link href="/following">
             <ListItemText
               primary="Following"
               primaryTypographyProps={{
-                color: '#f1f1f1',
+                color: choose === 1 ? '#EA2D50' : '#f1f1f1',
                 fontSize: '1.1rem',
                 fontWeight: '400px',
                 fontFamily: 'cursive',
@@ -94,7 +78,7 @@ const SideBarHome = () => {
           <ListItemText
             primary="LIVE"
             primaryTypographyProps={{
-              color: '#f1f1f1',
+              color: choose === 2 ? '#EA2D50' : '#f1f1f1',
               fontSize: '1.1rem',
               fontWeight: '400px',
               fontFamily: 'cursive',
@@ -110,7 +94,7 @@ const SideBarHome = () => {
             </ListSubheader>
           }
         >
-          <FlatList list={resultAccount} renderItem={renderAccount} />
+          <FlatList list={data} renderItem={renderAccount} />
         </List>
       </List>
     </Box>

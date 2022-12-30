@@ -1,13 +1,15 @@
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import CloseIcon from '@mui/icons-material/Close';
-import { LoadingButton } from '@mui/lab';
+import LoadingButton from '@mui/lab/LoadingButton';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Link from '@mui/material/Link';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import { supabase } from 'backend/supabase';
+import { useSupabaseClient } from '@supabase/auth-helpers-react';
+import { sendResetPassword } from 'backend/auth/ResetPassword';
+import { useRef } from 'react';
 import { useState } from 'react';
 
 const ResetPassword = ({
@@ -17,21 +19,15 @@ const ResetPassword = ({
   //   handleClickLoginWithEmailSuccess,
 }) => {
   const [isLoading, setLoading] = useState(false);
-  const [email, setEmail] = useState('');
+  const email = useRef();
+  const supabase = useSupabaseClient();
 
-  const handleChangeEmail = (event) => {
-    setEmail(event.target.value);
+  const resetPassword = async () => {
+    setLoading(true);
+    await sendResetPassword(email.current.value, supabase);
+    setLoading(false);
   };
 
-  async function resetPassword() {
-    try {
-      setLoading(true);
-      await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: 'http://localhost:3000/resetpassword',
-      });
-      setLoading(false);
-    } catch (error) {}
-  }
   return (
     <>
       <Box
@@ -49,10 +45,9 @@ const ResetPassword = ({
             cursor: 'pointer',
             color: '#cfcfcf',
           }}
-          onClick={() => handleClickLoginWithEmail()}
+          onClick={handleClickLoginWithEmail}
         />
         <Avatar
-          vatar
           sx={{
             width: 30,
             height: 30,
@@ -61,7 +56,7 @@ const ResetPassword = ({
             cursor: 'pointer',
             color: '#444444',
           }}
-          onClick={() => handleClose()}
+          onClick={handleClose}
         >
           <CloseIcon />
         </Avatar>
@@ -103,8 +98,7 @@ const ResetPassword = ({
         <TextField
           sx={{ marginBottom: '12px' }}
           label="Email Address"
-          value={email}
-          onChange={handleChangeEmail}
+          inputRef={email}
         />
         {isLoading ? (
           <LoadingButton
@@ -127,7 +121,7 @@ const ResetPassword = ({
               backgroundColor: '#FE2C55',
             }}
             variant="contained"
-            onClick={() => resetPassword()}
+            onClick={resetPassword}
           >
             Send
           </Button>
@@ -162,7 +156,7 @@ const ResetPassword = ({
             marginLeft: 1,
             color: '#f44336',
           }}
-          onClick={() => handleClickSignup()}
+          onClick={handleClickSignup}
         >
           Sign up
         </Link>

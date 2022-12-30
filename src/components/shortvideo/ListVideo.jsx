@@ -7,7 +7,7 @@ const renderItem = (item) => {
   return <ShortVideo data={item} key={item.id} isHome={true} />;
 };
 
-const ListVideo = ({ feed }) => {
+const ListVideo = ({ feed, empty }) => {
   return (
     <List
       sx={{
@@ -18,7 +18,7 @@ const ListVideo = ({ feed }) => {
         scrollSnapStop: 'normal',
       }}
     >
-      <FlatList list={feed} renderItem={renderItem} />
+      <FlatList list={feed} renderItem={renderItem} renderWhenEmpty={empty} />
     </List>
   );
 };
